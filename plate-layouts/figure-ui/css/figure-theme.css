@@ -1,0 +1,92 @@
+/*THEMECOLORS-#2671b3|#2671b3|#2671b3|#1D5586|#13395A-THEMECOLORS*/
+
+/*THEME ACCENT (BACKGROUND)*/
+.fi-nav li > a:before,
+.fi-nav li > span:before,
+.fi-nav-accordion ul.fi-root > li.fi-selected > a,
+.fi-nav-accordion ul.fi-root > li.fi-selected > span,
+.fi-nav-bar li > a:before,
+.fi-nav-bar li > span:before,
+.fi-tabs.fi-alt > ul > li > .fi-tab-button:before,
+#suiteBarLeft {
+	background-color: #cc0033;
+}
+
+/*LINKS*/
+a,
+.fi-link-color,
+.fi-link-color *,
+a.fi-link-color,
+.fi-link-color-hover:not([disabled]):hover,
+.fi-link-color-hover:not([disabled]):focus,
+.fi-button-link,
+.ms-link:visited,
+.ms-core-listMenu-item,
+.ms-core-listMenu-item:link,
+.ms-core-listMenu-item:visited,
+.ms-tv-item:link,
+.ms-tv-item:visited,
+.ms-tv-header:link,
+.ms-tv-header:visited {
+    color: #cc0033;
+}
+
+/*PRIMARY BUTTONS (TEXT)*/
+.fi-button.fi-primary.fi-inverted {
+    color: #cc0033;
+}
+
+/*PRIMARY BUTTONS (BACKGROUND)*/
+.fi-button.fi-primary,
+.fi-dropdown-open > .fi-button.fi-primary.fi-inverted,
+.fi-tabs .fi-tab-active .fi-tab-button,
+.fi-pagination li.fi-selected > a,
+.fi-pagination li.fi-selected > span,
+.fi-pagination.fi-inverted li.fi-selected > a:hover,
+.fi-pagination.fi-inverted li.fi-selected > a:focus {
+    background-color: #000000;
+}
+
+/*PRIMARY BUTTONS (BORDER)*/
+.fi-button.fi-primary,
+.fi-dropdown-open > .fi-button.fi-primary.fi-inverted,
+.fi-pagination li.fi-selected > a,
+.fi-pagination li.fi-selected > span,
+.fi-pagination.fi-inverted li.fi-selected > a:hover,
+.fi-pagination.fi-inverted li.fi-selected > a:focus {
+	border-color: #000000;
+}
+
+    /*PRIMARY BUTTONS :hover & :focus (BACKGROUND)*/
+    .fi-nav-accordion ul.fi-root > li.fi-selected > a:hover,
+    .fi-nav-accordion ul.fi-root > li.fi-selected > a:focus,
+    .fi-nav-accordion ul.fi-root > li.fi-selected > span:hover,
+    .fi-nav-accordion ul.fi-root > li.fi-selected > span:focus,
+    .fi-button.fi-primary:not(:disabled):hover,
+    .fi-button.fi-primary:not(:disabled):focus,
+    .fi-button.fi-primary.fi-inverted:not(:disabled):active,
+    .fi-dropdown-open > .fi-button.fi-primary,
+    .fi-tabs .fi-tab-active .fi-tab-button:focus {
+        background-color: #434c53;
+    }
+
+    /*PRIMARY BUTTONS :hover & :focus (BORDER)*/
+    /*THEME MAIN COLOR :hover & :focus (BORDER)*/
+    .fi-button.fi-primary:not(:disabled):hover,
+    .fi-button.fi-primary:not(:disabled):focus,
+    .fi-button.fi-primary.fi-inverted:not(:disabled):active,
+    .fi-dropdown-open > .fi-button.fi-primary {
+        border-color: #434c53; 
+    }
+
+    /*PRIMARY BUTTONS :active (BACKGROUND)*/
+    .fi-nav-accordion ul.fi-root > li.fi-selected > a:active,
+    .fi-nav-accordion ul.fi-root > li.fi-selected > span:active,
+    .fi-button.fi-primary:not(:disabled):active {
+        background-color: #576671;
+    }
+
+    /*PRIMARY BUTTONS :active (BORDER)*/
+    .fi-button.fi-primary:not(:disabled):active {
+        border-color: #576671;
+    }

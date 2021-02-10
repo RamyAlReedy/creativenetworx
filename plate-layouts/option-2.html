@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>Option 2</title>
+
+    <link href="fontawesome/css/all.min.css" rel="stylesheet">
+    <link href="figure-ui/css/figure.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="figure-ui/js/figure.js"></script>
+</head>
+
+<body class="option-2">
+
+    <div id="app" v-cloak>
+
+        <div class="fi-modal fi-full-width fi-full-height fi-modal-open fi-modal-visible fi-no-click-close">
+            <div class="fi-modal-outer">
+                <div class="fi-modal-inner">
+                    <div class="fi-modal-content">
+
+                        <div><button class="fi-close-button circle-close"></button></div>
+
+                        <div class="fi-modal-body fi-no-padding">
+
+                            <div class="fi-modal-body-inner">
+
+                                <div class="fi-tabs fi-alt">
+                                    <ul>
+                                        <li><button type="button" class="fi-tab-button"><i class="far fa-exclamation-circle fi-icon-margin"></i>Basic Info</button></li>
+                                        <li><button type="button" class="fi-tab-button"><i class="far fa-magic fi-icon-margin"></i>Design</button></li>
+                                        <li class="fi-tab-active"><button type="button" class="fi-tab-button"><i class="far fa-th fi-icon-margin"></i>Plates</button></li>
+                                    </ul>
+                                </div>
+
+                                <div class="option-3-container">
+
+                                    <div class="header">
+
+                                        <div class="filters-actions">
+                                            <div class="filters">
+                                                <div class="fi-form fi-form-inline" style="display: flex; align-items: center;">
+                                                    <div class="fi-form-field" style="display: flex; align-items: center;">
+                                                        <label><strong>Filter Across All Plates:</strong></label>
+                                                    </div>
+                                                    <div class="fi-form-field">
+                                                        <select id="condition_set" v-model="filters.condition_set" class="fi-form-control">
+                                                            <option value="all">All Condition Sets</option>
+                                                            <option value="Condition.Set.1">Condition.Set.1</option>
+                                                            <option value="Condition.Set.2">Condition.Set.2</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="fi-form-field">
+                                                        <select id="sample_id" v-model="filters.sample_id" class="fi-form-control">
+                                                            <option value="all">All Samples</option>
+                                                            <option value="Sample.ID.1">Sample.ID.1</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="fi-form-field">
+                                                        <select id="sample_role" v-model="filters.role" class="fi-form-control">
+                                                            <option value="all">All Roles</option>
+                                                            <option value="test_sample">TSTSAM</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="fi-form-field">
+                                                        <select id="rate" v-model="filters.rate" class="fi-form-control">
+                                                            <option value="all">All Rates</option>
+                                                            <option value="200">200</option>
+                                                            <option value="50">50</option>
+                                                            <option value="12.5">12.5</option>
+                                                            <option value="3.125">3.125</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="fi-form-field">
+                                                        <select id="method" v-model="filters.method" class="fi-form-control">
+                                                            <option value="all">All Methods</option>
+                                                            <option value="Method.1">Method.1</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="fi-form-field" v-if="filters_active">
+                                                        <button type="button" class="fi-button fi-default fi-small" @click.prevent="clear_filters">Clear All Filters</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="plates-nav">
+                                            <div class="plate-nav-item" v-for="(plate, index) in plates" :class="{'current': index === current_plate_index, 'has-results': well_result_count}">
+                                                <div class="plate-info">
+                                                    <span class="fi-badge well-result-count" v-if="well_result_count">
+                                                        {{ well_result_count }}
+                                                        <span v-if="well_result_count > 1">matches</span>
+                                                        <span v-else>match</span>
+                                                        found
+                                                    </span>
+                                                    <h5><strong>{{ index + 1 }}: {{ plate.name }}</strong></h5>
+                                                    <div class="plate-counts fi-text-light">
+                                                        <span>0 filled</span>
+                                                        <span>{{ plates[current_plate_index].size }} remaining</span>
+                                                    </div>
+                                                </div>
+                                                <a href="#" @click.prevent="" class="plate-nav-item-button"></a>
+                                                <button type="button" @click.prevent="" class="plate-nav-item-delete fi-close-button"></button>
+                                            </div>
+                                            <button type="button" @click.prevent="" class="add-plate">
+                                                <i class="far fa-plus"></i>
+                                                Add Plate
+                                            </button>
+                                        </div>
+
+                                        <div class="plate-header">
+                                            <div class="plate-header-info">
+                                                <h4><strong>{{ current_plate_index + 1 }}: {{ plates[current_plate_index].name }}</strong></h4>
+                                                <div class="plate-counts fi-text-light">
+                                                    <span>0 filled</span>
+                                                    <span>{{ plates[current_plate_index].size }} remaining</span>
+                                                </div>
+                                                <span class="fi-badge" v-if="well_result_count">
+                                                    {{ well_result_count }}
+                                                    <span v-if="well_result_count > 1">matches</span>
+                                                    <span v-else>match</span>
+                                                    found
+                                                </span>
+                                            </div>
+                                            <div class="plate-header-actions">
+                                                <div class="fi-form fi-form-inline">
+                                                    <!-- <div class="fi-form-field"><button type="button" @click.prevent="selected_wells = [];" class="fi-button fi-default fi-small" v-if="selected_wells.length">Clear Selection</button></div> -->
+                                                    <div class="fi-form-field"><button type="button" data-fi-modal="#add-content" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Add/Change</button></div>
+                                                    <div class="fi-form-field"><button type="button" @click.prevent="set_as_blank" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Set As Blank</button></div>
+                                                    <div class="fi-form-field"><button type="button" @click.prevent="unplace_wells" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Clear Selected</button></div>
+                                                    <div class="fi-form-field"><button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Clear Plate</button></div>
+                                                    <div class="fi-form-field">
+                                                        <div class="fi-dropdown fi-opposite">
+                                                            <button type="button" class="fi-dropdown-trigger more-button fi-button fi-default fi-small"><i class="fa fa-ellipsis-v"></i></button>
+                                                            <div class="fi-dropdown-content fi-tiny">
+                                                                <ul>
+                                                                    <li><a href="#">Edit Plate</a></li>
+                                                                    <li><a href="#">Delete Plate</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="plate-layout-container">
+
+                                        <div class="treatments">
+                                            <div class="treatments-outer">
+                                                <div class="treatments-inner">
+                                                    <div class="treatment-list-container">
+                                                        <div class="treatment-item treatments-header">
+                                                            <div class="cell place">Well</div>
+                                                            <div class="cell condition-set">Condition Set</div>
+                                                            <div class="cell sample-id">Sample ID</div>
+                                                            <div class="cell role">Role</div>
+                                                            <div class="cell rate">Rate</div>
+                                                            <div class="cell replicate">Replicate</div>
+                                                            <div class="cell method">Method</div>
+                                                        </div>
+                                                        <drag-select attribute="attr" @change="selected_treatments = $event; selected_wells = $event" class="treatment-list">
+                                                            <template v-slot="{ selected }">
+                                                                <div v-for="item in plates[current_plate_index].wells"
+                                                                 :attr="item.id"
+                                                                 class="treatment-item"
+                                                                 :class="{'selected': selected_treatments.includes(String(item.id))}">
+                                                                    <span class="cell place">
+                                                                        {{ get_well_location(item.id) }}
+                                                                    </span>
+                                                                    <span v-if="item.content !== 'blank'" class="cell condition-set">
+                                                                        <span v-if="item.content.condition_set">{{ item.content.condition_set }}</span>
+                                                                        <span v-else class="fi-text-light">-</span>
+                                                                    </span>
+                                                                    <span v-if="item.content !== 'blank'" class="cell sample-id">
+                                                                        <span v-if="item.content.sample_id">{{ item.content.sample_id }}</span>
+                                                                        <span v-else class="fi-text-light">-</span>
+                                                                    </span>
+                                                                    <span v-if="item.content !== 'blank'" class="cell role">
+                                                                        <span v-if="item.content.role">{{ role_names[item.content.role] }}</span>
+                                                                        <span v-else class="fi-text-light">-</span>
+                                                                    </span>
+                                                                    <span v-if="item.content !== 'blank'" class="cell rate">
+                                                                        <span v-if="item.content.rate">{{ item.content.rate }}</span>
+                                                                        <span v-else class="fi-text-light">-</span>
+                                                                    </span>
+                                                                    <span v-if="item.content !== 'blank'" class="cell replicate">
+                                                                        <span v-if="item.content.replicate">{{ item.content.replicate }}</span>
+                                                                        <span v-else class="fi-text-light">-</span>
+                                                                    </span>
+                                                                    <span v-if="item.content !== 'blank'" class="cell method">
+                                                                        <span v-if="item.content.method">{{ item.content.method }}</span>
+                                                                        <span v-else class="fi-text-light">-</span>
+                                                                    </span>
+                                                                    <span v-if="item.content === 'blank'" class="cell blank fi-text-light">Blank</span>
+                                                                </div>
+                                                             </template>
+                                                        </drag-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="plates">
+
+                                            <div class="plate-container">
+
+                                                <div class="plate-outer" :class="'size_' + plates[current_plate_index].size">
+
+                                                    <div class="plate-columns">
+                                                        <div v-for="(plate_column, index) in plate_sizes[plates[current_plate_index].size].columns" class="plate-column">{{ index + 1 }}</div>
+                                                    </div>
+
+                                                    <div class="plate-inner" :class="{'filter-match': plates[current_plate_index].filter_match}">
+
+                                                        <div class="plate-rows">
+                                                            <div v-for="(plate_row, index) in plate_sizes[plates[current_plate_index].size].rows" class="plate-row">{{ well_row_letters[index] }}</div>
+                                                        </div>
+
+                                                        <drag-select attribute="attr" @change="selected_wells = $event; selected_treatments = $event;">
+                                                            <template v-slot="{ selected }">
+                                                                <div v-for="item in plates[current_plate_index].wells"
+                                                                 :attr="item.id"
+                                                                 class="well"
+                                                                 :class="{'selected': selected_wells.includes(String(item.id))}">
+                                                                    <div v-if="item.content" class="well-content" :class="{'filter-match': item.filter_match}">
+                                                                        <span v-if="item.content !== 'blank' && !item.content.role">
+
+                                                                        </span>
+                                                                        <span v-else-if="item.content !== 'blank' && item.content.role" :style="{ backgroundColor: role_colors[item.content.role] }">
+
+                                                                        </span>
+                                                                        <span v-else :style="{ backgroundColor: role_colors['blank'] }"></span>
+                                                                    </div>
+                                                                </div>
+                                                             </template>
+                                                        </drag-select>
+
+                                                        <div class="back-drop"></div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="color-keys">
+                                                <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['test_sample'] }"></span>Test Samples</div>
+                                                <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['ctrl_w_sample'] }"></span>Controls with Samples</div>
+                                                <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>Controls without Samples</div>
+                                                <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['blank'] }"></span>Blank</div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="add-content" class="fi-modal">
+            <div class="fi-modal-outer">
+                <div class="fi-modal-inner">
+                    <div class="fi-modal-content">
+
+                        <div class="fi-modal-header">
+                            <button class="fi-close-button fi-close-modal"></button>
+                            <h4><strong>Add/Change</strong></h4>
+                        </div>
+
+                        <div class="fi-modal-body">
+
+                            <div class="fi-form">
+
+                                <div class="fi-form-field">
+                                    <label class="fi-form-label">
+                                        <input type="checkbox" v-model="c_s_active" />
+                                        Condition Set
+                                    </label>
+
+                                    <select id="condition_set" v-model="add_content.condition_set" class="fi-form-control" :disabled="!c_s_active">
+                                        <option value="">Please select...</option>
+                                        <option value="Condition.Set.1">Condition.Set.1</option>
+                                        <option value="Condition.Set.2">Condition.Set.2</option>
+                                    </select>
+                                </div>
+                                <div class="fi-form-field">
+                                    <label class="fi-form-label">
+                                        <input type="checkbox" v-model="s_active" />
+                                        Sample ID
+                                    </label>
+                                    <select id="sample_id" v-model="add_content.sample_id" class="fi-form-control" :disabled="!s_active">
+                                        <option value="">Please select...</option>
+                                        <option value="Sample.ID.1">Sample.ID.1</option>
+                                    </select>
+                                </div>
+                                <div class="fi-form-field">
+                                    <label class="fi-form-label"><input type="checkbox" v-model="r_active" /> Rate</label>
+                                    <select id="rate" v-model="add_content.rate" class="fi-form-control" :disabled="!r_active">
+                                        <option value="">Please select...</option>
+                                        <option value="200">200</option>
+                                        <option value="50">50</option>
+                                        <option value="12.5">12.5</option>
+                                        <option value="3.125">3.125</option>
+                                    </select>
+                                </div>
+                                <div class="fi-form-field" v-if="add_content.condition_set && add_content.sample_id && add_content.rate">
+                                    <div class="fi-alert fi-default"><strong>{{ selected_wells.length }}</strong> replicates will be created</div>
+                                    <label class="fi-form-label">Replicates Placing Direction</label>
+                                    <div class="fi-check-radio">
+                                        <ul>
+                                            <li><label class="fi-clearfix"><input type="radio" name="place_mode" value="across" checked="checked" /><span>Place Across</span></label></li>
+                                            <li><label class="fi-clearfix"><input type="radio" name="place_mode" value="down" /><span>Place Down</span></label></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="fi-modal-footer fi-buttons-container fi-text-right">
+                            <button type="button" class="fi-button fi-default fi-close-modal">Cancel</button>
+                            <button type="button" class="fi-button fi-primary fi-close-modal" @click.prevent="fill_wells" :disabled="!add_content.condition_set && !add_content.sample_id && !add_content.rate">Add/Change</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script src="js/drag-select.js"></script>
+
+    <script src="js/app.js"></script>
+
+    <script>
+        jQuery(document).on('click', '.well', function () {
+            var index = parseInt(jQuery(this).index());
+            var id = index + 1;
+            var position = jQuery('.treatment-list .treatment-item').eq(index).position().top;
+            app.selected_treatments  = [id.toString()];
+            jQuery('.treatments-inner').animate({ scrollTop: position - 40 }, 250 );
+        });
+
+        jQuery(document).on('click', '.treatment-list .treatment-item', function () {
+            var index = parseInt(jQuery(this).index());
+            var id = index + 1;
+
+            app.selected_wells  = [id.toString()];
+        });
+    </script>
+</body>
+</html>
