@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'FontAwesome5Pro-Light', 'Font Awesome 5 Pro Light', 'Font Awesome 5 Pro';
+  font-style: normal;
+  font-weight: 300;
+  font-display: auto;
+  src: url("../webfonts/light.otf") format("opentype"); }
+
+
+@font-face {
+  font-family: 'FontAwesome5Pro-Regular', 'Font Awesome 5 Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: auto;
+  src: url("../webfonts/regular.otf") format("opentype"); }
+
+
+@font-face {
+  font-family: 'FontAwesome5Pro-Solid', 'Font Awesome 5 Pro Solid', 'Font Awesome 5 Pro';
+  font-style: normal;
+  font-weight: 900;
+  font-display: auto;
+  src: url("../webfonts/solid.otf") format("opentype"); }
