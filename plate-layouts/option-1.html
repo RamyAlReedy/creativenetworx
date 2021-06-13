@@ -24,7 +24,7 @@
                 <div class="fi-modal-inner">
                     <div class="fi-modal-content">
 
-                        <div><button class="fi-close-button circle-close"></button></div>
+                        <div><a href="https://fw0vah.axshare.com/#g=1&p=home&c=1" class="fi-close-button circle-close"></a></div>
 
                         <div class="fi-modal-body fi-no-padding">
 
@@ -32,9 +32,9 @@
 
                                 <div class="fi-tabs fi-alt">
                                     <ul>
-                                        <li><button type="button" class="fi-tab-button"><i class="far fa-exclamation-circle fi-icon-margin"></i>Basic Info</button></li>
-                                        <li><button type="button" class="fi-tab-button"><i class="far fa-magic fi-icon-margin"></i>Design</button></li>
-                                        <li class="fi-tab-active"><button type="button" class="fi-tab-button"><i class="far fa-th fi-icon-margin"></i>Plates</button></li>
+                                        <li><a href="https://fw0vah.axshare.com/#g=1&p=experiment_-_mark___gemma_-_basic_info&c=1" class="fi-tab-button"><i class="far fa-exclamation-circle fi-icon-margin"></i>Basic Info</a></li>
+                                        <li><a href="https://fw0vah.axshare.com/#g=1&p=experiment_-_mark___gemma&c=1" class="fi-tab-button"><i class="far fa-magic fi-icon-margin"></i>Design</a></li>
+                                        <li class="fi-tab-active"><a href="#" class="fi-tab-button"><i class="far fa-th fi-icon-margin"></i>Plates</a></li>
                                     </ul>
                                 </div>
 
@@ -224,7 +224,7 @@
                                                         <span>{{ plates[current_plate_index].size - count_placed_wells(plates[current_plate_index]) }} remaining</span>
                                                     </div>
                                                 </div>
-                                                <a href="#" @click.prevent="current_plate_index = index" class="plate-nav-item-button"></a>
+                                                <a href="#" @click.prevent="current_plate_index = index; selected_wells = [];" class="plate-nav-item-button"></a>
                                                 <button type="button" @click.prevent="delete_plate(index)" class="plate-nav-item-delete fi-close-button"></button>
                                             </div>
                                             <button type="button" @click.prevent="" class="add-plate" data-fi-modal=".add_plate_modal">
@@ -272,22 +272,28 @@
 
                                         <div class="plat-exp-container" v-if="current_plate_index > -1">
 
-                                            <div class="plate-corner" @click="selected_wells = [];"></div>
-
                                             <div class="plate-container">
 
                                                 <div class="plate-outer" :class="'size_' + plates[current_plate_index].size">
 
                                                     <div class="plate-clear-selection" @click="selected_wells = [];"></div>
 
-                                                    <div class="plate-columns">
-                                                        <div v-for="(plate_column, index) in plate_sizes[plates[current_plate_index].size].columns" class="plate-column">{{ index + 1 }}</div>
+                                                    <div class="plate-top-bar">
+
+                                                        <div class="plate-corner">
+                                                            <div class="plate-select-all" :class="{'selected': selected_wells.length === plates[current_plate_index].wells.length}" @click="select_deselect_all"></div>
+                                                        </div>
+
+                                                        <div class="plate-columns">
+                                                            <div v-for="(plate_column, index) in plate_sizes[plates[current_plate_index].size].columns" class="plate-column" :class="{'selected': selected_columns.includes(index)}" @click="select_deselect_column(index)">{{ index + 1 }}</div>
+                                                        </div>
+
                                                     </div>
 
                                                     <div class="plate-inner" :class="{'filter-match': plates[current_plate_index].filter_match}">
 
                                                         <div class="plate-rows">
-                                                            <div v-for="(plate_row, index) in plate_sizes[plates[current_plate_index].size].rows" class="plate-row">{{ well_row_letters[index] }}</div>
+                                                            <div v-for="(plate_row, index) in plate_sizes[plates[current_plate_index].size].rows" class="plate-row" :class="{'selected': selected_rows.includes(index)}" @click="select_deselect_row(index)">{{ well_row_letters[index] }}</div>
                                                         </div>
 
                                                         <drag-select attribute="attr" @change="selection($event)">

@@ -2172,7 +2172,7 @@ jQuery(document).on('fi-dropdown:shown', '.fi-dropdown', function () {
 Figure.noClickElements = '\
     .fi-no-click,\
     .prevent-default,\
-    .fi-tab-button,\
+    button.fi-tab-button,\
     .fi-accordion-trigger,\
     .fi-nav-accordion li.fi-has-child > a,\
     .fi-expand-accordion,\
@@ -2180,7 +2180,7 @@ Figure.noClickElements = '\
     .fi-dropdown .fi-dropdown-trigger,\
     .fi-highlight-selected .fi-dropdown-content li,\
     .fi-custom-dropdown a,\
-    .fi-close-button,\
+    button.fi-close-button,\
     .fi-close-modal,\
     .fi-view-results,\
     .fi-poll .fi-back-button,\

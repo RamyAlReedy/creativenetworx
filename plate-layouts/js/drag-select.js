@@ -102,7 +102,6 @@ Vue.component('drag-select', {
           box.style.left = start.x + "px";
           container.prepend(box);
           intersection();
-          jQuery('.plate-column, .plate-row').removeClass('selected');
         }
         function drag(e) {
           end = getCoords(e);

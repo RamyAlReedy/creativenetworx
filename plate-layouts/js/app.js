@@ -186,6 +186,55 @@ var app = new Vue({
         highlight_by: '',
         shiftKeyPressed: false,
         ctrlKeyPressed: false,
+        selected_columns: [],
+        selected_rows: [],
+        last_col_index: -1,
+        last_row_index: -1,
+    },
+    watch: {
+        selected_wells: function () {
+            this.selected_columns = [];
+            this.selected_rows = [];
+            this.last_col_index = -1;
+            this.last_row_index = -1;
+            var columns = {};
+            var rows = {};
+            var rows_letters_array = Object.values(this.well_row_letters);
+            for (var i = 0; i < this.selected_wells.length; i++) {
+
+                var well_location = this.get_well_location(this.selected_wells[i]);
+
+                if (!columns[well_location.column]) {
+                    columns[well_location.column] = [];
+                }
+                columns[well_location.column].push(this.selected_wells[i]);
+
+                if (!rows[well_location.row]) {
+                    rows[well_location.row] = [];
+                }
+                rows[well_location.row].push(this.selected_wells[i]);
+
+            }
+
+            for (var key of Object.keys(columns)) {
+                if (columns[key].length === this.plate_sizes[this.plates[this.current_plate_index].size].rows) {
+                    this.selected_columns.push(key - 1);
+                    if (Object.keys(columns).length === 1) {
+                        this.last_col_index = key - 1;
+                    }
+                }
+            }
+
+            for (var key of Object.keys(rows)) {
+                if (rows[key].length === this.plate_sizes[this.plates[this.current_plate_index].size].columns) {
+                    var row_index = rows_letters_array.indexOf(key);
+                    this.selected_rows.push(row_index);
+                    if (Object.keys(rows).length === 1) {
+                        this.last_row_index = row_index;
+                    }
+                }
+            }
+        },
     },
     created: function () {
         var self = this;
@@ -640,49 +689,66 @@ var app = new Vue({
             }
             this.highlight_by = '';
         },
-        select_deselect_column: function (id) {
-            var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
-            var rows = this.plate_sizes[this.plates[this.current_plate_index].size].rows;
+        select_deselect_column: function (index) {
 
-            var well_ids = [id.toString()];
+            this.selected_wells = [];
 
-            for (var i = 0; i < rows - 1; i++) {
-                id = parseInt(id) + columns;
-                well_ids.push(id.toString());
+            if (this.last_col_index != index) {
+                var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
+                var rows = this.plate_sizes[this.plates[this.current_plate_index].size].rows;
+
+                var id = index + 1;
+
+                var well_ids = [id.toString()];
+
+                for (var i = 0; i < rows - 1; i++) {
+                    id = parseInt(id) + columns;
+                    well_ids.push(id.toString());
+                }
+
+                for (var i = 0; i < well_ids.length; i++) {
+                    this.selected_wells.push(well_ids[i]);
+                }
             }
 
-            for (var i = 0; i < well_ids.length; i++) {
-                var id_index = this.selected_wells.indexOf(well_ids[i]);
-                if (id_index > -1) {
-                    this.selected_wells.splice(id_index, 1);
+        },
+        select_deselect_row: function (index) {
+
+            this.selected_wells = [];
+
+            if (this.last_row_index != index) {
+                var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
+                var rows = this.plate_sizes[this.plates[this.current_plate_index].size].rows;
+
+                var id = columns * (index + 1) - columns + 1;
+
+                var well_ids = [id.toString()];
+
+                for (var i = 0; i < columns - 1; i++) {
+                    id = parseInt(id) + 1;
+                    well_ids.push(id.toString());
                 }
-                else {
-                    this.selected_wells.push(well_ids[i]);
+
+                for (var i = 0; i < well_ids.length; i++) {
+                    var id_index = this.selected_wells.indexOf(well_ids[i]);
+                    if (id_index > -1) {
+                        this.selected_wells.splice(id_index, 1);
+                    }
+                    else {
+                        this.selected_wells.push(well_ids[i]);
+                    }
                 }
             }
         },
-        select_deselect_row: function (id) {
-
-            var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
-            var rows = this.plate_sizes[this.plates[this.current_plate_index].size].rows;
-
-            var id = columns * id - columns + 1;
-
-            var well_ids = [id.toString()];
-
-            for (var i = 0; i < columns - 1; i++) {
-                id = parseInt(id) + 1;
-                well_ids.push(id.toString());
+        select_deselect_all: function () {
+            if (this.selected_wells.length !== this.plates[this.current_plate_index].wells.length) {
+                this.selected_wells = [];
+                for (var i = 0; i < this.plates[this.current_plate_index].wells.length; i++) {
+                    this.selected_wells.push(this.plates[this.current_plate_index].wells[i].id.toString());
+                }
             }
-
-            for (var i = 0; i < well_ids.length; i++) {
-                var id_index = this.selected_wells.indexOf(well_ids[i]);
-                if (id_index > -1) {
-                    this.selected_wells.splice(id_index, 1);
-                }
-                else {
-                    this.selected_wells.push(well_ids[i]);
-                }
+            else {
+                this.selected_wells = [];
             }
         },
         render_tooltip_content: function (well_id) {
@@ -841,31 +907,10 @@ var app = new Vue({
     },
 });
 
-var last_col_index = -1;
-var last_row_index = -1;
-jQuery(document).on('click', '.plate-column', function () {
-    jQuery(this).toggleClass('selected');
-    jQuery(this).closest('.plate-container').find('.plate-row').removeClass('selected');
-    jQuery(this).siblings('.plate-column').removeClass('selected');
-    var this_index = jQuery(this).index();
-    if (last_col_index !== this_index) {
+jQuery(document).on('mousedown', function (e) {
+    if (jQuery(e.target).is('.plate-container .drag-select-container, .plate-top-bar, .plate-corner, .plate-columns, .plate-rows')) {
         app.selected_wells = [];
     }
-    last_col_index = this_index;
-    last_row_index = -1;
-    app.select_deselect_column(this_index + 1);
-});
-jQuery(document).on('click', '.plate-row', function () {
-    jQuery(this).toggleClass('selected');
-    jQuery(this).closest('.plate-container').find('.plate-column').removeClass('selected');
-    jQuery(this).siblings('.plate-row').removeClass('selected');
-    var this_index = jQuery(this).index();
-    if (last_row_index !== this_index) {
-        app.selected_wells = [];
-    }
-    last_row_index = this_index;
-    last_col_index = -1;
-    app.select_deselect_row(this_index + 1);
 });
 
 jQuery(document).on('fi-modal:hidden', '.add_plate_modal', function () {
@@ -881,10 +926,4 @@ jQuery(document).on('fi-modal:hidden', '.generate_plates_modal', function () {
 
 jQuery(document).on('fi-dropdown:shown', '.choose-layout', function () {
     jQuery(this).find('.fi-search input[type]').focus();
-});
-
-jQuery(document).on('mousedown', function (e) {
-    if (jQuery(e.target).is('.plate-container .drag-select-container')) {
-        app.selected_wells = [];
-    }
 });

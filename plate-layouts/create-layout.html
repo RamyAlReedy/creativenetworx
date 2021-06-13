@@ -146,22 +146,28 @@
 
                                         <div class="create-container">
 
-                                            <div class="plate-corner" @click="selected_wells = [];"></div>
-
                                             <div class="plate-container create">
 
                                                 <div class="plate-outer" :class="'size_' + layout.size">
 
                                                     <div class="plate-clear-selection" @click="selected_wells = [];"></div>
 
-                                                    <div class="plate-columns">
-                                                        <div v-for="(plate_column, index) in plate_sizes[layout.size].columns" class="plate-column">{{ index + 1 }}</div>
+                                                    <div class="plate-top-bar">
+
+                                                        <div class="plate-corner">
+                                                            <div class="plate-select-all" :class="{'selected': selected_wells.length === layout.wells.length}" @click="select_deselect_all"></div>
+                                                        </div>
+
+                                                        <div class="plate-columns">
+                                                            <div v-for="(plate_column, index) in plate_sizes[layout.size].columns" class="plate-column" :class="{'selected': selected_columns.includes(index)}" @click="select_deselect_column(index)">{{ index + 1 }}</div>
+                                                        </div>
+
                                                     </div>
 
                                                     <div class="plate-inner" :class="{'filter-match': layout.filter_match}">
 
                                                         <div class="plate-rows">
-                                                            <div v-for="(plate_row, index) in plate_sizes[layout.size].rows" class="plate-row">{{ well_row_letters[index] }}</div>
+                                                            <div v-for="(plate_row, index) in plate_sizes[layout.size].rows" class="plate-row" :class="{'selected': selected_rows.includes(index)}" @click="select_deselect_row(index)">{{ well_row_letters[index] }}</div>
                                                         </div>
 
                                                         <drag-select attribute="attr" @change="selection($event)">

@@ -191,6 +191,19 @@
     overflow: hidden;
 }
 
+.fi-modal {
+    background-color: rgba(0,0,0,0.86);
+}
+
+@media (min-width: 40em) {
+    .fi-modal {
+        padding: 2.5rem;
+    }
+    .fi-modal.fi-additional-modal {
+        padding-top: 3.5rem;
+    }
+}
+
 .fi-modal-header,
 .fi-modal-footer {
     background-color: transparent;
@@ -331,6 +344,9 @@
     border: 1px solid #797979;
     opacity: 1;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 [data-drag-box-component] {
@@ -426,6 +442,8 @@
     overflow: auto;
     border: 1px solid #ddd;
     border-bottom: none;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
 }
 
 .treatment-counts {
@@ -759,16 +777,6 @@ a.fi-close-button, button.fi-close-button {
     border-top: 1px solid #ddd;
 }
 
-.plate-corner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2.5rem;
-    height: 2.5rem;
-    background-color: #fff;
-    z-index: 3;
-}
-
 .plate-container {
     flex-grow: 1;
     position: relative;
@@ -798,27 +806,77 @@ a.fi-close-button, button.fi-close-button {
         height: 100%;
         padding-top: 2.5rem;
         margin-top: -2.55rem;
-        padding-left: 2.5rem;
+        padding-left: 2.75rem;
         padding-right: 0.625rem;
-        margin-left: -2.5rem;
+        margin-left: -2.75rem;
+    }
+
+.plate-top-bar {
+    display: flex;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    align-items: flex-start;
+}
+
+.plate-corner {
+    position: sticky;
+    top: 0;
+    left: 0;
+    padding: 0.625rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    background-color: #fff;
+    z-index: 3;
+}
+
+.plate-select-all {
+    border-style: solid;
+    border-width: 1px;
+    width: 100%;
+    height: 100%;
+}
+
+    .plate-corner:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0.625rem;
+        right: 0.625rem;
+        height: 1px;
+        background-color: #797979;
+    }
+
+    .plate-corner:after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0.625rem;
+        bottom: 0.625rem;
+        width: 1px;
+        background-color: #797979;
     }
 
 .plate-columns {
-    position: sticky;
-    top: 0;
     background-color: #fff;
     z-index: 1;
     display: flex;
-    margin-bottom: 0.375rem;
     padding-top: 0.625rem;
-    padding-left: 2.5rem;
 }
 
+.plate-select-all,
 .plate-column,
 .plate-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-weight: 700;
     user-select: none;
-    box-shadow: 0 0 0 1px inset #b4b4b4;
+    background-color: #fff;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #797979;
 }
 
 .plate-column {
@@ -827,8 +885,10 @@ a.fi-close-button, button.fi-close-button {
     line-height: 1.5rem;
     font-size: 0.75rem !important;
     text-align: center;
+    border-left-width: 0;
 }
 
+.plate-select-all:hover,
 .plate-column:hover,
 .plate-column.hover,
 .plate-row:hover,
@@ -836,6 +896,7 @@ a.fi-close-button, button.fi-close-button {
     background-color: #d4f0ff;
 }
 
+.plate-select-all.selected,
 .plate-column.selected,
 .plate-row.selected {
     background-color: #8bd6ff;
@@ -885,17 +946,14 @@ a.fi-close-button, button.fi-close-button {
     display: flex;
     flex-direction: column;
     padding-left: 0.625rem;
-    margin-right: 0.375rem;
+    margin-right: 0.625rem;
     background-color: #fff;
 }
 
 .plate-row {
     width: 1.5rem !important;
     font-size: 0.75rem !important;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-top-width: 0;
 }
 
 .well {
@@ -909,7 +967,7 @@ a.fi-close-button, button.fi-close-button {
     border-radius: 50%;
     font-size: 1.125rem;
     background-color: #fff;
-    border: 1px solid #666;
+    border: 1px solid #797979;
 }
 
     .well:hover .well-inner {
@@ -1172,7 +1230,7 @@ a.fi-close-button, button.fi-close-button {
     }
 
     .color-key .circle.unset {
-        border: 1px solid #666;
+        border: 1px solid #797979;
     }
 
 .plates-grid-container {
@@ -1358,7 +1416,9 @@ a.fi-close-button, button.fi-close-button {
     }
 
 .fi-dropdown-content {
+    font-size: 0.8125rem;
     font-weight: 400;
+    border-radius: 0.25rem;
 }
 
 .fi-dropdown-trigger .fa-angle-down {

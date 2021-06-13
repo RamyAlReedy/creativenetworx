@@ -115,7 +115,7 @@
                                                         <span>{{ plates[current_plate_index].size }} remaining</span>
                                                     </div>
                                                 </div>
-                                                <a href="#" @click.prevent="current_plate_index = index" class="plate-nav-item-button"></a>
+                                                <a href="#" @click.prevent="current_plate_index = index; selected_wells = [];" class="plate-nav-item-button"></a>
                                                 <button type="button" @click.prevent="delete_plate(index)" class="plate-nav-item-delete fi-close-button"></button>
                                             </div>
                                             <button type="button" @click.prevent="" class="add-plate" data-fi-modal=".add_plate_modal">
@@ -228,8 +228,16 @@
 
                                                     <div class="plate-clear-selection" @click="selected_wells = [];"></div>
 
-                                                    <div class="plate-columns">
-                                                        <div v-for="(plate_column, index) in plate_sizes[plates[current_plate_index].size].columns" class="plate-column">{{ index + 1 }}</div>
+                                                    <div class="plate-top-bar">
+
+                                                        <div class="plate-corner">
+                                                            <div class="plate-select-all"></div>
+                                                        </div>
+
+                                                        <div class="plate-columns">
+                                                            <div v-for="(plate_column, index) in plate_sizes[plates[current_plate_index].size].columns" class="plate-column">{{ index + 1 }}</div>
+                                                        </div>
+
                                                     </div>
 
                                                     <div class="plate-inner" :class="{'filter-match': plates[current_plate_index].filter_match}">
