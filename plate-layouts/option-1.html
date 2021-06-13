@@ -381,10 +381,12 @@
                                     </div>
                                     <div class="fi-form-field">
                                         <label class="fi-form-label">Plate Size</label>
-                                        <select class="fi-form-control" v-model="add_plate_data.size">
-                                            <option value="0">Please select...</option>
-                                            <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</option>
-                                        </select>
+                                        <div class="custom-dropdown">
+                                            <select class="fi-form-control" v-model="add_plate_data.size">
+                                                <option value="0">Please select...</option>
+                                                <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 

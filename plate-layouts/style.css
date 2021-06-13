@@ -1361,6 +1361,10 @@ a.fi-close-button, button.fi-close-button {
     font-weight: 400;
 }
 
+.fi-dropdown-trigger .fa-angle-down {
+    font-size: 1.25em;
+}
+
 .fi-dropdown-trigger.fi-full-width {
     display: flex;
     align-items: center;
