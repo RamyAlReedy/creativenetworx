@@ -2401,9 +2401,9 @@ body.fi-modal-open {
     position: fixed;
     top: 0;
     left: 50%;
-    margin-left: -215px;
-    width: 100%;
-    max-width: 430px;
+    transform: translateX(-50%);
+    width: auto;
+    max-width: 100%;
     padding: 15px;
     padding-bottom: 5px;
     z-index: 1011;
@@ -2412,13 +2412,13 @@ body.fi-modal-open {
     .fi-notify-wrapper.fi-top-left {
         top: 0;
         left: 0;
-        margin-left: 0;
+        transform: none;
     }
 
     .fi-notify-wrapper.fi-top-right {
         left: auto;
         right: 0;
-        margin-left: 0;
+        transform: none;
     }
 
     .fi-notify-wrapper.fi-bottom {
@@ -2431,7 +2431,7 @@ body.fi-modal-open {
         left: 0;
         bottom: 0;
         right: auto;
-        margin-left: 0;
+        transform: none;
     }
 
     .fi-notify-wrapper.fi-bottom-right {
@@ -2439,7 +2439,7 @@ body.fi-modal-open {
         left: auto;
         bottom: 0;
         right: 0;
-        margin-left: 0;
+        transform: none;
     }
 
 .fi-notify {
@@ -2512,6 +2512,10 @@ body.fi-modal-open {
     vertical-align: middle;
     border-width: 1px;
     border-style: solid;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
     -webkit-transition: color 0.15s, background-color 0.15s, border-color 0.15s;
     -moz-transition: color 0.15s, background-color 0.15s, border-color 0.15s;
     -o-transition: color 0.15s, background-color 0.15s, border-color 0.15s;
@@ -2551,10 +2555,6 @@ body.fi-modal-open {
     color: inherit;
     background-color: #fff;
     border-color: #b2b2b2;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    -o-border-radius: 0;
-    border-radius: 0;
 }
 
     /*HOVER, FOCUS*/
@@ -4123,11 +4123,11 @@ body.fi-mobile-dropdown-open {
         content: "\f002";
         position: absolute;
         top: 50%;
-        right: 0.35em;
+        right: 1.35em;
         margin-top: -0.5em;
         width: 1em;
         height: 1em;
-        font-family: 'FontAwesome';
+        font-family: 'Font Awesome 5 Pro';
         font-size: 1.25em;
         line-height: 1em;
         text-align: center;
@@ -5197,6 +5197,10 @@ a.fi-link-color,
 
     .fi-modal-content {
         margin-bottom: 2rem;
+    }
+
+    .fi-notify-wrapper {
+        max-width: 28rem;
     }
 
 }

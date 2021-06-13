@@ -964,51 +964,51 @@ jQuery(document).on('keydown', '.fi-modal, .fi-mobile-dropdown-overlay', functio
 });
 
 Figure.centerNotify = function () {
-    jQuery('.fi-notify-wrapper.fi-top, .fi-notify-wrapper.fi-bottom').each(function () {
-        var notifyWrapper = jQuery(this);
-        var notifyWrapperWidth = notifyWrapper.outerWidth();
-
-        if (jQuery('body').hasClass('fi-overlay-open')) {
-            if (Figure.rtl) {
-                notifyWrapper.css('margin-right', -notifyWrapperWidth / 2 - Figure.getScrollbar().width / 2);
-            }
-            else {
-                notifyWrapper.css('margin-left', -notifyWrapperWidth / 2 - Figure.getScrollbar().width / 2);
-            }
-        }
-
-        else {
-            if (Figure.rtl) {
-                notifyWrapper.css('margin-right', notifyWrapperWidth / 2);
-            }
-            else {
-                notifyWrapper.css('margin-left', -notifyWrapperWidth / 2);
-            }
-        }
-    });
-
-    jQuery('.fi-notify-wrapper.fi-top-left, .fi-notify-wrapper.fi-bottom-left').each(function () {
-        var notifyWrapper = jQuery(this);
-        if (jQuery('body').hasClass('fi-overlay-open')) {
-            if (Figure.rtl) {
-                notifyWrapper.css('margin-right', Figure.getScrollbar().width);
-            }
-        }
-        else {
-            notifyWrapper.css('margin-right', '');
-        }
-    });
-    jQuery('.fi-notify-wrapper.fi-top-right, .fi-notify-wrapper.fi-bottom-right').each(function () {
-        var notifyWrapper = jQuery(this);
-        if (jQuery('body').hasClass('fi-overlay-open')) {
-            if (!Figure.rtl) {
-                notifyWrapper.css('margin-right', Figure.getScrollbar().width);
-            }
-        }
-        else {
-            notifyWrapper.css('margin-right', '');
-        }
-    });
+    // jQuery('.fi-notify-wrapper.fi-top, .fi-notify-wrapper.fi-bottom').each(function () {
+    //     var notifyWrapper = jQuery(this);
+    //     var notifyWrapperWidth = notifyWrapper.outerWidth();
+    //
+    //     if (jQuery('body').hasClass('fi-overlay-open')) {
+    //         if (Figure.rtl) {
+    //             notifyWrapper.css('margin-right', -notifyWrapperWidth / 2 - Figure.getScrollbar().width / 2);
+    //         }
+    //         else {
+    //             notifyWrapper.css('margin-left', -notifyWrapperWidth / 2 - Figure.getScrollbar().width / 2);
+    //         }
+    //     }
+    //
+    //     else {
+    //         if (Figure.rtl) {
+    //             notifyWrapper.css('margin-right', notifyWrapperWidth / 2);
+    //         }
+    //         else {
+    //             notifyWrapper.css('margin-left', -notifyWrapperWidth / 2);
+    //         }
+    //     }
+    // });
+    //
+    // jQuery('.fi-notify-wrapper.fi-top-left, .fi-notify-wrapper.fi-bottom-left').each(function () {
+    //     var notifyWrapper = jQuery(this);
+    //     if (jQuery('body').hasClass('fi-overlay-open')) {
+    //         if (Figure.rtl) {
+    //             notifyWrapper.css('margin-right', Figure.getScrollbar().width);
+    //         }
+    //     }
+    //     else {
+    //         notifyWrapper.css('margin-right', '');
+    //     }
+    // });
+    // jQuery('.fi-notify-wrapper.fi-top-right, .fi-notify-wrapper.fi-bottom-right').each(function () {
+    //     var notifyWrapper = jQuery(this);
+    //     if (jQuery('body').hasClass('fi-overlay-open')) {
+    //         if (!Figure.rtl) {
+    //             notifyWrapper.css('margin-right', Figure.getScrollbar().width);
+    //         }
+    //     }
+    //     else {
+    //         notifyWrapper.css('margin-right', '');
+    //     }
+    // });
 };
 
 Figure.showNotify = function (element, position) {
@@ -1163,13 +1163,15 @@ if (!Figure.tap) {
     jQuery(document).on('mouseenter', '[data-fi-tooltip]', function (e) {
         var element = jQuery(this);
         var delayIn = element.attr('data-fi-delay');
-        if (delayIn != undefined) {
-            Figure.showTooltipTimeout = setTimeout(function () {
+        if (!Figure.mousedown) {
+            if (delayIn != undefined) {
+                Figure.showTooltipTimeout = setTimeout(function () {
+                    Figure.showTooltip(element);
+                }, parseInt(delayIn, 10));
+            }
+            else {
                 Figure.showTooltip(element);
-            }, parseInt(delayIn, 10));
-        }
-        else {
-            Figure.showTooltip(element);
+            }
         }
     });
 }
@@ -1191,6 +1193,12 @@ Figure.hideTooltip = function (element) {
     jQuery('body > .fi-tooltip').removeClass('fi-tooltip-visible');
 
     element.removeClass('fi-tooltip-visible');
+
+    var css_class = element.attr('data-fi-class');
+
+    if (css_class) {
+        jQuery('body > .fi-tooltip').removeClass(css_class);
+    }
 
     Figure.hideTooltipTimeout = setTimeout(function () {
 
@@ -1250,6 +1258,11 @@ Figure.showTooltip = function (element) {
         var tooltip = jQuery('body > .fi-tooltip');
         var arrow = tooltip.children('span');
 
+        var css_class = element.attr('data-fi-class') || '';
+        if (css_class) {
+            tooltip.addClass(css_class);
+        }
+
         var tooltipText;
         var tooltipPos;
         var tooltipOffset;
@@ -1278,9 +1291,12 @@ Figure.showTooltip = function (element) {
         var leftCalc;
         var rightCalc;
 
+        var windowWidth = Figure.getWindowWidth();
+        var windowHeight = Figure.getWindowHeight();
+
         function positionTooltip() {
             tooltipText = jQuery.trim(element.attr('data-fi-tooltip'));
-            tooltipPos = element.attr('data-fi-position');
+            tooltipPos = element.attr('data-fi-position') || 'top';
             tooltipOffset = element.attr('data-fi-offset');
 
             if (tooltipOffset == undefined) {
@@ -1490,7 +1506,18 @@ Figure.showTooltip = function (element) {
             }
 
             if (tooltipPos == 'top') {
-                tooltipTop();
+                if (topCalc < 0 && centerCalc < 0) {
+                    tooltipBottomLeft();
+                }
+                else if (topCalc > 0 && centerCalc < 0) {
+                    tooltipTopLeft();
+                }
+                else if (topCalc > 0 && centerCalc + tooltipWidth > windowWidth ) {
+                    tooltipTopRight();
+                }
+                else {
+                    tooltipTop();
+                }
             }
 
             else if (tooltipPos == 'top-left') {
@@ -2334,6 +2361,12 @@ jQuery(document).on('touchmove', function () {
 
 Figure.lastMousedownTarget = null;
 jQuery(document).on('mousedown', function (e) {
+    Figure.mousedown = true;
+    Figure.lastMousedownTarget = e.target;
+});
+
+jQuery(document).on('mouseup', function (e) {
+    Figure.mousedown = false;
     Figure.lastMousedownTarget = e.target;
 });
 

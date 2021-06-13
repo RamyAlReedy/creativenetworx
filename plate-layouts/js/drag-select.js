@@ -17,9 +17,11 @@ Vue.component('drag-select', {
       id="container"
       class="drag-select-container"
       ref="container"
-      style="position: relative; user-select: none; overflow: hidden; touch-action: none;"
+      style="position: relative; user-select: none; touch-action: none;"
     >
+        <div class="drag-select-inner fi-clearfix">
       <slot v-bind="{ selected: intersected }"></slot>
+        </div>
     </div>
     `,
     props: {
@@ -38,7 +40,7 @@ Vue.component('drag-select', {
     },
     data: function () {
         return {
-            intersected: []
+            intersected: [],
         }
     },
     watch: {
@@ -62,13 +64,14 @@ Vue.component('drag-select', {
         box.style.opacity = this.opacity;
         let start = { x: 0, y: 0 };
         let end = { x: 0, y: 0 };
+        let ctrlKeyPressed = false;
         function intersection() {
           const rect = box.getBoundingClientRect();
           const intersected = [];
           for (let i = 0; i < children.length; i++) {
             if (collisionCheck(rect, children[i].getBoundingClientRect())) {
               const attr = children[i].getAttribute(self.attribute);
-              if (children[i].hasAttribute(self.attribute)) {
+              if (children[i].hasAttribute(self.attribute) && !children[i].classList.contains('disabled')) {
                   //console.log(attr);
                 intersected.push(attr);
               }
@@ -90,7 +93,7 @@ Vue.component('drag-select', {
         }
         function startDrag(e) {
           containerRect = container.getBoundingClientRect();
-          children = container.childNodes;
+          children = container.querySelector(".drag-select-inner").childNodes;
           start = getCoords(e);
           end = start;
           document.addEventListener("mousemove", drag);
@@ -99,6 +102,7 @@ Vue.component('drag-select', {
           box.style.left = start.x + "px";
           container.prepend(box);
           intersection();
+          jQuery('.plate-column, .plate-row').removeClass('selected');
         }
         function drag(e) {
           end = getCoords(e);
@@ -132,5 +136,18 @@ Vue.component('drag-select', {
           document.removeEventListener("mouseup", endDrag);
           document.removeEventListener("touchend", endDrag);
         });
+
+        function containerSize() {
+            var plate_container = jQuery(container).closest('.plate-container');
+            jQuery(container).css({ width: plate_container.outerWidth(), height: plate_container.outerHeight()});
+        }
+
+        if (jQuery(container).is('.plate-container *')) {
+            containerSize();
+
+            jQuery(window).on('resize', function () {
+                containerSize();
+            });
+        }
     },
 });

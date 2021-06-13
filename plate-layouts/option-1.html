@@ -42,74 +42,100 @@
 
                                     <div class="treatments">
                                         <div class="filters-actions">
-                                            <div class="actions">
-                                                <div class="fi-form fi-form-inline">
-                                                    <div class="fi-form-field">
-                                                        <button type="button" class="fi-button fi-default fi-small" @click.prevent="clear_filters" :disabled="!filters_active">Clear All Filters</button>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="filters">
-                                                <div class="fi-form fi-form-horizontal">
-                                                    <div class="fi-form-field">
-                                                        <label class="fi-form-label" for="condition_set">Condition Set</label>
-                                                        <select id="condition_set" v-model="filters.condition_set" class="fi-form-control">
-                                                            <option value="all">Please select...</option>
-                                                            <option value="Condition.Set.1">Condition.Set.1</option>
-                                                            <option value="Condition.Set.2">Condition.Set.2</option>
-                                                        </select>
+                                                <div class="fi-form">
+                                                    <div class="fi-row">
+                                                        <div class="fi-column fi-width-small-6">
+                                                            <div class="fi-form-field">
+                                                                <div class="custom-dropdown fi-small">
+                                                                    <select id="condition_set" v-model="filters.condition_set" class="fi-form-control">
+                                                                        <option value="all">All Condition Sets</option>
+                                                                        <option value="Condition.Set.1">Condition.Set.1</option>
+                                                                        <option value="Condition.Set.2">Condition.Set.2</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="fi-column fi-width-small-6">
+                                                            <div class="fi-form-field">
+                                                                <div class="custom-dropdown fi-small">
+                                                                    <select id="sample_id" v-model="filters.sample_id" class="fi-form-control">
+                                                                        <option value="all">All Sample IDs</option>
+                                                                        <option value="Sample.ID.1">Sample.ID.1</option>
+                                                                        <option value="Sample.ID.2">Sample.ID.2</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="fi-form-field">
-                                                        <label class="fi-form-label" for="sample_id">Sample ID</label>
-                                                        <select id="sample_id" v-model="filters.sample_id" class="fi-form-control">
-                                                            <option value="all">Please select...</option>
-                                                            <option value="Sample.ID.1">Sample.ID.1</option>
-                                                        </select>
+                                                    <div class="fi-row">
+                                                        <div class="fi-column fi-width-small-6">
+                                                            <div class="fi-form-field">
+                                                                <div class="custom-dropdown fi-small">
+                                                                    <select id="sample_role" v-model="filters.role" class="fi-form-control">
+                                                                        <option value="all">All Roles</option>
+                                                                        <option value="test_sample">TSTSAM</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="fi-column fi-width-small-6">
+                                                            <div class="fi-form-field">
+                                                                <div class="custom-dropdown fi-small">
+                                                                    <select id="rate" v-model="filters.rate" class="fi-form-control">
+                                                                        <option value="all">All Rates</option>
+                                                                        <option value="200">200</option>
+                                                                        <option value="50">50</option>
+                                                                        <option value="12.5">12.5</option>
+                                                                        <option value="3.125">3.125</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="fi-form-field">
-                                                        <label class="fi-form-label" for="sample_role">Sample Role</label>
-                                                        <select id="sample_role" v-model="filters.role" class="fi-form-control">
-                                                            <option value="all">Please select...</option>
-                                                            <option value="test_sample">TSTSAM</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="fi-form-field">
-                                                        <label class="fi-form-label" for="rate">Rate</label>
-                                                        <select id="rate" v-model="filters.rate" class="fi-form-control">
-                                                            <option value="all">Please select...</option>
-                                                            <option value="200">200</option>
-                                                            <option value="50">50</option>
-                                                            <option value="12.5">12.5</option>
-                                                            <option value="3.125">3.125</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="fi-form-field">
-                                                        <label class="fi-form-label" for="method">Method</label>
-                                                        <select id="method" v-model="filters.method" class="fi-form-control">
-                                                            <option value="all">Please select...</option>
-                                                            <option value="Method.1">Method.1</option>
-                                                        </select>
+                                                    <div class="fi-row">
+                                                        <div class="fi-column fi-width-small-6">
+                                                            <div class="fi-form-field">
+                                                                <div class="custom-dropdown fi-small">
+                                                                    <select id="method" v-model="filters.method" class="fi-form-control">
+                                                                        <option value="all">All Methods</option>
+                                                                        <option value="Method.1">Method.1</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="fi-column fi-width-small-6">
+                                                            <div class="fi-form-field">
+                                                                <button type="button" class="fi-button fi-primary fi-full-width fi-small" @click.prevent="clear_filters" :disabled="!filters_active">Clear All Filters</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="actions">
                                                 <div class="fi-form fi-form-inline">
+                                                    <div class="fi-form-field"><button type="button" :disabled="selected_treatments.length === treatments_filtered_list.length" @click.prevent="select_all_treatments" class="fi-button fi-default fi-small">Select All</button></div>
                                                     <div class="fi-form-field"><button type="button" :disabled="!selected_treatments.length" @click.prevent="unplace_treatments" class="fi-button fi-default fi-small">Unplace</button></div>
-                                                    <!-- <div class="fi-form-field"><button type="button" v-if="selected_treatments.length" @click.prevent="selected_treatments = [];" class="fi-button fi-default fi-small">Clear Selection</button></div> -->
+                                                    <div class="fi-form-field"><button type="button" :disabled="!selected_treatments.length" data-fi-modal=".generate_plates_modal" class="fi-button fi-default fi-small">Generate Plates from Selected</button></div>
                                                 </div>
-                                                <div class="treatment-counts fi-text-light fi-float-right">
-                                                    <span v-if="filters_active">Showing {{ treatment_result_count }} / {{ treatments.length }} treatments</span>
-                                                    <span v-else>{{ treatments.length }} treatments</span>
-                                                    <span>{{ count_placed_treatments() }} placed</span>
-                                                    <span>{{ treatments.length - count_placed_treatments() }} remaining</span>
+                                                <div class="fi-form fi-form-inline">
+                                                    <div class="fi-form-field"><button type="button" @click.prevent="" class="fi-button fi-default fi-small">Undo</button></div>
+                                                    <div class="fi-form-field"><button type="button" @click.prevent="" class="fi-button fi-default fi-small">Redo</button></div>
                                                 </div>
+                                            </div>
+                                            <div class="treatment-counts fi-text-light">
+                                                <span v-if="filters_active" class="fi-badge">Showing {{ treatment_result_count }} out of {{ treatments.length }} treatments</span>
+                                                <span v-else>Showing {{ treatments.length }} out of {{ treatments.length }} treatments</span>
+                                                <span class="separate"></span>
+                                                <span>{{ count_placed_treatments() }} placed</span>
+                                                <span>{{ treatments.length - count_placed_treatments() }} remaining</span>
                                             </div>
                                         </div>
                                         <div class="treatments-outer">
                                             <div class="treatments-inner">
                                                 <div class="treatment-list-container">
                                                     <div class="treatment-item treatments-header">
-                                                        <div class="cell id">Trtmnt ID <i class="fa fa-caret-up"></i></div>
+                                                        <div class="cell id">ID <i class="fa fa-caret-up"></i></div>
                                                         <div class="cell place">Plate / Well</div>
                                                         <div class="cell condition-set">Condition Set</div>
                                                         <div class="cell sample-id">Sample ID</div>
@@ -126,11 +152,11 @@
                                                              :class="{'selected': selected_treatments.includes(String(item.id))}">
                                                                 <span class="cell id">{{ item.id }}</span>
                                                                 <span class="cell place">
-                                                                    <span v-if="item.place">
-                                                                        <strong>{{ current_plate_index + 1 }}</strong>
+                                                                    <strong v-if="item.place">
+                                                                        <strong>{{ item.place.plate_id }}</strong>
                                                                         /
-                                                                        {{ get_well_location(item.place.well_id) }}
-                                                                    </span>
+                                                                        {{ get_well_location(item.place.well_id).row }}-{{ get_well_location(item.place.well_id).column }}
+                                                                    </strong>
                                                                     <span v-else class="fi-text-light">Unplaced</span>
                                                                 </span>
                                                                 <span class="cell condition-set">{{ item.condition_set }}</span>
@@ -198,18 +224,18 @@
                                                         <span>{{ plates[current_plate_index].size - count_placed_wells(plates[current_plate_index]) }} remaining</span>
                                                     </div>
                                                 </div>
-                                                <a href="#" @click.prevent="" class="plate-nav-item-button"></a>
-                                                <button type="button" @click.prevent="" class="plate-nav-item-delete fi-close-button"></button>
+                                                <a href="#" @click.prevent="current_plate_index = index" class="plate-nav-item-button"></a>
+                                                <button type="button" @click.prevent="delete_plate(index)" class="plate-nav-item-delete fi-close-button"></button>
                                             </div>
-                                            <button type="button" @click.prevent="" class="add-plate">
+                                            <button type="button" @click.prevent="" class="add-plate" data-fi-modal=".add_plate_modal">
                                                 <i class="far fa-plus"></i>
                                                 Add Plate
                                             </button>
                                         </div>
 
-                                        <div class="plate-header">
+                                        <div class="plate-header" v-if="current_plate_index > -1">
                                             <div class="plate-header-info">
-                                                <h4><strong>{{ current_plate_index + 1 }}: {{ plates[current_plate_index].name }}</strong></h4>
+                                                <h4 :data-fi-tooltip="current_plate_index + 1 + ': ' + plates[current_plate_index].name" data-fi-delay="250"><strong>{{ current_plate_index + 1 }}: {{ plates[current_plate_index].name }}</strong></h4>
                                                 <div class="plate-counts fi-text-light">
                                                     <span>{{ count_placed_wells(plates[current_plate_index]) }} placed</span>
                                                     <span>{{ plates[current_plate_index].size - count_placed_wells(plates[current_plate_index]) }} remaining</span>
@@ -224,16 +250,18 @@
                                             <div class="plate-header-actions">
                                                 <div class="fi-form fi-form-inline">
                                                     <!-- <div class="fi-form-field"><button type="button" @click.prevent="selected_wells = [];" class="fi-button fi-default fi-small" v-if="selected_wells.length">Clear Selection</button></div> -->
-                                                    <div class="fi-form-field"><button type="button" @click.prevent="set_as_blank" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Set As Blank</button></div>
+                                                    <div class="fi-form-field"><button type="button" @click.prevent="set_as_blank" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Set As Empty</button></div>
                                                     <div class="fi-form-field"><button type="button" @click.prevent="unplace_wells" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Unplace</button></div>
                                                     <div class="fi-form-field"><button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Clear Plate</button></div>
                                                     <div class="fi-form-field">
                                                         <div class="fi-dropdown fi-opposite">
                                                             <button type="button" class="fi-dropdown-trigger more-button fi-button fi-default fi-small"><i class="fa fa-ellipsis-v"></i></button>
-                                                            <div class="fi-dropdown-content fi-tiny">
+                                                            <div class="fi-dropdown-content fi-small">
                                                                 <ul>
-                                                                    <li><a href="#">Edit Plate</a></li>
-                                                                    <li><a href="#">Delete Plate</a></li>
+                                                                    <li><a href="#" data-fi-modal=".edit_plate_modal" @click.prevent="open_edit_plate(plates[current_plate_index].id)">Edit Plate</a></li>
+                                                                    <li><a href="#">Save as Standrad Layout</a></li>
+                                                                    <li class="fi-divider"></li>
+                                                                    <li><a href="#" @click.prevent="delete_plate(current_plate_index)">Delete Plate</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -242,49 +270,82 @@
                                             </div>
                                         </div>
 
-                                        <div class="plate-container">
+                                        <div class="plat-exp-container" v-if="current_plate_index > -1">
 
-                                            <div class="plate-outer" :class="'size_' + plates[current_plate_index].size">
+                                            <div class="plate-corner" @click="selected_wells = [];"></div>
 
-                                                <div class="plate-columns">
-                                                    <div v-for="(plate_column, index) in plate_sizes[plates[current_plate_index].size].columns" class="plate-column">{{ index + 1 }}</div>
-                                                </div>
+                                            <div class="plate-container">
 
-                                                <div class="plate-inner" :class="{'filter-match': plates[current_plate_index].filter_match}">
+                                                <div class="plate-outer" :class="'size_' + plates[current_plate_index].size">
 
-                                                    <div class="plate-rows">
-                                                        <div v-for="(plate_row, index) in plate_sizes[plates[current_plate_index].size].rows" class="plate-row">{{ well_row_letters[index] }}</div>
+                                                    <div class="plate-clear-selection" @click="selected_wells = [];"></div>
+
+                                                    <div class="plate-columns">
+                                                        <div v-for="(plate_column, index) in plate_sizes[plates[current_plate_index].size].columns" class="plate-column">{{ index + 1 }}</div>
                                                     </div>
 
-                                                    <drag-select attribute="attr" @change="selected_wells = $event">
-                                                        <template v-slot="{ selected }">
-                                                            <div v-for="item in plates[current_plate_index].wells"
-                                                             :attr="item.id"
-                                                             class="well"
-                                                             :class="{'selected': selected_wells.includes(String(item.id))}">
-                                                                <div v-if="item.content" class="well-content" :class="{'filter-match': item.filter_match}">
-                                                                    <span v-if="item.content !== 'blank'" :style="{ backgroundColor: role_colors[getObjectByKey(treatments, 'id',item.content).role] }">
-                                                                        {{ getObjectByKey( treatments, 'id',item.content ).id }}
-                                                                    </span>
-                                                                    <span v-else :style="{ backgroundColor: role_colors['blank'] }"></span>
-                                                                </div>
-                                                            </div>
-                                                         </template>
-                                                    </drag-select>
+                                                    <div class="plate-inner" :class="{'filter-match': plates[current_plate_index].filter_match}">
 
-                                                    <div class="back-drop"></div>
+                                                        <div class="plate-rows">
+                                                            <div v-for="(plate_row, index) in plate_sizes[plates[current_plate_index].size].rows" class="plate-row">{{ well_row_letters[index] }}</div>
+                                                        </div>
+
+                                                        <drag-select attribute="attr" @change="selection($event)">
+                                                            <template v-slot="{ selected }">
+                                                                <div v-for="item in plates[current_plate_index].wells"
+                                                                 :attr="item.id"
+                                                                 @mouseover="well_mouseover(item.id)"
+                                                                 @mouseout="well_mouseout(item.id)"
+                                                                 class="well"
+                                                                  :class="{
+                                                                      'filter-match': item.filter_match,
+                                                                  }">
+                                                                    <div class="well-inner"
+                                                                      :class="{
+                                                                          'selected': selected_wells.includes(String(item.id)),
+                                                                          'highlighted': item.highlight,
+                                                                      }">
+                                                                        <div v-if="item.content" class="well-content">
+                                                                            <span v-if="item.content !== 'blank'" :style="{ backgroundColor: role_colors[getObjectByKey(treatments, 'id',item.content).role] }">
+
+                                                                            </span>
+                                                                            <span v-else class="empty"><span class="xl"></span><span class="xr"></span></span>
+                                                                            <div class="well-info" v-if="item.content" :data-fi-tooltip="render_tooltip_content(item.id)" :data-fi-offset="tooltip_offset"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                             </template>
+                                                        </drag-select>
+
+                                                        <!-- <div class="back-drop"></div> -->
+
+                                                    </div>
 
                                                 </div>
 
                                             </div>
 
+                                            <div class="color-keys">
+                                                <div class="color-keys-inner" v-click-outside="reset_highlight">
+                                                    <div class="color-key" :class="{'active': highlight_by === 'test_sample'}" @click="highlight('test_sample')"><span class="circle" :style="{ backgroundColor: role_colors['test_sample'] }"></span>Test Samples</div>
+                                                    <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['ctrl_w_sample'] }"></span>Controls with Samples</div>
+                                                    <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>Controls without Samples</div>
+                                                    <div class="color-key" :class="{'active': highlight_by === 'empty'}" @click="highlight('empty')"><span class="circle empty"><span class="xl"></span><span class="xr"></span></span>Empty</div>
+                                                </div>
+                                            </div>
+
                                         </div>
 
-                                        <div class="color-keys">
-                                            <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['test_sample'] }"></span>Test Samples</div>
-                                            <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['ctrl_w_sample'] }"></span>Controls with Samples</div>
-                                            <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>Controls without Samples</div>
-                                            <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['blank'] }"></span>Blank</div>
+                                        <div class="no-items-label empty-template" v-else>
+                                            <i class="fal fa-th empty-template-icon"></i>
+                                            <div>
+                                                No plates added
+                                                <div class="empty-template-button">
+                                                    <button data-fi-modal=".add_plate_modal" class="fi-button fi-primary fi-small">
+                                                        <i class="far fa-plus fi-icon-margin"></i>Add Plate
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -299,6 +360,156 @@
             </div>
         </div>
 
+        <div class="add_plate_modal fi-modal fi-no-click-close">
+            <div class="fi-modal-outer">
+                <div class="fi-modal-inner">
+                    <div class="fi-modal-content">
+
+                        <div class="fi-modal-header">
+                            <button type="button" class="fi-close-button fi-close-modal"></button>
+                            <h3>Add Plate</h3>
+                        </div>
+
+                        <form @submit.prevent="submit_add_plate">
+
+                            <div class="fi-modal-body">
+
+                                <div class="fi-form">
+                                    <div class="fi-form-field">
+                                        <label class="fi-form-label">Plate Name</label>
+                                        <input type="text" class="fi-form-control" v-model="add_plate_data.name" data-fi-focus-start />
+                                    </div>
+                                    <div class="fi-form-field">
+                                        <label class="fi-form-label">Plate Size</label>
+                                        <select class="fi-form-control" v-model="add_plate_data.size">
+                                            <option value="0">Please select...</option>
+                                            <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="fi-modal-footer fi-buttons-container fi-text-right">
+                                <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
+                                <button type="submit" class="fi-button fi-primary" :disabled="!add_plate_data.name || add_plate_data.size == 0">Add Plate</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="edit_plate_modal fi-modal fi-no-click-close">
+            <div class="fi-modal-outer">
+                <div class="fi-modal-inner">
+                    <div class="fi-modal-content">
+
+                        <div class="fi-modal-header">
+                            <button type="button" class="fi-close-button fi-close-modal"></button>
+                            <h3>Edit Plate</h3>
+                        </div>
+
+                        <form @submit.prevent="submit_edit_plate">
+
+                            <div class="fi-modal-body">
+
+                                <div class="fi-form">
+                                    <div class="fi-form-field">
+                                        <label class="fi-form-label">Plate Name</label>
+                                        <input type="text" class="fi-form-control" v-model="edit_plate_data.name" data-fi-focus-start />
+                                    </div>
+                                    <div class="fi-form-field">
+                                        <label class="fi-form-label">Plate Size</label>
+                                        <select class="fi-form-control" v-model="edit_plate_data.size">
+                                            <option value="0">Please select...</option>
+                                            <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="fi-modal-footer fi-buttons-container fi-text-right">
+                                <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
+                                <button type="submit" class="fi-button fi-primary" :disabled="!edit_plate_data.name || edit_plate_data.size == 0">Save Plate</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="generate_plates_modal fi-modal fi-no-click-close">
+            <div class="fi-modal-outer">
+                <div class="fi-modal-inner">
+                    <div class="fi-modal-content">
+
+                        <div class="fi-modal-header">
+                            <button type="button" class="fi-close-button fi-close-modal"></button>
+                            <h3>Generate Plates</h3>
+                        </div>
+
+                        <form @submit.prevent="">
+
+                            <div class="fi-modal-body">
+
+                                <div class="fi-form">
+                                    <div class="fi-form-field">
+                                        <label class="fi-form-label">Plate Layout</label>
+                                        <div class="fi-dropdown fi-full-width choose-layout">
+                                            <button type="button" class="fi-dropdown-trigger fi-button fi-default fi-full-width">
+                                                <span class="fi-dropdown-title">
+                                                    <span v-if="generate_plates_data.plate_layout.name">{{ generate_plates_data.plate_layout.name }}</span>
+                                                    <span v-else>Pleae select a layout...</span>
+                                                </span>
+                                                <i class="far fa-angle-down"></i>
+                                            </button>
+                                            <div class="fi-dropdown-content fi-full-width">
+                                                <div class="fi-form-field fi-search"><input type="search" class="fi-form-control" placeholder="Search Layouts..."></div>
+                                                <ul class="fi-list fi-list-line fi-no-spacing fi-no-margin">
+                                                    <li class="fi-dropdown-header"><strong>Recommended Layouts</strong></li>
+                                                    <li v-for="plate_layout in plate_layouts" v-if="plate_layout.recommended" :class="{'active': generate_plates_data.plate_layout.id == plate_layout.id}">
+                                                        <a href="#" @click.prevent="choose_layout(plate_layout.id)"><strong>{{ plate_layout.name }}</strong> <br />{{ plate_sizes[plate_layout.size].name }} ({{plate_sizes[plate_layout.size].columns}}x{{plate_sizes[plate_layout.size].rows}})</a>
+                                                    </li>
+                                                    <li class="fi-dropdown-header"><strong>More Layouts</strong></li>
+                                                    <li v-for="plate_layout in plate_layouts" v-if="!plate_layout.recommended" :class="{'active': generate_plates_data.plate_layout.id == plate_layout.id}">
+                                                        <a href="#" @click.prevent="choose_layout(plate_layout.id)"><strong>{{ plate_layout.name }}</strong> <br />{{ plate_sizes[plate_layout.size].name }} ({{plate_sizes[plate_layout.size].columns}}x{{plate_sizes[plate_layout.size].rows}})</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fi-form-field" v-if="generate_plates_data.plate_layout.name">
+                                        <div class="fi-panel special">
+                                            <strong>3 plates</strong> will be generated
+                                        </div>
+                                    </div>
+                                    <div class="fi-form-field" v-if="generate_plates_data.plate_layout.name">
+                                        <label class="fi-form-label">Plate Names Prefix</label>
+                                        <input type="text" class="fi-form-control" v-model="generate_plates_data.prefix" />
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="fi-modal-footer fi-buttons-container fi-text-right">
+                                <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
+                                <button type="submit" class="fi-button fi-primary" :disabled="!generate_plates_data.plate_layout.name">Generate Plates</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="js/vue.js"></script>
@@ -307,17 +518,29 @@
     <script src="js/app.js"></script>
 
     <script>
+        // jQuery(document).on('click', '.well', function () {
+        //     var id = parseInt(jQuery(this).text());
+        //     if (id) {
+        //         jQuery('.treatment-list .treatment-item').each(function() {
+        //             var item = jQuery(this);
+        //             if (jQuery.trim(item.find('.cell.id').text()) == id) {
+        //                 var position = item.position().top - 40;
+        //                 app.selected_treatments  = [id.toString()];
+        //                 jQuery('.treatments-inner').animate({ scrollTop: position }, 250 );
+        //             }
+        //         });
+        //     }
+        // });
         jQuery(document).on('click', '.well', function () {
-            var id = parseInt(jQuery(this).text());
+            var index = parseInt(jQuery(this).index());
+            var id = parseInt(app.plates[app.current_plate_index].wells[index].content);
             if (id) {
-                jQuery('.treatment-list .treatment-item').each(function() {
-                    var item = jQuery(this);
-                    if (jQuery.trim(item.find('.cell.id').text()) == id) {
-                        var position = item.position().top - 40;
-                        app.selected_treatments  = [id.toString()];
-                        jQuery('.treatments-inner').animate({ scrollTop: position }, 250 );
-                    }
-                });
+                var position = jQuery('.treatment-list .treatment-item').eq(id - 1).position().top;
+                app.selected_treatments  = [id.toString()];
+                jQuery('.treatments-inner').animate({ scrollTop: position - 40 }, 250 );
+            }
+            else {
+                app.selected_treatments  = [];
             }
         });
         jQuery(document).on('click', '.treatment-list .treatment-item', function () {

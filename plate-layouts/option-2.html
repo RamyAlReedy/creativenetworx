@@ -33,7 +33,7 @@
                                 <div class="fi-tabs fi-alt">
                                     <ul>
                                         <li><button type="button" class="fi-tab-button"><i class="far fa-exclamation-circle fi-icon-margin"></i>Basic Info</button></li>
-                                        <li><button type="button" class="fi-tab-button"><i class="far fa-magic fi-icon-margin"></i>Design</button></li>
+                                        <li><button type="button" class="fi-tab-button"><i class="far fa-database fi-icon-margin"></i>Raw Data</button></li>
                                         <li class="fi-tab-active"><button type="button" class="fi-tab-button"><i class="far fa-th fi-icon-margin"></i>Plates</button></li>
                                     </ul>
                                 </div>
@@ -49,41 +49,52 @@
                                                         <label><strong>Filter Across All Plates:</strong></label>
                                                     </div>
                                                     <div class="fi-form-field">
-                                                        <select id="condition_set" v-model="filters.condition_set" class="fi-form-control">
-                                                            <option value="all">All Condition Sets</option>
-                                                            <option value="Condition.Set.1">Condition.Set.1</option>
-                                                            <option value="Condition.Set.2">Condition.Set.2</option>
-                                                        </select>
+                                                        <div class="custom-dropdown fi-small">
+                                                            <select id="condition_set" v-model="filters.condition_set" class="fi-form-control">
+                                                                <option value="all">All Condition Sets</option>
+                                                                <option value="Condition.Set.1">Condition.Set.1</option>
+                                                                <option value="Condition.Set.2">Condition.Set.2</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="fi-form-field">
-                                                        <select id="sample_id" v-model="filters.sample_id" class="fi-form-control">
-                                                            <option value="all">All Samples</option>
-                                                            <option value="Sample.ID.1">Sample.ID.1</option>
-                                                        </select>
+                                                        <div class="custom-dropdown fi-small">
+                                                            <select id="sample_id" v-model="filters.sample_id" class="fi-form-control">
+                                                                <option value="all">All Sample IDs</option>
+                                                                <option value="Sample.ID.1">Sample.ID.1</option>
+                                                                <option value="Sample.ID.1">Sample.ID.2</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="fi-form-field">
-                                                        <select id="sample_role" v-model="filters.role" class="fi-form-control">
-                                                            <option value="all">All Roles</option>
-                                                            <option value="test_sample">TSTSAM</option>
-                                                        </select>
+                                                        <div class="custom-dropdown fi-small">
+                                                            <select id="sample_role" v-model="filters.role" class="fi-form-control">
+                                                                <option value="all">All Roles</option>
+                                                                <option value="test_sample">TSTSAM</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="fi-form-field">
-                                                        <select id="rate" v-model="filters.rate" class="fi-form-control">
-                                                            <option value="all">All Rates</option>
-                                                            <option value="200">200</option>
-                                                            <option value="50">50</option>
-                                                            <option value="12.5">12.5</option>
-                                                            <option value="3.125">3.125</option>
-                                                        </select>
+                                                        <div class="custom-dropdown fi-small">
+                                                            <select id="rate" v-model="filters.rate" class="fi-form-control">
+                                                                <option value="all">All Rates</option>
+                                                                <option value="200">200</option>
+                                                                <option value="50">50</option>
+                                                                <option value="12.5">12.5</option>
+                                                                <option value="3.125">3.125</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="fi-form-field">
-                                                        <select id="method" v-model="filters.method" class="fi-form-control">
-                                                            <option value="all">All Methods</option>
-                                                            <option value="Method.1">Method.1</option>
-                                                        </select>
+                                                        <div class="custom-dropdown fi-small">
+                                                            <select id="method" v-model="filters.method" class="fi-form-control">
+                                                                <option value="all">All Methods</option>
+                                                                <option value="Method.1">Method.1</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="fi-form-field" v-if="filters_active">
-                                                        <button type="button" class="fi-button fi-default fi-small" @click.prevent="clear_filters">Clear All Filters</button>
+                                                        <button type="button" class="fi-button fi-primary fi-small" @click.prevent="clear_filters">Clear All Filters</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -100,24 +111,24 @@
                                                     </span>
                                                     <h5><strong>{{ index + 1 }}: {{ plate.name }}</strong></h5>
                                                     <div class="plate-counts fi-text-light">
-                                                        <span>0 filled</span>
+                                                        <span>0 completed</span>
                                                         <span>{{ plates[current_plate_index].size }} remaining</span>
                                                     </div>
                                                 </div>
-                                                <a href="#" @click.prevent="" class="plate-nav-item-button"></a>
-                                                <button type="button" @click.prevent="" class="plate-nav-item-delete fi-close-button"></button>
+                                                <a href="#" @click.prevent="current_plate_index = index" class="plate-nav-item-button"></a>
+                                                <button type="button" @click.prevent="delete_plate(index)" class="plate-nav-item-delete fi-close-button"></button>
                                             </div>
-                                            <button type="button" @click.prevent="" class="add-plate">
+                                            <button type="button" @click.prevent="" class="add-plate" data-fi-modal=".add_plate_modal">
                                                 <i class="far fa-plus"></i>
                                                 Add Plate
                                             </button>
                                         </div>
 
-                                        <div class="plate-header">
+                                        <div class="plate-header" v-if="current_plate_index > -1">
                                             <div class="plate-header-info">
                                                 <h4><strong>{{ current_plate_index + 1 }}: {{ plates[current_plate_index].name }}</strong></h4>
                                                 <div class="plate-counts fi-text-light">
-                                                    <span>0 filled</span>
+                                                    <span>0 completed</span>
                                                     <span>{{ plates[current_plate_index].size }} remaining</span>
                                                 </div>
                                                 <span class="fi-badge" v-if="well_result_count">
@@ -131,7 +142,7 @@
                                                 <div class="fi-form fi-form-inline">
                                                     <!-- <div class="fi-form-field"><button type="button" @click.prevent="selected_wells = [];" class="fi-button fi-default fi-small" v-if="selected_wells.length">Clear Selection</button></div> -->
                                                     <div class="fi-form-field"><button type="button" data-fi-modal="#add-content" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Add/Change</button></div>
-                                                    <div class="fi-form-field"><button type="button" @click.prevent="set_as_blank" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Set As Blank</button></div>
+                                                    <div class="fi-form-field"><button type="button" @click.prevent="set_as_blank" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Set As Empty</button></div>
                                                     <div class="fi-form-field"><button type="button" @click.prevent="unplace_wells" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Clear Selected</button></div>
                                                     <div class="fi-form-field"><button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Clear Plate</button></div>
                                                     <div class="fi-form-field">
@@ -139,8 +150,9 @@
                                                             <button type="button" class="fi-dropdown-trigger more-button fi-button fi-default fi-small"><i class="fa fa-ellipsis-v"></i></button>
                                                             <div class="fi-dropdown-content fi-tiny">
                                                                 <ul>
-                                                                    <li><a href="#">Edit Plate</a></li>
-                                                                    <li><a href="#">Delete Plate</a></li>
+                                                                    <li><a href="#">Duplicate Plate</a></li>
+                                                                    <li><a href="#" data-fi-modal=".edit_plate_modal" @click.prevent="open_edit_plate(plates[current_plate_index].id)">Edit Plate</a></li>
+                                                                    <li><a href="#" @click.prevent="delete_plate(current_plate_index)">Delete Plate</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -151,7 +163,7 @@
 
                                     </div>
 
-                                    <div class="plate-layout-container">
+                                    <div class="plate-layout-container" v-if="current_plate_index > -1">
 
                                         <div class="treatments">
                                             <div class="treatments-outer">
@@ -173,7 +185,7 @@
                                                                  class="treatment-item"
                                                                  :class="{'selected': selected_treatments.includes(String(item.id))}">
                                                                     <span class="cell place">
-                                                                        {{ get_well_location(item.id) }}
+                                                                        {{ get_well_location(item.id).row }}-{{ get_well_location(item.id).column }}
                                                                     </span>
                                                                     <span v-if="item.content !== 'blank'" class="cell condition-set">
                                                                         <span v-if="item.content.condition_set">{{ item.content.condition_set }}</span>
@@ -214,6 +226,8 @@
 
                                                 <div class="plate-outer" :class="'size_' + plates[current_plate_index].size">
 
+                                                    <div class="plate-clear-selection" @click="selected_wells = [];"></div>
+
                                                     <div class="plate-columns">
                                                         <div v-for="(plate_column, index) in plate_sizes[plates[current_plate_index].size].columns" class="plate-column">{{ index + 1 }}</div>
                                                     </div>
@@ -228,16 +242,31 @@
                                                             <template v-slot="{ selected }">
                                                                 <div v-for="item in plates[current_plate_index].wells"
                                                                  :attr="item.id"
+                                                                 @mouseover="well_mouseover(item.id)"
+                                                                 @mouseout="well_mouseout(item.id)"
                                                                  class="well"
-                                                                 :class="{'selected': selected_wells.includes(String(item.id))}">
-                                                                    <div v-if="item.content" class="well-content" :class="{'filter-match': item.filter_match}">
-                                                                        <span v-if="item.content !== 'blank' && !item.content.role">
+                                                                 :class="{
+                                                                     'filter-match': item.filter_match,
+                                                                     'disabled': filters_active && !item.filter_match,
+                                                                 }">
+                                                                    <div class="well-inner"
+                                                                    :class="{
+                                                                        'selected': selected_wells.includes(String(item.id)),
+                                                                        'highlighted': item.highlight,
+                                                                    }">
+                                                                        <div v-if="item.content" class="well-content" :class="{'filter-match': item.filter_match}">
+                                                                            <span class="empty" v-if="item.content.role === 'test_sample' && (!item.content.rate || !item.content.condition_set) || item.content.condition_set && (!item.content.sample_id || !item.content.rate)">
+                                                                                <span class="xr"></span>
+                                                                            </span>
+                                                                            <span v-else-if="item.content !== 'blank' && !item.content.role">
 
-                                                                        </span>
-                                                                        <span v-else-if="item.content !== 'blank' && item.content.role" :style="{ backgroundColor: role_colors[item.content.role] }">
+                                                                            </span>
+                                                                            <span v-else-if="item.content !== 'blank' && item.content.role" :style="{ backgroundColor: role_colors[item.content.role] }">
 
-                                                                        </span>
-                                                                        <span v-else :style="{ backgroundColor: role_colors['blank'] }"></span>
+                                                                            </span>
+                                                                            <span v-else class="empty"><span class="xl"></span><span class="xr"></span></span>
+                                                                            <div class="well-info" v-if="item.content" :data-fi-tooltip="render_tooltip_content(item.id)" :data-fi-class="tooltip_class(item.id)" :data-fi-offset="tooltip_offset"></div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                              </template>
@@ -252,14 +281,29 @@
                                             </div>
 
                                             <div class="color-keys">
-                                                <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['test_sample'] }"></span>Test Samples</div>
-                                                <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['ctrl_w_sample'] }"></span>Controls with Samples</div>
-                                                <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>Controls without Samples</div>
-                                                <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['blank'] }"></span>Blank</div>
+                                                <div class="color-keys-inner" v-click-outside="reset_highlight">
+                                                    <div class="color-key":class="{'active': highlight_by === 'test_sample'}" @click="highlight('test_sample')"><span class="circle" :style="{ backgroundColor: role_colors['test_sample'] }"></span>Test Samples</div>
+                                                    <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['ctrl_w_sample'] }"></span>Controls with Samples</div>
+                                                    <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>Controls without Samples</div>
+                                                    <div class="color-key" :class="{'active': highlight_by === 'empty'}" @click="highlight('empty')"><span class="circle empty"><span class="xl"></span><span class="xr"></span></span>Empty</div>
+                                                    <div class="color-key"><span class="circle empty"><span class="xr"></span></span>Incomplete</div>
+                                                </div>
                                             </div>
 
                                         </div>
 
+                                    </div>
+
+                                    <div class="no-items-label empty-template" v-else>
+                                        <i class="fal fa-th empty-template-icon"></i>
+                                        <div>
+                                            No plates added
+                                            <div class="empty-template-button">
+                                                <button data-fi-modal=".add_plate_modal" class="fi-button fi-primary fi-small">
+                                                    <i class="far fa-plus fi-icon-margin"></i>Add Plate
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -335,6 +379,90 @@
                             <button type="button" class="fi-button fi-default fi-close-modal">Cancel</button>
                             <button type="button" class="fi-button fi-primary fi-close-modal" @click.prevent="fill_wells" :disabled="!add_content.condition_set && !add_content.sample_id && !add_content.rate">Add/Change</button>
                         </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="add_plate_modal fi-modal fi-no-click-close">
+            <div class="fi-modal-outer">
+                <div class="fi-modal-inner">
+                    <div class="fi-modal-content">
+
+                        <div class="fi-modal-header">
+                            <button type="button" class="fi-close-button fi-close-modal"></button>
+                            <h3>Add Plate</h3>
+                        </div>
+
+                        <form @submit.prevent="submit_add_plate">
+
+                            <div class="fi-modal-body">
+
+                                <div class="fi-form">
+                                    <div class="fi-form-field">
+                                        <label class="fi-form-label">Plate Name</label>
+                                        <input type="text" class="fi-form-control" v-model="add_plate_data.name" data-fi-focus-start />
+                                    </div>
+                                    <div class="fi-form-field">
+                                        <label class="fi-form-label">Plate Size</label>
+                                        <select class="fi-form-control" v-model="add_plate_data.size">
+                                            <option value="0">Please select...</option>
+                                            <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="fi-modal-footer fi-buttons-container fi-text-right">
+                                <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
+                                <button type="submit" class="fi-button fi-primary" :disabled="!add_plate_data.name || add_plate_data.size == 0">Add Plate</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="edit_plate_modal fi-modal fi-no-click-close">
+            <div class="fi-modal-outer">
+                <div class="fi-modal-inner">
+                    <div class="fi-modal-content">
+
+                        <div class="fi-modal-header">
+                            <button type="button" class="fi-close-button fi-close-modal"></button>
+                            <h3>Edit Plate</h3>
+                        </div>
+
+                        <form @submit.prevent="submit_edit_plate">
+
+                            <div class="fi-modal-body">
+
+                                <div class="fi-form">
+                                    <div class="fi-form-field">
+                                        <label class="fi-form-label">Plate Name</label>
+                                        <input type="text" class="fi-form-control" v-model="edit_plate_data.name" data-fi-focus-start />
+                                    </div>
+                                    <div class="fi-form-field">
+                                        <label class="fi-form-label">Plate Size</label>
+                                        <select class="fi-form-control" v-model="edit_plate_data.size">
+                                            <option value="0">Please select...</option>
+                                            <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="fi-modal-footer fi-buttons-container fi-text-right">
+                                <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
+                                <button type="submit" class="fi-button fi-primary" :disabled="!edit_plate_data.name || edit_plate_data.size == 0">Save Plate</button>
+                            </div>
+
+                        </form>
 
                     </div>
                 </div>
