@@ -383,6 +383,10 @@ var app = new Vue({
             if (this.shiftKeyPressed) {
                 var first_item = parseInt(this.current_selection_sorted(this.selected_wells)[0]);
                 var last_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
+                if (last_item < first_item) {
+                    var first_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
+                    var last_item = parseInt(this.current_selection_sorted(this.selected_wells)[this.selected_wells.length - 1]);
+                }
                 var range = last_item - first_item + 1;
                 this.selected_wells = [];
                 for (var i = 0; i < range; i++) {

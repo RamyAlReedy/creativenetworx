@@ -172,14 +172,7 @@
                                                                  @mouseout="well_mouseout(item.id)"
                                                                  class="well"
                                                                  :class="{
-                                                                     'disabled':
-                                                                        layout_mode === 'samples' && (!item.content.role || item.content.role === 'empty')
-                                                                        ||
-                                                                        layout_mode === 'rates' && (!item.content.role || item.content.role === 'empty' || item.content.role === 'ctrl_wo_sample')
-                                                                        ||
-                                                                        layout_mode === 'condition_sets' && (!item.content.role || item.content.role === 'empty')
-                                                                        ||
-                                                                        layout_mode === 'replicates' && (!item.content.role || item.content.role === 'empty')
+                                                                     'disabled': item.disable
                                                                  }">
                                                                     <div class="well-inner"
                                                                     :class="{

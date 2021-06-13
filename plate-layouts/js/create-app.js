@@ -187,6 +187,7 @@ var create_app = new Vue({
                         replicate: '',
                     },
                     highlight: false,
+                    disable: false,
                 });
             }
         },
@@ -249,6 +250,7 @@ var create_app = new Vue({
                     replicate: '',
                 },
                 highlight: false,
+                disable: false,
             });
         }
         var self = this;
@@ -382,10 +384,17 @@ var create_app = new Vue({
             if (this.shiftKeyPressed) {
                 var first_item = parseInt(this.current_selection_sorted(this.selected_wells)[0]);
                 var last_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
+                if (last_item < first_item) {
+                    var first_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
+                    var last_item = parseInt(this.current_selection_sorted(this.selected_wells)[this.selected_wells.length - 1]);
+                }
                 var range = last_item - first_item + 1;
                 this.selected_wells = [];
                 for (var i = 0; i < range; i++) {
-                    this.selected_wells.push(first_item.toString());
+                    var well = this.getObjectByKey(this.layout.wells, 'id', first_item.toString());
+                    if (!well.disable) {
+                        this.selected_wells.push(first_item.toString());
+                    }
                     first_item = parseInt(first_item) + 1;
                 }
             }
@@ -405,6 +414,23 @@ var create_app = new Vue({
             }
         },
         check_selection: function () {
+            for (var i = 0; i < this.layout.wells.length; i++) {
+                var well = this.layout.wells[i];
+                if (
+                    this.layout_mode === 'samples' && (!well.content.role || well.content.role === 'empty')
+                    ||
+                    this.layout_mode === 'rates' && (!well.content.role || well.content.role === 'empty' || well.content.role === 'ctrl_wo_sample')
+                    ||
+                    this.layout_mode === 'condition_sets' && (!well.content.role || well.content.role === 'empty')
+                    ||
+                    this.layout_mode === 'replicates' && (!well.content.role || well.content.role === 'empty')
+                ) {
+                    well.disable = true;
+                }
+                else {
+                    well.disable = false;
+                }
+            }
             for (var i = 0; i < this.selected_wells.length; i++) {
                 var well_role = this.getObjectByKey(this.layout.wells, 'id', this.selected_wells[i]).content.role;
                 if (
@@ -689,6 +715,8 @@ var create_app = new Vue({
                     condition_set: '',
                     replicate: '',
                 };
+                this.layout.wells[i].highlight = false;
+                this.layout.wells[i].disable = false;
             }
             this.layout_mode = 'roles';
             this.selected_wells = [];
