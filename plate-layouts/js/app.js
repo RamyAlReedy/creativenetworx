@@ -434,8 +434,10 @@ var app = new Vue({
                 this.getObjectByKey(this.plates[this.current_plate_index].wells, 'id', array[i]).content = this.selected_treatments[i];
                 this.getObjectByKey(this.treatments, 'id', this.selected_treatments[i]).place = { plate_id: this.plates[this.current_plate_index].id, well_id: array[i] };
             }
-            this.selected_treatments = [];
-            this.selected_wells = [];
+            this.$nextTick(function () {
+                this.selected_treatments = [];
+                this.selected_wells = [];
+            });
         },
         place_across: function () {
             this.current_selection_sorted(this.selected_wells);
