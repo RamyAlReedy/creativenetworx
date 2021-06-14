@@ -164,16 +164,22 @@ var create_app = new Vue({
         replicate_color_index: 0,
         highlight_by: '',
         highlight_id: 0,
+        mousedown: false,
+        mousedown_target: null,
+        temp_selection: [],
         shiftKeyPressed: false,
         ctrlKeyPressed: false,
         selected_columns: [],
         selected_rows: [],
         last_col_index: -1,
         last_row_index: -1,
+        all_wells_selected: false,
         auto_set_data: {
             starting_number: 1,
             direction: 'across',
         },
+        createModalScrollInterval: null,
+        createMultiplePluginIntervals: [],
     },
     watch: {
         layout_size: function () {
@@ -245,9 +251,14 @@ var create_app = new Vue({
             this.selected_rows = [];
             this.last_col_index = -1;
             this.last_row_index = -1;
+            this.all_wells_selected = false;
             var columns = {};
             var rows = {};
             var rows_letters_array = Object.values(this.well_row_letters);
+
+            var columns_count = this.plate_sizes[this.layout.size].columns;
+            var rows_count = this.plate_sizes[this.layout.size].rows;
+
             for (var i = 0; i < this.selected_wells.length; i++) {
 
                 var well_location = this.get_well_location(this.selected_wells[i]);
@@ -264,8 +275,21 @@ var create_app = new Vue({
 
             }
 
+            var self = this;
+
             for (var key of Object.keys(columns)) {
-                if (columns[key].length === this.plate_sizes[this.layout.size].rows) {
+                var id = key;
+                var well_ids = [id.toString()];
+                for (var i = 0; i < rows_count - 1; i++) {
+                    id = parseInt(id) + columns_count;
+                    well_ids.push(id.toString());
+                }
+                var enabled_wells_count = well_ids.reduce(function(n, well_id) {
+                    var well = self.getObjectByKey(self.layout.wells, 'id', well_id);
+                    return n + (!well.disable);
+                }, 0);
+
+                if (columns[key].length === this.plate_sizes[this.layout.size].rows || columns[key].length === enabled_wells_count) {
                     this.selected_columns.push(key - 1);
                     if (Object.keys(columns).length === 1) {
                         this.last_col_index = key - 1;
@@ -274,13 +298,33 @@ var create_app = new Vue({
             }
 
             for (var key of Object.keys(rows)) {
-                if (rows[key].length === this.plate_sizes[this.layout.size].columns) {
-                    var row_index = rows_letters_array.indexOf(key);
+                var row_index = rows_letters_array.indexOf(key);
+                var id = columns_count * (row_index + 1) - columns_count + 1;
+                var well_ids = [id.toString()];
+                for (var i = 0; i < columns_count - 1; i++) {
+                    id = parseInt(id) + 1;
+                    well_ids.push(id.toString());
+                }
+                var enabled_wells_count = well_ids.reduce(function(n, well_id) {
+                    var well = self.getObjectByKey(self.layout.wells, 'id', well_id);
+                    return n + (!well.disable);
+                }, 0);
+
+                if (rows[key].length === this.plate_sizes[this.layout.size].columns || rows[key].length === enabled_wells_count) {
+
                     this.selected_rows.push(row_index);
                     if (Object.keys(rows).length === 1) {
                         this.last_row_index = row_index;
                     }
                 }
+            }
+
+            var all_enabled_wells_count = this.layout.wells.reduce(function(n, well) {
+                return n + (!well.disable);
+            }, 0);
+
+            if (this.selected_wells.length === all_enabled_wells_count) {
+                this.all_wells_selected = true;
             }
         },
     },
@@ -321,6 +365,27 @@ var create_app = new Vue({
             self.ctrlKeyPressed = false;
             self.shiftKeyPressed = false;
         });
+
+        document.addEventListener('mousedown', function (e) {
+            self.mousedown = true;
+            self.mousedown_target = e.target;
+        });
+        document.addEventListener('mouseup', function () {
+            self.mousedown = false;
+            self.mousedown_target = null;
+            if (self.temp_selection.length) {
+                self.temp_selection = self.remove_duplicates(self.temp_selection);
+                self.selected_wells.push.apply(self.selected_wells, self.temp_selection);
+                self.selected_wells = self.remove_duplicates(self.selected_wells);
+            }
+            self.temp_selection = [];
+
+            // for (var i = 0; i < self.createMultiplePluginIntervals.length; i++) {
+            //     clearInterval(self.createMultiplePluginIntervals[i]);
+            // }
+        });
+
+        //document.addEventListener('mousemove', this.selection_move_scroll);
     },
     methods: {
         getObjectByKey: function (array, key, value) {
@@ -338,6 +403,15 @@ var create_app = new Vue({
                 }
             }
             return null;
+        },
+        remove_duplicates: function (array) {
+            var unique = {};
+            array.forEach(function(i) {
+              if(!unique[i]) {
+                unique[i] = true;
+              }
+            });
+            return Object.keys(unique);
         },
         hexToRgb: function (hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -425,16 +499,22 @@ var create_app = new Vue({
             });
         },
         new_selection_sorted: function (selection) {
-            return selection.concat().sort();
+            return selection.concat().sort(function(a,b){
+                return parseInt(a) - parseInt(b);
+            });
         },
         selection: function (new_selection) {
+            var first_item = parseInt(this.current_selection_sorted(this.selected_wells)[0]);
+            var last_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
+
+            if (last_item < first_item) {
+                var first_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
+                var last_item = parseInt(this.current_selection_sorted(this.selected_wells)[this.selected_wells.length - 1]);
+            }
+
             if (this.shiftKeyPressed) {
-                var first_item = parseInt(this.current_selection_sorted(this.selected_wells)[0]);
-                var last_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
-                if (last_item < first_item) {
-                    var first_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
-                    var last_item = parseInt(this.current_selection_sorted(this.selected_wells)[this.selected_wells.length - 1]);
-                }
+
+
                 var range = last_item - first_item + 1;
                 this.selected_wells = [];
                 for (var i = 0; i < range; i++) {
@@ -446,13 +526,18 @@ var create_app = new Vue({
                 }
             }
             else if (this.ctrlKeyPressed) {
-                for (var i = 0; i < new_selection.length; i++) {
-                    var existingIndex = this.selected_wells.indexOf(new_selection[i]);
-                    if (existingIndex > -1) {
-                        this.selected_wells.splice(existingIndex, 1);
-                    }
-                    else {
-                        this.selected_wells.push(new_selection[i]);
+                if (this.mousedown) {
+                    this.temp_selection.push.apply(this.temp_selection, new_selection);
+                }
+                else {
+                    for (var i = 0; i < new_selection.length; i++) {
+                        var existingIndex = this.selected_wells.indexOf(new_selection[i]);
+                        if (existingIndex > -1) {
+                            this.selected_wells.splice(existingIndex, 1);
+                        }
+                        else {
+                            this.selected_wells.push(new_selection[i]);
+                        }
                     }
                 }
             }
@@ -460,6 +545,74 @@ var create_app = new Vue({
                 this.selected_wells = new_selection;
             }
         },
+        selection_move_scroll: function (e) {
+            if (this.mousedown) {
+
+               for (var i = 0; i < this.createMultiplePluginIntervals.length; i++) {
+                   clearInterval(this.createMultiplePluginIntervals[i]);
+               }
+
+               var mouseX = e.pageX, mouseY = e.pageY;
+
+               var scrollContainer;
+               if (jQuery(this.mousedown_target).is('.plate-container, .plate-container *')) {
+                   scrollContainer = jQuery('.plate-container');
+               }
+
+               if (scrollContainer) {
+                   var scrollContainerWidth = scrollContainer.outerWidth();
+                   var scrollContainerHeight = scrollContainer.outerHeight();
+                   var scrollContainerPosX = scrollContainer.offset().left;
+                   var scrollContainerPosXEdge = scrollContainerPosX + scrollContainerWidth;
+                   var scrollContainerPosY = scrollContainer.offset().top;
+                   var scrollContainerPosYEdge = scrollContainerPosY + scrollContainerHeight;
+
+                   if (mouseX < scrollContainerPosX || mouseX >= scrollContainerPosXEdge) {
+
+                       var scrollDirection, scrollSpeed;
+                       if (mouseX < scrollContainerPosX) {
+                           scrollDirection = -10;
+                           scrollSpeed = Math.floor(1/Math.abs(mouseX) * 200);
+                       }
+                       else if (mouseX >= scrollContainerPosXEdge) {
+                           scrollDirection = 10;
+                           scrollSpeed = Math.floor(1/(mouseX - scrollContainerPosXEdge) * 200);
+                       }
+
+                       this.createMultiplePluginIntervals.push(
+                           this.createModalScrollInterval = setInterval(function () {
+                               var currentScrollLeft = scrollContainer.scrollLeft();
+                               scrollContainer.scrollLeft(currentScrollLeft + scrollDirection);
+                           }, scrollSpeed)
+                       );
+                   }
+                   else if (mouseY < scrollContainerPosY || mouseY >= scrollContainerPosYEdge) {
+
+                       var scrollDirection, scrollSpeed;
+                       if (mouseY < scrollContainerPosY) {
+                           scrollDirection = -10;
+                           scrollSpeed = Math.floor(1/Math.abs(mouseY) * 200);
+                       }
+                       else if (mouseY >= scrollContainerPosYEdge) {
+                           scrollDirection = 10;
+                           scrollSpeed = Math.floor(1/(mouseY - scrollContainerPosYEdge) * 200);
+                       }
+
+                       this.createMultiplePluginIntervals.push(
+                           this.createModalScrollInterval = setInterval(function () {
+                               var currentScrollTop = scrollContainer.scrollTop();
+                               scrollContainer.scrollTop(currentScrollTop + scrollDirection);
+                           }, scrollSpeed)
+                       );
+                   }
+                   else {
+                       for (var i = 0; i < this.createMultiplePluginIntervals.length; i++) {
+                           clearInterval(this.createMultiplePluginIntervals[i]);
+                       }
+                   }
+               }
+           }
+       },
         check_selection: function () {
             for (var i = 0; i < this.layout.wells.length; i++) {
                 var well = this.layout.wells[i];
@@ -1035,7 +1188,10 @@ var create_app = new Vue({
                 }
 
                 for (var i = 0; i < well_ids.length; i++) {
-                    this.selected_wells.push(well_ids[i]);
+                    var well = this.getObjectByKey(this.layout.wells, 'id', well_ids[i]);
+                    if (!well.disable) {
+                        this.selected_wells.push(well_ids[i]);
+                    }
                 }
             }
 
@@ -1058,21 +1214,23 @@ var create_app = new Vue({
                 }
 
                 for (var i = 0; i < well_ids.length; i++) {
-                    var id_index = this.selected_wells.indexOf(well_ids[i]);
-                    if (id_index > -1) {
-                        this.selected_wells.splice(id_index, 1);
-                    }
-                    else {
+                    var well = this.getObjectByKey(this.layout.wells, 'id', well_ids[i]);
+                    if (!well.disable) {
                         this.selected_wells.push(well_ids[i]);
                     }
                 }
             }
         },
         select_deselect_all: function () {
-            if (this.selected_wells.length !== this.layout.wells.length) {
+            var all_enabled_wells_count = this.layout.wells.reduce(function(n, well) {
+                return n + (!well.disable);
+            }, 0);
+            if (this.selected_wells.length !== all_enabled_wells_count) {
                 this.selected_wells = [];
                 for (var i = 0; i < this.layout.wells.length; i++) {
-                    this.selected_wells.push(this.layout.wells[i].id.toString());
+                    if (!this.layout.wells[i].disable) {
+                        this.selected_wells.push(this.layout.wells[i].id.toString());
+                    }
                 }
             }
             else {
@@ -1194,7 +1352,7 @@ var create_app = new Vue({
 });
 
 jQuery(document).on('mousedown', function (e) {
-    if (jQuery(e.target).is('.plate-container .drag-select-container, .plate-top-bar, .plate-corner, .plate-columns, .plate-rows')) {
+    if (jQuery(e.target).is('.plate-container .drag-select-container, .plate-top-bar, .plate-corner, .plate-columns, .plate-rows, .well.disabled')) {
         create_app.selected_wells = [];
     }
 });

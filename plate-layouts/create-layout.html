@@ -30,7 +30,7 @@
                 <div class="fi-modal-inner">
                     <div class="fi-modal-content">
 
-                        <div><button class="fi-close-button circle-close"></button></div>
+                        <div><a href="https://fw0vah.axshare.com/#g=1&p=plate_layouts&c=1" class="fi-close-button circle-close"></a></div>
 
                         <div class="fi-modal-body fi-no-padding">
 
@@ -52,7 +52,7 @@
                                                         <span class="fi-form-label">Size</span>
                                                         <div class="custom-dropdown">
                                                             <select class="fi-form-control" v-model="layout.size">
-                                                                <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x({{ size.rows }})</option>
+                                                                <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -155,7 +155,7 @@
                                                     <div class="plate-top-bar">
 
                                                         <div class="plate-corner">
-                                                            <div class="plate-select-all" :class="{'selected': selected_wells.length === layout.wells.length}" @click="select_deselect_all"></div>
+                                                            <div class="plate-select-all" :class="{'selected': all_wells_selected}" @click="select_deselect_all"></div>
                                                         </div>
 
                                                         <div class="plate-columns">
@@ -182,7 +182,7 @@
                                                                  }">
                                                                     <div class="well-inner"
                                                                     :class="{
-                                                                        'selected': selected_wells.includes(String(item.id)),
+                                                                        'selected': selected_wells.includes(String(item.id)) || temp_selection.includes(String(item.id)),
                                                                         'role-set': item.content.role,
                                                                         'highlighted': item.highlight
                                                                        }">
@@ -262,7 +262,7 @@
 
                                                         <li class="color-key" :class="{'active': highlight_by === 'condition_set_not_set', 'none': !condition_set_not_set_count}" v-if="layout_mode === 'condition_sets'">
                                                             <div class="color-key-button" @click="highlight('condition_set_not_set')" v-click-outside="reset_highlight">
-                                                                <span class="circle condition-set-not-set"></span>Condition set not set ({{ condition_set_not_set_count }})
+                                                                <span class="circle condition-set-not-set"></span>Condition Set not set ({{ condition_set_not_set_count }})
                                                             </div>
                                                         </li>
                                                         <li class="color-key" :class="{'active': highlight_by === 'condition_set' && highlight_id == condition_set.id}" v-if="layout_mode === 'condition_sets'" v-for="condition_set in sorted_condition_sets">

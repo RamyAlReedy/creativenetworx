@@ -184,12 +184,17 @@ var app = new Vue({
         s_active: false,
         r_active: false,
         highlight_by: '',
+        mousedown: false,
+        mousedown_target: null,
+        temp_selection: [],
         shiftKeyPressed: false,
         ctrlKeyPressed: false,
         selected_columns: [],
         selected_rows: [],
         last_col_index: -1,
         last_row_index: -1,
+        createModalScrollInterval: null,
+        createMultiplePluginIntervals: [],
     },
     watch: {
         selected_wells: function () {
@@ -258,6 +263,32 @@ var app = new Vue({
             self.ctrlKeyPressed = false;
             self.shiftKeyPressed = false;
         });
+
+        document.addEventListener('mousedown', function (e) {
+            self.mousedown = true;
+            self.mousedown_target = e.target;
+        });
+        document.addEventListener('mouseup', function () {
+            self.mousedown = false;
+            self.mousedown_target = null;
+            var option3 = jQuery('.option-3-container').length;
+            if (self.temp_selection.length) {
+                self.temp_selection = self.remove_duplicates(self.temp_selection);
+                self.selected_wells.push.apply(self.selected_wells, self.temp_selection);
+                self.selected_wells = self.remove_duplicates(self.selected_wells);
+                if (option3) {
+                    self.selected_treatments.push.apply(self.selected_treatments, self.temp_selection);
+                    self.selected_treatments = self.remove_duplicates(self.selected_treatments);
+                }
+            }
+            self.temp_selection = [];
+
+            // for (var i = 0; i < self.createMultiplePluginIntervals.length; i++) {
+            //     clearInterval(self.createMultiplePluginIntervals[i]);
+            // }
+        });
+
+        //document.addEventListener('mousemove', this.selection_move_scroll);
     },
     methods: {
         choose_layout: function (layout_id) {
@@ -371,6 +402,15 @@ var app = new Vue({
             }
             return null;
         },
+        remove_duplicates: function (array) {
+            var unique = {};
+            array.forEach(function(i) {
+              if(!unique[i]) {
+                unique[i] = true;
+              }
+            });
+            return Object.keys(unique);
+        },
         count_placed_treatments: function () {
             var count = 0;
             for (var i = 0; i < this.treatments.length; i++) {
@@ -428,7 +468,12 @@ var app = new Vue({
         new_selection_sorted: function (selection) {
             return selection.concat().sort();
         },
+        selection_treatments: function (new_selection) {
+            console.log('selection_treatments');
+            this.selected_treatments = new_selection;
+        },
         selection: function (new_selection) {
+            var option3 = jQuery('.option-3-container').length;
             if (this.shiftKeyPressed) {
                 var first_item = parseInt(this.current_selection_sorted(this.selected_wells)[0]);
                 var last_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
@@ -438,26 +483,120 @@ var app = new Vue({
                 }
                 var range = last_item - first_item + 1;
                 this.selected_wells = [];
+                if (option3) {
+                    this.selected_treatments = [];
+                }
                 for (var i = 0; i < range; i++) {
                     this.selected_wells.push(first_item.toString());
+                    if (option3) {
+                        this.selected_treatments.push(first_item.toString());
+                    }
                     first_item = parseInt(first_item) + 1;
                 }
             }
             else if (this.ctrlKeyPressed) {
-                for (var i = 0; i < new_selection.length; i++) {
-                    var existingIndex = this.selected_wells.indexOf(new_selection[i]);
-                    if (existingIndex > -1) {
-                        this.selected_wells.splice(existingIndex, 1);
-                    }
-                    else {
-                        this.selected_wells.push(new_selection[i]);
+                if (this.mousedown) {
+                    console.log('mousedown');
+                    this.temp_selection.push.apply(this.temp_selection, new_selection);
+                }
+                else {
+                    console.log('no mousedown');
+                    for (var i = 0; i < new_selection.length; i++) {
+                        var existingIndex = this.selected_wells.indexOf(new_selection[i]);
+                        if (existingIndex > -1) {
+                            this.selected_wells.splice(existingIndex, 1);
+                            if (option3) {
+                                this.selected_treatments.splice(existingIndex, 1);
+                            }
+                        }
+                        else {
+                            this.selected_wells.push(new_selection[i]);
+                            if (option3) {
+                                this.selected_treatments.push(new_selection[i]);
+                            }
+                        }
                     }
                 }
             }
             else {
+                console.log('else');
                 this.selected_wells = new_selection;
+                if (option3) {
+                    this.selected_treatments = new_selection;
+                }
             }
         },
+        selection_move_scroll: function (e) {
+            if (this.mousedown) {
+
+               for (var i = 0; i < this.createMultiplePluginIntervals.length; i++) {
+                   clearInterval(this.createMultiplePluginIntervals[i]);
+               }
+
+               var mouseX = e.pageX, mouseY = e.pageY;
+
+               var scrollContainer;
+               if (jQuery(this.mousedown_target).is('.plate-container, .plate-container *')) {
+                   scrollContainer = jQuery('.plate-container');
+               }
+               else if (jQuery(this.mousedown_target).is('.treatments-inner, .treatments-inner *')) {
+                   scrollContainer = jQuery('.treatments-inner');
+               }
+
+               if (scrollContainer) {
+                   var scrollContainerWidth = scrollContainer.outerWidth();
+                   var scrollContainerHeight = scrollContainer.outerHeight();
+                   var scrollContainerPosX = scrollContainer.offset().left;
+                   var scrollContainerPosXEdge = scrollContainerPosX + scrollContainerWidth;
+                   var scrollContainerPosY = scrollContainer.offset().top;
+                   var scrollContainerPosYEdge = scrollContainerPosY + scrollContainerHeight;
+
+                   if (mouseX < scrollContainerPosX || mouseX >= scrollContainerPosXEdge) {
+
+                       var scrollDirection, scrollSpeed;
+                       if (mouseX < scrollContainerPosX) {
+                           scrollDirection = -10;
+                           scrollSpeed = Math.floor(1/Math.abs(mouseX) * 200);
+                       }
+                       else if (mouseX >= scrollContainerPosXEdge) {
+                           scrollDirection = 10;
+                           scrollSpeed = Math.floor(1/(mouseX - scrollContainerPosXEdge) * 200);
+                       }
+
+                       this.createMultiplePluginIntervals.push(
+                           this.createModalScrollInterval = setInterval(function () {
+                               var currentScrollLeft = scrollContainer.scrollLeft();
+                               scrollContainer.scrollLeft(currentScrollLeft + scrollDirection);
+                           }, scrollSpeed)
+                       );
+                   }
+                   else if (mouseY < scrollContainerPosY || mouseY >= scrollContainerPosYEdge) {
+
+                       var scrollDirection, scrollSpeed;
+                       if (mouseY < scrollContainerPosY) {
+                           scrollDirection = -10;
+                           scrollSpeed = Math.floor(1/Math.abs(mouseY) * 200);
+                       }
+                       else if (mouseY >= scrollContainerPosYEdge) {
+                           scrollDirection = 10;
+                           scrollSpeed = Math.floor(1/(mouseY - scrollContainerPosYEdge) * 200);
+                       }
+
+                       this.createMultiplePluginIntervals.push(
+                           this.createModalScrollInterval = setInterval(function () {
+                               var currentScrollTop = scrollContainer.scrollTop();
+                               scrollContainer.scrollTop(currentScrollTop + scrollDirection);
+                           }, scrollSpeed)
+                       );
+                   }
+                   else {
+                       for (var i = 0; i < this.createMultiplePluginIntervals.length; i++) {
+                           clearInterval(this.createMultiplePluginIntervals[i]);
+                       }
+                   }
+               }
+           }
+       },
         well_mouseover: function (id) {
             var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
             var row_index = Math.floor((parseInt(id)-1)/columns);
@@ -707,6 +846,7 @@ var app = new Vue({
                 }
 
                 for (var i = 0; i < well_ids.length; i++) {
+                    var well = this.getObjectByKey(this.plates[this.current_plate_index].wells, 'id', well_ids[i]);
                     this.selected_wells.push(well_ids[i]);
                 }
             }
@@ -730,11 +870,7 @@ var app = new Vue({
                 }
 
                 for (var i = 0; i < well_ids.length; i++) {
-                    var id_index = this.selected_wells.indexOf(well_ids[i]);
-                    if (id_index > -1) {
-                        this.selected_wells.splice(id_index, 1);
-                    }
-                    else {
+                    for (var i = 0; i < well_ids.length; i++) {
                         this.selected_wells.push(well_ids[i]);
                     }
                 }

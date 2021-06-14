@@ -24,7 +24,7 @@
                 <div class="fi-modal-inner">
                     <div class="fi-modal-content">
 
-                        <div><button class="fi-close-button circle-close"></button></div>
+                        <div><a href="https://fw0vah.axshare.com/#g=1&p=home&c=1" class="fi-close-button circle-close"></a></div>
 
                         <div class="fi-modal-body fi-no-padding">
 
@@ -148,10 +148,12 @@
                                                     <div class="fi-form-field">
                                                         <div class="fi-dropdown fi-opposite">
                                                             <button type="button" class="fi-dropdown-trigger more-button fi-button fi-default fi-small"><i class="fa fa-ellipsis-v"></i></button>
-                                                            <div class="fi-dropdown-content fi-tiny">
+                                                            <div class="fi-dropdown-content fi-small">
                                                                 <ul>
                                                                     <li><a href="#">Duplicate Plate</a></li>
                                                                     <li><a href="#" data-fi-modal=".edit_plate_modal" @click.prevent="open_edit_plate(plates[current_plate_index].id)">Edit Plate</a></li>
+                                                                    <li><a href="#">Save as Standrad Layout</a></li>
+                                                                    <li class="fi-divider"></li>
                                                                     <li><a href="#" @click.prevent="delete_plate(current_plate_index)">Delete Plate</a></li>
                                                                 </ul>
                                                             </div>
@@ -178,12 +180,14 @@
                                                             <div class="cell replicate">Replicate</div>
                                                             <div class="cell method">Method</div>
                                                         </div>
-                                                        <drag-select attribute="attr" @change="selected_treatments = $event; selected_wells = $event" class="treatment-list">
+                                                        <drag-select attribute="attr" @change="selection($event)" class="treatment-list">
                                                             <template v-slot="{ selected }">
                                                                 <div v-for="item in plates[current_plate_index].wells"
                                                                  :attr="item.id"
                                                                  class="treatment-item"
-                                                                 :class="{'selected': selected_treatments.includes(String(item.id))}">
+                                                                 :class="{
+                                                                     'selected': selected_treatments.includes(String(item.id)) || temp_selection.includes(String(item.id)),
+                                                                 }">
                                                                     <span class="cell place">
                                                                         {{ get_well_location(item.id).row }}-{{ get_well_location(item.id).column }}
                                                                     </span>
@@ -231,11 +235,11 @@
                                                     <div class="plate-top-bar">
 
                                                         <div class="plate-corner">
-                                                            <div class="plate-select-all"></div>
+                                                            <div class="plate-select-all" :class="{'selected': selected_wells.length === plates[current_plate_index].wells.length}" @click="select_deselect_all"></div>
                                                         </div>
 
                                                         <div class="plate-columns">
-                                                            <div v-for="(plate_column, index) in plate_sizes[plates[current_plate_index].size].columns" class="plate-column">{{ index + 1 }}</div>
+                                                            <div v-for="(plate_column, index) in plate_sizes[plates[current_plate_index].size].columns" class="plate-column" :class="{'selected': selected_columns.includes(index)}" @click="select_deselect_column(index)">{{ index + 1 }}</div>
                                                         </div>
 
                                                     </div>
@@ -243,10 +247,10 @@
                                                     <div class="plate-inner" :class="{'filter-match': plates[current_plate_index].filter_match}">
 
                                                         <div class="plate-rows">
-                                                            <div v-for="(plate_row, index) in plate_sizes[plates[current_plate_index].size].rows" class="plate-row">{{ well_row_letters[index] }}</div>
+                                                            <div v-for="(plate_row, index) in plate_sizes[plates[current_plate_index].size].rows" class="plate-row" :class="{'selected': selected_rows.includes(index)}" @click="select_deselect_row(index)">{{ well_row_letters[index] }}</div>
                                                         </div>
 
-                                                        <drag-select attribute="attr" @change="selected_wells = $event; selected_treatments = $event;">
+                                                        <drag-select attribute="attr" @change="selection($event)">
                                                             <template v-slot="{ selected }">
                                                                 <div v-for="item in plates[current_plate_index].wells"
                                                                  :attr="item.id"
@@ -255,11 +259,10 @@
                                                                  class="well"
                                                                  :class="{
                                                                      'filter-match': item.filter_match,
-                                                                     'disabled': filters_active && !item.filter_match,
                                                                  }">
                                                                     <div class="well-inner"
                                                                     :class="{
-                                                                        'selected': selected_wells.includes(String(item.id)),
+                                                                        'selected': selected_wells.includes(String(item.id)) || temp_selection.includes(String(item.id)),
                                                                         'highlighted': item.highlight,
                                                                     }">
                                                                         <div v-if="item.content" class="well-content" :class="{'filter-match': item.filter_match}">

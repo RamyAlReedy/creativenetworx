@@ -1442,7 +1442,7 @@ a.fi-close-button, button.fi-close-button {
 }
 
 .fi-dropdown-content.fi-full-width .fi-search + ul {
-    max-height: 20rem;
+    max-height: 26rem;
     overflow: auto;
     border-top: 1px solid #ddd;
 }
@@ -1451,7 +1451,6 @@ a.fi-close-button, button.fi-close-button {
 .fi-no-spacing li + .fi-dropdown-header {
     background-color: #eaeaea;
     padding: 0.5rem 1rem;
-    border: none;
     font-weight: 700;
 }
 
@@ -1471,6 +1470,10 @@ a.fi-close-button, button.fi-close-button {
 .fi-no-spacing li + .fi-dropdown-header {
     margin-top: 0.75rem;
     border-top: 1px solid #ddd;
+}
+
+.fi-no-spacing .fi-dropdown-header + li {
+    border-top: none;
 }
 
 .fi-panel.special {
@@ -1708,4 +1711,28 @@ a.fi-close-button, button.fi-close-button {
     align-items: center;
     justify-content: center;
     border-top: 1px solid #ddd;
+}
+
+.blurb {
+    display: flex;
+}
+
+    .blurb .blurb-media {
+        margin-right: 0.625rem;
+    }
+
+    .blurb .blurb-content {
+        padding-top: 0.625rem;
+    }
+
+.thumb {
+    width: 5rem;
+    border: 1px solid #797979;
+    background-color: #f2f2f2;
+}
+
+.thumb:before {
+    content: "";
+    display: block;
+    padding-top: 66.66667%;
 }
