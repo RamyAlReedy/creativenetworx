@@ -477,30 +477,40 @@
                                                 </span>
                                                 <i class="far fa-angle-down"></i>
                                             </button>
-                                            <div class="fi-dropdown-content fi-full-width">
+                                            <div class="fi-dropdown-content fi-full-width play-layout-selector">
                                                 <div class="fi-form-field fi-search"><input type="search" class="fi-form-control" placeholder="Search Layouts..."></div>
                                                 <ul class="fi-list fi-list-line fi-no-spacing fi-no-margin">
                                                     <li class="fi-dropdown-header"><strong>Recommended Layouts</strong></li>
-                                                    <li v-for="plate_layout in plate_layouts" v-if="plate_layout.recommended" :class="{'active': generate_plates_data.plate_layout.id == plate_layout.id}">
+                                                    <li v-for="plate_layout in plate_layouts" v-if="plate_layout.recommended.length" :class="{'active': generate_plates_data.plate_layout.id == plate_layout.id}">
                                                         <a href="#" @click.prevent="choose_layout(plate_layout.id)">
-                                                            <div class="blurb">
+                                                            <div class="blurb layout-blurb">
                                                                 <div class="blurb-media"><div class="thumb"></div></div>
                                                                 <div class="blurb-content">
-                                                                    <strong>{{ plate_layout.name }}</strong> <br />{{ plate_sizes[plate_layout.size].name }} ({{plate_sizes[plate_layout.size].columns}}x{{plate_sizes[plate_layout.size].rows}})
+                                                                    <h4><strong>{{ plate_layout.name }}</strong></h4>
+                                                                    <div class="fi-text-light">{{ plate_sizes[plate_layout.size].name }} ({{plate_sizes[plate_layout.size].columns}}x{{plate_sizes[plate_layout.size].rows}})</div>
+                                                                    <div class="recommended">
+                                                                        <h5>Recommended for:</h5>
+                                                                        <div class="tags">
+                                                                            <span class="fi-badge" v-for="method_name in plate_layout.recommended">{{ method_name }}</span>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </a>
+                                                        <button class="fi-button fi-button-icon info-button"><i class="far fa-info-circle"></i></button>
                                                     </li>
                                                     <li class="fi-dropdown-header"><strong>More Layouts</strong></li>
-                                                    <li v-for="plate_layout in plate_layouts" v-if="!plate_layout.recommended" :class="{'active': generate_plates_data.plate_layout.id == plate_layout.id}">
+                                                    <li v-for="plate_layout in plate_layouts" v-if="!plate_layout.recommended.length" :class="{'active': generate_plates_data.plate_layout.id == plate_layout.id}">
                                                         <a href="#" @click.prevent="choose_layout(plate_layout.id)">
-                                                            <div class="blurb">
+                                                            <div class="blurb layout-blurb">
                                                                 <div class="blurb-media"><div class="thumb"></div></div>
                                                                 <div class="blurb-content">
-                                                                    <strong>{{ plate_layout.name }}</strong> <br />{{ plate_sizes[plate_layout.size].name }} ({{plate_sizes[plate_layout.size].columns}}x{{plate_sizes[plate_layout.size].rows}})
+                                                                    <h4><strong>{{ plate_layout.name }}</strong></h4>
+                                                                    <div class="fi-text-light">{{ plate_sizes[plate_layout.size].name }} ({{plate_sizes[plate_layout.size].columns}}x{{plate_sizes[plate_layout.size].rows}})</div>
                                                                 </div>
                                                             </div>
                                                         </a>
+                                                        <button class="fi-button fi-button-icon info-button"><i class="far fa-info-circle"></i></button>
                                                     </li>
                                                 </ul>
                                             </div>
