@@ -414,6 +414,13 @@
     margin-right: 2rem;
 }
 
+.fi-form.fi-form-inline .fi-form-text {
+    height: 2.4375em;
+    margin: 0;
+    padding: 0.5em 0;
+    border: 1px solid transparent;
+}
+
 .actions {
     display: flex;
     align-items: center;
@@ -892,8 +899,22 @@ a.fi-close-button, button.fi-close-button {
 .plate-column:hover,
 .plate-column.hover,
 .plate-row:hover,
-.plate-row.hover {
+.plate-row.hover,
+.well:hover .well-inner {
     background-color: #d4f0ff;
+}
+
+
+.plate-container.view-mode .plate-column.hover,
+.plate-container.view-mode .plate-row.hover {
+    background-color: #f2f2f2;
+}
+
+.plate-container.view-mode .plate-select-all:hover,
+.plate-container.view-mode .plate-column:hover,
+.plate-container.view-mode .plate-row:hover,
+.plate-container.view-mode .well:hover .well-inner {
+    background-color: transparent;
 }
 
 .plate-select-all.selected,
@@ -969,10 +990,6 @@ a.fi-close-button, button.fi-close-button {
     background-color: #fff;
     border: 1px solid #797979;
 }
-
-    .well:hover .well-inner {
-        background-color: #d4f0ff;
-    }
 
 .well-inner.role-set {
     border-color: #333;

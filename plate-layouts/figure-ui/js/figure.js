@@ -793,7 +793,8 @@ Figure.modal = function (element, options) {
             var largeScreen = screenSize == 'large' || screenSize == 'xlarge';
 
             clearTimeout(Figure.buttonFocusTimeout);
-            if (!jQuery('[data-fi-focus]').length && largeScreen) {
+            if (largeScreen) {
+                jQuery('[data-fi-focus]').removeAttr('data-fi-focus');
                 jQuery(document.activeElement).attr('data-fi-focus', '');
             }
 
@@ -1778,7 +1779,11 @@ Figure.hideOtherPagesElements = function () {
 
 Figure.hideAllDropdownMenus = function () {
     if (jQuery('.fi-dropdown.fi-dropdown-open').length) {
-        Figure.toggleDropdown(jQuery('.fi-dropdown-open').not('.fi-mobile-dropdown-active'));
+        jQuery('.fi-dropdown-open').not('.fi-mobile-dropdown-active').each(function () {
+            if (!jQuery(this).find('[data-fi-focus]').length) {
+                Figure.toggleDropdown(jQuery(this));
+            }
+        });
     }
 };
 
