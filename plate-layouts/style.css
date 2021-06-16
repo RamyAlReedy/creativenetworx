@@ -1500,10 +1500,24 @@ a.fi-close-button, button.fi-close-button {
 }
 
 .fi-panel.special {
-    border: none;
-    background-color: #e5e5e5;
     padding: 0.75rem;
+    background-color: #e5e5e5;
+    border: none;
+    border-radius: 0.25rem;
 }
+
+.fi-panel.special.alert {
+    display: flex;
+    align-items: center;
+}
+
+    .fi-panel.special.alert i {
+        font-size: 1.125rem;
+    }
+
+    .fi-panel.special.alert .fi-button.fi-default {
+        margin-left: 0.75rem;
+    }
 
 .plates-grid-inner .fi-form.fi-form-horizontal .fi-form-label,
 .plates-grid-inner .fi-form.fi-form-horizontal .fi-form-text {
@@ -1604,6 +1618,7 @@ a.fi-close-button, button.fi-close-button {
 }
 
 .layout-mode {
+    position: relative;
     display: flex;
     padding: 0.75rem 1.5rem;
     border-top: 1px solid #ddd;
@@ -1612,6 +1627,13 @@ a.fi-close-button, button.fi-close-button {
     .layout-mode .fi-form.fi-form-inline {
         display: flex;
         align-items: center;
+    }
+
+    .layout-mode .alert {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0.375rem 0.75rem;
     }
 
 .fi-form-field.separator {

@@ -592,12 +592,12 @@
                                                 <button type="button" @click.prevent="" class="fi-button fi-default fi-small">Undo</button>
                                                 <button type="button" @click.prevent="" class="fi-button fi-default fi-small">Redo</button>
                                                 <button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Reset</button>
-                                                <button v-if="saved_before" type="button" @click.prevent="edit_mode = false" class="fi-button fi-default fi-small">Cancel</button>
-                                                <button v-if="!saved_before" class="fi-button fi-primary fi-small" @click.prevent="save_layout">Create</button>
-                                                <button v-else class="fi-button fi-primary fi-small" @click.prevent="save_layout">Save</button>
+                                                <button type="button" v-if="saved_before" @click.prevent="edit_mode = false" class="fi-button fi-default fi-small">Cancel</button>
+                                                <button type="button" v-if="!saved_before" class="fi-button fi-primary fi-small" @click.prevent="save_layout">Create</button>
+                                                <button type="button" v-else class="fi-button fi-primary fi-small" @click.prevent="save_layout">Save</button>
                                             </div>
                                             <div v-else class="main-actions fi-buttons-container fi-text-right">
-                                                <button class="fi-button fi-primary fi-small" @click.prevent="edit_mode = true">Edit Layout</button>
+                                                <button type="button" class="fi-button fi-primary fi-small" @click.prevent="edit_mode = true">Edit Layout</button>
                                             </div>
                                         </div>
 
@@ -611,6 +611,13 @@
                                                         <button type="button" @click.prevent="layout_mode = 'rates'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'rates', 'fi-primary': layout_mode === 'rates'}">Rates</button>
                                                         <button type="button" @click.prevent="layout_mode = 'condition_sets'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'condition_sets', 'fi-primary': layout_mode === 'condition_sets'}">Condition Sets</button>
                                                         <button type="button" @click.prevent="layout_mode = 'replicates'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'replicates', 'fi-primary': layout_mode === 'replicates'}">Replicates</button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="fi-form-field" v-if="!edit_mode">
+                                                    <div class="fi-panel special alert">
+                                                        <i class="fa fa-info-circle fi-icon-margin"></i><div>You are currently in View Mode</div>
+                                                        <button type="button" @click.prevent="edit_mode = true" class="fi-button fi-default fi-small">Edit Layout</button>
                                                     </div>
                                                 </div>
 
