@@ -192,16 +192,16 @@
                                                         <span class="bug-number">{{ selected_treatments.length }}</span>
                                                         treatments selected
                                                     </div>
-                                                    <div class="fi-section fi-text-center selection-count" v-if="selected_wells.length" :class="{
+                                                    <div class="fi-section fi-text-center selection-count" v-if="overall_selected_wells.length" :class="{
                                                         'fi-text-light': !selected_treatments.length,
                                                     }">
-                                                        <span class="bug-number">{{ selected_wells.length }}</span>
+                                                        <span class="bug-number">{{ overall_selected_wells.length }}</span>
                                                         wells selected
                                                     </div>
 
                                                 </div>
                                                 <div class="fi-section" v-if="selected_treatments.length && selected_wells.length && selected_treatments.length > selected_wells.length">
-                                                    <small><strong>Make sure the selected wells are more than or equal the selected treatments</strong></small>
+                                                    <small><strong>Make sure selected wells are more than or equal selected treatments</strong></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -254,7 +254,7 @@
                                                     <div class="fi-form-field"><button type="button" @click.prevent="unplace_wells" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Unplace</button></div>
                                                     <div class="fi-form-field"><button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Clear Plate</button></div>
                                                     <div class="fi-form-field">
-                                                        <div class="fi-dropdown fi-opposite">
+                                                        <div class="fi-dropdown fi-opposite plate-dropdown">
                                                             <button type="button" class="fi-dropdown-trigger more-button fi-button fi-default fi-small"><i class="fa fa-ellipsis-v"></i></button>
                                                             <div class="fi-dropdown-content fi-small">
                                                                 <ul>
@@ -270,7 +270,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="plat-exp-container" v-if="current_plate_index > -1">
+                                        <div class="plate-exp-container" v-if="current_plate_index > -1">
 
                                             <div class="plate-container">
 
@@ -333,10 +333,26 @@
 
                                             <div class="color-keys">
                                                 <div class="color-keys-inner" v-click-outside="reset_highlight">
-                                                    <div class="color-key" :class="{'active': highlight_by === 'test_sample'}" @click="highlight('test_sample')"><span class="circle" :style="{ backgroundColor: role_colors['test_sample'] }"></span>Test Samples</div>
-                                                    <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['ctrl_w_sample'] }"></span>Controls with Samples</div>
-                                                    <div class="color-key"><span class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>Controls without Samples</div>
-                                                    <div class="color-key" :class="{'active': highlight_by === 'empty'}" @click="highlight('empty')"><span class="circle empty"><span class="xl"></span><span class="xr"></span></span>Empty</div>
+                                                    <div class="color-key" :class="{'active': highlight_by === 'test_sample'}">
+                                                        <div class="color-key-button" @click="highlight('test_sample')" v-click-outside="reset_highlight">
+                                                            <span class="circle" :style="{ backgroundColor: role_colors['test_sample'] }"></span>Test Samples
+                                                        </div>
+                                                    </div>
+                                                    <div class="color-key">
+                                                        <div class="color-key-button" v-click-outside="reset_highlight">
+                                                            <span class="circle" :style="{ backgroundColor: role_colors['ctrl_w_sample'] }"></span>Controls with Samples
+                                                        </div>
+                                                    </div>
+                                                    <div class="color-key">
+                                                        <div class="color-key-button" v-click-outside="reset_highlight">
+                                                            <span class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>Controls without Samples
+                                                        </div>
+                                                    </div>
+                                                    <div class="color-key" :class="{'active': highlight_by === 'empty'}" @click="highlight('empty')">
+                                                        <div class="color-key-button" v-click-outside="reset_highlight">
+                                                            <span class="circle empty"><span class="xl"></span><span class="xr"></span></span>Empty
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -935,13 +951,10 @@
         jQuery(document).on('click', '.plate-exp-container .well', function () {
             var index = parseInt(jQuery(this).index());
             var id = parseInt(app.plates[app.current_plate_index].wells[index].content);
-            if (id) {
+            if (id && app.overall_selected_wells.length === 1) {
                 var position = jQuery('.treatment-list .treatment-item').eq(id - 1).position().top;
                 app.selected_treatments  = [id.toString()];
                 jQuery('.treatments-inner').animate({ scrollTop: position - 40 }, 250 );
-            }
-            else {
-                app.selected_treatments  = [];
             }
         });
         jQuery(document).on('click', '.treatment-list .treatment-item', function () {
@@ -953,9 +966,6 @@
                 if (well) {
                     app.selected_wells  = [well.id.toString()];
                 }
-            }
-            else {
-                app.selected_wells  = [];
             }
         });
         jQuery(document).on('fi-modal:hidden', '.edit-modal', function() {

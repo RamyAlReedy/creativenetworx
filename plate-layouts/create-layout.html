@@ -257,7 +257,7 @@
                                                     <h5>Key</h5>
                                                     <ul class="fi-list">
                                                         <li class="color-key" :class="{'active': highlight_by === 'role_not_set', 'none': !unset_count}">
-                                                            <div class="color-key-button" @click="highlight('role_not_set')">
+                                                            <div class="color-key-button" @click="highlight('role_not_set')" v-click-outside="reset_highlight">
                                                                 <span class="circle unset"></span>Role not set ({{ unset_count }})
                                                             </div>
                                                         </li>

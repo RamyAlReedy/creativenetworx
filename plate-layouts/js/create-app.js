@@ -510,23 +510,19 @@ var create_app = new Vue({
                 column: number,
             };
         },
-        current_selection_sorted: function (selection) {
-            return selection.sort(function(a,b){
-                return parseInt(a) - parseInt(b);
-            });
-        },
-        new_selection_sorted: function (selection) {
-            return selection.concat().sort(function(a,b){
+        selection_sorted: function (selection) {
+            var clone_selection = [].concat(selection);
+            return clone_selection.sort(function(a,b){
                 return parseInt(a) - parseInt(b);
             });
         },
         selection: function (new_selection) {
-            var first_item = parseInt(this.current_selection_sorted(this.selected_wells)[0]);
-            var last_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
+            var first_item = parseInt(this.selection_sorted(this.selected_wells)[0]);
+            var last_item = parseInt(this.selection_sorted(new_selection)[new_selection.length-1]);
 
             if (last_item < first_item) {
-                var first_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
-                var last_item = parseInt(this.current_selection_sorted(this.selected_wells)[this.selected_wells.length - 1]);
+                var first_item = parseInt(this.selection_sorted(new_selection)[new_selection.length-1]);
+                var last_item = parseInt(this.selection_sorted(this.selected_wells)[this.selected_wells.length - 1]);
             }
 
             if (this.shiftKeyPressed) {
@@ -872,7 +868,7 @@ var create_app = new Vue({
         },
         submit_auto_set: function () {
 
-            this.current_selection_sorted(this.selected_wells);
+            this.selected_wells = this.selection_sorted(this.selected_wells);
 
             if (this.auto_set_data.direction === 'across') {
                 this.auto_set_across();

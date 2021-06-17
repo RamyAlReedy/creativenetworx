@@ -239,6 +239,8 @@ var app = new Vue({
                     }
                 }
             }
+
+
         },
     },
     created: function () {
@@ -460,26 +462,23 @@ var app = new Vue({
                 column: number,
             };
         },
-        current_selection_sorted: function (selection) {
-            return selection.sort(function(a,b){
+        selection_sorted: function (selection) {
+            var clone_selection = [].concat(selection);
+            return clone_selection.sort(function(a,b){
                 return parseInt(a) - parseInt(b);
             });
         },
-        new_selection_sorted: function (selection) {
-            return selection.concat().sort();
-        },
         selection_treatments: function (new_selection) {
-            console.log('selection_treatments');
             this.selected_treatments = new_selection;
         },
         selection: function (new_selection) {
             var option3 = jQuery('.option-3-container').length;
             if (this.shiftKeyPressed) {
-                var first_item = parseInt(this.current_selection_sorted(this.selected_wells)[0]);
-                var last_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
+                var first_item = parseInt(this.selection_sorted(this.selected_wells)[0]);
+                var last_item = parseInt(this.selection_sorted(new_selection)[new_selection.length-1]);
                 if (last_item < first_item) {
-                    var first_item = parseInt(this.new_selection_sorted(new_selection)[new_selection.length-1]);
-                    var last_item = parseInt(this.current_selection_sorted(this.selected_wells)[this.selected_wells.length - 1]);
+                    var first_item = parseInt(this.selection_sorted(new_selection)[new_selection.length-1]);
+                    var last_item = parseInt(this.selection_sorted(this.selected_wells)[this.selected_wells.length - 1]);
                 }
                 var range = last_item - first_item + 1;
                 this.selected_wells = [];
@@ -496,11 +495,9 @@ var app = new Vue({
             }
             else if (this.ctrlKeyPressed) {
                 if (this.mousedown) {
-                    console.log('mousedown');
                     this.temp_selection.push.apply(this.temp_selection, new_selection);
                 }
                 else {
-                    console.log('no mousedown');
                     for (var i = 0; i < new_selection.length; i++) {
                         var existingIndex = this.selected_wells.indexOf(new_selection[i]);
                         if (existingIndex > -1) {
@@ -519,7 +516,6 @@ var app = new Vue({
                 }
             }
             else {
-                console.log('else');
                 this.selected_wells = new_selection;
                 if (option3) {
                     this.selected_treatments = new_selection;
@@ -632,7 +628,7 @@ var app = new Vue({
             });
         },
         place_across: function () {
-            this.current_selection_sorted(this.selected_wells);
+            this.selected_wells = this.selection_sorted(this.selected_wells);
             this.place_series(this.selected_wells);
         },
         place_down: function () {
@@ -654,7 +650,7 @@ var app = new Vue({
             // }
             // var down_array = [].concat.apply([], columns);
 
-            this.current_selection_sorted(this.selected_wells);
+            this.selected_wells = this.selection_sorted(this.selected_wells);
 
             var down_array = [];
             for (var i = 0; i < this.selected_wells.length; i++) {
@@ -971,6 +967,13 @@ var app = new Vue({
         },
     },
     computed: {
+        overall_selected_wells: function () {
+            var all_selected_wells = [];
+            all_selected_wells.push.apply(all_selected_wells, this.selected_wells);
+            all_selected_wells.push.apply(all_selected_wells, this.temp_selection);
+            all_selected_wells = this.remove_duplicates(all_selected_wells);
+            return all_selected_wells;
+        },
         treatments_filtered_list: function () {
             var self = this;
             var resultsArray = self.treatments;
@@ -1062,4 +1065,8 @@ jQuery(document).on('fi-modal:hidden', '.generate_plates_modal', function () {
 
 jQuery(document).on('fi-dropdown:shown', '.choose-layout', function () {
     jQuery(this).find('.fi-search input[type]').focus();
+});
+
+jQuery(document).on('click', '.plate-dropdown .fi-dropdown-content li a', function () {
+    Figure.toggleDropdown(jQuery(this).closest('.fi-dropdown'));
 });

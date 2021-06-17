@@ -776,7 +776,7 @@ a.fi-close-button, button.fi-close-button {
     border-top: 1px solid #ddd;
 }
 
-.plat-exp-container {
+.plate-exp-container {
     position: relative;
     flex-grow: 1;
     display: flex;
@@ -1002,8 +1002,16 @@ a.fi-close-button, button.fi-close-button {
     box-shadow: 0 0 5px 1px #0062bd;
 }
 
-.well-inner.highlighted {
+.well.filter-match .well-inner {
+    box-shadow: 0 0 3px 4px #00a5ff;
+}
+
+.well-inner.highlighted .well-content {
     box-shadow: 0 0 0px 3px #000000;
+}
+
+.well-inner.role-set.highlighted .well-content {
+    box-shadow: 0 0 0px 6px #000000;
 }
 
 .well.disabled {
@@ -1018,6 +1026,10 @@ a.fi-close-button, button.fi-close-button {
 .well-content span {
     width: 100%;
     height: 100%;
+}
+
+.well-content {
+    border-radius: 50%;
 }
 
     .well-content span {
@@ -1130,10 +1142,6 @@ a.fi-close-button, button.fi-close-button {
         background-color: transparent !important;
     }
 
-    .well.filter-match .well-content span {
-        box-shadow: 0 0 0px 3px #000000;
-    }
-
 
 .plate-outer.size_384 .drag-select-inner {
     width: 53.1125rem;
@@ -1228,14 +1236,35 @@ a.fi-close-button, button.fi-close-button {
     margin-right: 2rem;
     font-size: 0.75rem;
     line-height: 1.4;
-    font-weight: 700;
 }
 
-    .color-key-button {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
+.color-key-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.1s;
+}
+
+    .color-key-button:hover {
+        opacity: 0.75;
     }
+
+    .color-key.none .color-key-button {
+        color: #b4b4b4;
+    }
+
+        .color-key.none .color-key-button {
+            cursor: default;
+        }
+
+        .color-key.none .color-key-button:hover,
+        .color-key.active .color-key-button {
+            opacity: 1;
+        }
+
+.color-key.active {
+    font-weight: 700;
+}
 
     .color-key .circle {
         flex-shrink: 0;
@@ -1249,6 +1278,11 @@ a.fi-close-button, button.fi-close-button {
     .color-key .circle.unset {
         border: 1px solid #797979;
     }
+
+    .color-key.active .circle {
+        box-shadow: 0 0 0px 2px #000000;
+    }
+
 
 .plates-grid-container {
     width: 100%;
@@ -1694,38 +1728,11 @@ a.fi-close-button, button.fi-close-button {
 
     .keymap .color-key {
         margin: 0;
-        font-weight: 400;
         white-space: nowrap;
     }
 
     .keymap .color-key-button {
         padding: 0.375rem 0;
-        transition: opacity 0.1s;
-    }
-
-        .keymap .color-key-button:hover {
-            opacity: 0.75;
-        }
-
-    .keymap .color-key.none .color-key-button {
-        color: #b4b4b4;
-    }
-
-        .keymap .color-key.none .color-key-button {
-            cursor: default;
-        }
-
-    .keymap .color-key.active {
-        font-weight: 700;
-    }
-
-        .keymap .color-key.none .color-key-button:hover,
-        .keymap .color-key.active .color-key-button {
-            opacity: 1;
-        }
-
-    .keymap .color-key.active .circle {
-        box-shadow: 0 0 0px 2px #000000;
     }
 
 
