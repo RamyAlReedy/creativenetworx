@@ -45,7 +45,7 @@
                                                 <div class="fi-form fi-form-inline large-spacing">
                                                     <div class="fi-form-field">
                                                         <span class="fi-form-label">Name</span>
-                                                        <input type="text" v-if="edit_mode" v-model="layout.name" class="fi-form-control" style="width: 20rem;" />
+                                                        <input type="text" v-if="edit_mode" v-model="layout.name" class="fi-form-control" :class="{'error': !layout.name}" style="width: 14rem;" />
                                                         <span v-else class="fi-form-text">{{ layout.name }}</span>
                                                     </div>
                                                     <div class="fi-form-field separator"></div>
@@ -58,19 +58,30 @@
                                                         </div>
                                                         <span v-else class="fi-form-text">{{ plate_sizes[layout.size].name }} ({{ plate_sizes[layout.size].columns }}x{{ plate_sizes[layout.size].rows }})</span>
                                                     </div>
+                                                    <div class="fi-form-field separator"></div>
+                                                    <div class="fi-form-field">
+                                                        <span class="fi-form-label">Platform</span>
+                                                        <div class="custom-dropdown" v-if="edit_mode">
+                                                            <select class="fi-form-control" v-model="layout.platform">
+                                                                <option value="0" disabled hidden>Select...</option>
+                                                                <option v-for="platform in platforms" :value="platform.id">{{ platform.name }}</option>
+                                                            </select>
+                                                        </div>
+                                                        <span v-else class="fi-form-text">{{ getObjectByKey(platforms, 'id', layout.platform).name }}</span>
+                                                    </div>
                                                     <div v-if="edit_mode" class="fi-form-field separator"></div>
                                                     <div v-if="edit_mode" class="fi-form-field">
                                                         <div class="plate-counts fi-text-light">
-                                                            <span>{{ count_placed_wells }} completed wells</span>
+                                                            <span>{{ count_placed_wells }} completed</span>
                                                             <span>{{ layout.size - count_placed_wells }} remaining</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div v-if="edit_mode" class="main-actions fi-buttons-container fi-text-right">
-                                                <button type="button" @click.prevent="" class="fi-button fi-default fi-small">Undo</button>
-                                                <button type="button" @click.prevent="" class="fi-button fi-default fi-small">Redo</button>
-                                                <button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Reset</button>
+                                                <button type="button" @click.prevent="" class="fi-button fi-default fi-small"><i class="fa fa-undo"></i></button>
+                                                <button type="button" @click.prevent="" class="fi-button fi-default fi-small"><i class="fa fa-redo"></i></button>
+                                                <button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Clear</button>
                                                 <button type="button" v-if="saved_before" @click.prevent="edit_mode = false" class="fi-button fi-default fi-small">Cancel</button>
                                                 <button type="button" v-if="!saved_before" class="fi-button fi-primary fi-small" @click.prevent="save_layout">Create</button>
                                                 <button type="button" v-else class="fi-button fi-primary fi-small" @click.prevent="save_layout">Save</button>

@@ -212,7 +212,7 @@
 .fi-modal-body-inner {
     position: relative;
     height: 100%;
-    padding-top: 4.0625rem;
+    padding-top: 3.5625rem;
 }
 
 .fi-modal-content {
@@ -224,7 +224,7 @@
 }
 
     .fi-modal.fi-full-width .fi-modal-content {
-        min-width: 1340px;
+        min-width: 1400px;
     }
 
 .create-modal .fi-modal-body-inner {
@@ -315,9 +315,16 @@
     display: flex;
 }
 
+.plate-layout-container.experiment {
+    position: relative;
+    /* padding-top: 2.90625rem; */
+}
+
+.plate-layout-container.experiment .method-tabs {
+    display: none;
+}
+
 .fi-tabs.fi-alt > ul > li > .fi-tab-button {
-    font-size: 1rem;
-    padding: 1.25rem 1rem;
     outline: none;
 }
 
@@ -325,8 +332,21 @@
     font-weight: 700;
 }
 
+.fi-tabs.fi-alt > ul > li {
+    margin-top: 0;
+}
+
 .fi-tabs.fi-alt > ul > li + li {
     margin-left: 0;
+}
+
+.fi-tabs.fi-alt > ul > li > .fi-tab-button {
+    padding: 1.125em 1em;
+}
+
+.header-tabs.fi-tabs.fi-alt > ul > li > .fi-tab-button {
+    font-size: 1rem;
+    padding: 1.25rem 1rem;
 }
 
 .fi-close-button.circle-close {
@@ -1492,7 +1512,12 @@ a.fi-close-button, button.fi-close-button {
     padding: 0.75rem;
 }
 
-.fi-dropdown-content.fi-full-width .fi-search + ul {
+.fi-dropdown-content.fi-full-width .filter {
+    padding: 0.75rem;
+    border-top: 1px solid #ddd;
+}
+
+.fi-dropdown-content.fi-full-width .filter + ul {
     max-height: 30rem;
     overflow: auto;
     border-top: 1px solid #ddd;
@@ -1766,12 +1791,12 @@ a.fi-close-button, button.fi-close-button {
 }
 
 .generate_plates_modal .fi-modal-content {
-    max-width: 36rem;
+    max-width: 52rem;
 }
 
 .blurb {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 }
 
     .blurb .blurb-media {
@@ -1842,8 +1867,19 @@ a.fi-close-button, button.fi-close-button {
     margin-bottom: 0.375rem;
 }
 
+.layout-blurb .meta {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .layout-blurb .meta span {
+        white-space: nowrap;
+        margin-right: 1.25rem;
+        margin-bottom: 0.375rem;
+    }
+
 .layout-blurb .recommended {
-    margin-top: 0.25rem;
+
 }
 
     .layout-blurb .recommended h5 {

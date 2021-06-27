@@ -30,7 +30,7 @@
 
                             <div class="fi-modal-body-inner">
 
-                                <div class="fi-tabs fi-alt">
+                                <div class="fi-tabs fi-alt header-tabs">
                                     <ul>
                                         <li><a href="https://fw0vah.axshare.com/#g=1&p=experiment_-_mark___gemma_-_basic_info&c=1" class="fi-tab-button"><i class="far fa-exclamation-circle fi-icon-margin"></i>Basic Info</a></li>
                                         <li><a href="https://fw0vah.axshare.com/#g=1&p=experiment_-_mark___gemma&c=1" class="fi-tab-button"><i class="far fa-magic fi-icon-margin"></i>Design</a></li>
@@ -38,7 +38,15 @@
                                     </ul>
                                 </div>
 
-                                <div class="plate-layout-container">
+                                <div class="plate-layout-container experiment">
+
+                                    <div class="fi-tabs fi-alt method-tabs">
+                                        <ul>
+                                            <li class="fi-tab-active"><button type="button" class="fi-tab-button">Method.1.Name</button></li>
+                                            <li><button type="button" class="fi-tab-button">Method.2.Name</button></li>
+                                            <li><button type="button" class="fi-tab-button">Method.3.Name</button></li>
+                                        </ul>
+                                    </div>
 
                                     <div class="treatments">
                                         <div class="filters-actions">
@@ -495,15 +503,28 @@
                                             </button>
                                             <div class="fi-dropdown-content fi-full-width play-layout-selector">
                                                 <div class="fi-form-field fi-search"><input type="search" class="fi-form-control" placeholder="Search Layouts..."></div>
+                                                <div class="filter">
+                                                    <div class="button-group">
+                                                        <button type="button" @click.prevent="layouts_filter = 'my_layouts'" class="fi-button fi-small fi-width-small-6" :class="{'fi-primary': layouts_filter === 'my_layouts', 'fi-default': layouts_filter !== 'my_layouts',}">My Layouts</button>
+                                                        <button type="button" @click.prevent="layouts_filter = 'my_platforms'" class="fi-button fi-small fi-width-small-6" :class="{'fi-primary': layouts_filter === 'my_platforms', 'fi-default': layouts_filter !== 'my_platforms',}">My Platforms</button>
+                                                    </div>
+                                                </div>
                                                 <ul class="fi-list fi-list-line fi-no-spacing fi-no-margin">
-                                                    <li class="fi-dropdown-header"><strong>Recommended Layouts</strong></li>
                                                     <li v-for="plate_layout in plate_layouts" v-if="plate_layout.recommended.length" :class="{'active': generate_plates_data.plate_layout.id == plate_layout.id}">
                                                         <a href="#" @click.prevent="choose_layout(plate_layout.id)">
                                                             <div class="blurb layout-blurb">
                                                                 <div class="blurb-media"><div class="thumb"></div></div>
                                                                 <div class="blurb-content">
                                                                     <h4><strong>{{ plate_layout.name }}</strong></h4>
-                                                                    <div class="fi-text-light">{{ plate_sizes[plate_layout.size].name }} ({{plate_sizes[plate_layout.size].columns}}x{{plate_sizes[plate_layout.size].rows}})</div>
+                                                                    <div class="meta fi-text-light">
+                                                                        <span>{{ plate_sizes[plate_layout.size].name }} ({{plate_sizes[plate_layout.size].columns}}x{{plate_sizes[plate_layout.size].rows}})</span>
+                                                                        <span>{{ getObjectByKey(platforms, 'id', plate_layout.platform).name }}</span>
+                                                                        <span>BHD</span>
+                                                                        <span>38 Samples</span>
+                                                                        <span>24 Rates</span>
+                                                                        <span>4 Condition Sets</span>
+                                                                        <span>2 Replicates</span>
+                                                                    </div>
                                                                     <div class="recommended">
                                                                         <h5>Recommended for:</h5>
                                                                         <div class="tags">
@@ -515,14 +536,21 @@
                                                         </a>
                                                         <button class="fi-button fi-button-icon info-button" data-fi-modal=".edit-modal"><i class="far fa-info-circle"></i></button>
                                                     </li>
-                                                    <li class="fi-dropdown-header"><strong>More Layouts</strong></li>
                                                     <li v-for="plate_layout in plate_layouts" v-if="!plate_layout.recommended.length" :class="{'active': generate_plates_data.plate_layout.id == plate_layout.id}">
                                                         <a href="#" @click.prevent="choose_layout(plate_layout.id)">
                                                             <div class="blurb layout-blurb">
                                                                 <div class="blurb-media"><div class="thumb"></div></div>
                                                                 <div class="blurb-content">
                                                                     <h4><strong>{{ plate_layout.name }}</strong></h4>
-                                                                    <div class="fi-text-light">{{ plate_sizes[plate_layout.size].name }} ({{plate_sizes[plate_layout.size].columns}}x{{plate_sizes[plate_layout.size].rows}})</div>
+                                                                    <div class="meta fi-text-light">
+                                                                        <span>{{ plate_sizes[plate_layout.size].name }} ({{plate_sizes[plate_layout.size].columns}}x{{plate_sizes[plate_layout.size].rows}})</span>
+                                                                        <span>{{ getObjectByKey(platforms, 'id', plate_layout.platform).name }}</span>
+                                                                        <span>BHD</span>
+                                                                        <span>38 Samples</span>
+                                                                        <span>24 Rates</span>
+                                                                        <span>4 Condition Sets</span>
+                                                                        <span>2 Replicates</span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </a>
@@ -548,7 +576,7 @@
 
                             <div class="fi-modal-footer fi-buttons-container fi-text-right">
                                 <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                <button type="submit" class="fi-button fi-primary" :disabled="!generate_plates_data.plate_layout.name">Generate Plates</button>
+                                <button type="submit" class="fi-button fi-primary fi-close-modal" :disabled="!generate_plates_data.plate_layout.name">Generate Plates</button>
                             </div>
 
                         </form>
@@ -582,7 +610,7 @@
                                                 <div class="fi-form fi-form-inline large-spacing">
                                                     <div class="fi-form-field">
                                                         <span class="fi-form-label">Name</span>
-                                                        <input type="text" v-if="edit_mode" v-model="layout.name" class="fi-form-control" style="width: 20rem;" />
+                                                        <input type="text" v-if="edit_mode" v-model="layout.name" class="fi-form-control" style="width: 14rem;" />
                                                         <span v-else class="fi-form-text">{{ layout.name }}</span>
                                                     </div>
                                                     <div class="fi-form-field separator"></div>
@@ -595,19 +623,30 @@
                                                         </div>
                                                         <span v-else class="fi-form-text">{{ plate_sizes[layout.size].name }} ({{ plate_sizes[layout.size].columns }}x{{ plate_sizes[layout.size].rows }})</span>
                                                     </div>
+                                                    <div class="fi-form-field separator"></div>
+                                                    <div class="fi-form-field">
+                                                        <span class="fi-form-label">Platform</span>
+                                                        <div class="custom-dropdown" v-if="edit_mode">
+                                                            <select class="fi-form-control" v-model="layout.platform">
+                                                                <option value="0" disabled hidden>Select...</option>
+                                                                <option v-for="platform in platforms" :value="platform.id">{{ platform.name }}</option>
+                                                            </select>
+                                                        </div>
+                                                        <span v-else class="fi-form-text">{{ getObjectByKey(platforms, 'id', layout.platform).name }}</span>
+                                                    </div>
                                                     <div v-if="edit_mode" class="fi-form-field separator"></div>
                                                     <div v-if="edit_mode" class="fi-form-field">
                                                         <div class="plate-counts fi-text-light">
-                                                            <span>{{ count_placed_wells }} completed wells</span>
+                                                            <span>{{ count_placed_wells }} completed</span>
                                                             <span>{{ layout.size - count_placed_wells }} remaining</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div v-if="edit_mode" class="main-actions fi-buttons-container fi-text-right">
-                                                <button type="button" @click.prevent="" class="fi-button fi-default fi-small">Undo</button>
-                                                <button type="button" @click.prevent="" class="fi-button fi-default fi-small">Redo</button>
-                                                <button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Reset</button>
+                                                <button type="button" @click.prevent="" class="fi-button fi-default fi-small"><i class="fa fa-undo"></i></button>
+                                                <button type="button" @click.prevent="" class="fi-button fi-default fi-small"><i class="fa fa-redo"></i></button>
+                                                <button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Clear</button>
                                                 <button type="button" v-if="saved_before" @click.prevent="edit_mode = false" class="fi-button fi-default fi-small">Cancel</button>
                                                 <button type="button" v-if="!saved_before" class="fi-button fi-primary fi-small" @click.prevent="save_layout">Create</button>
                                                 <button type="button" v-else class="fi-button fi-primary fi-small" @click.prevent="save_layout">Save</button>
