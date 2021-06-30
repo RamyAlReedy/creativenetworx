@@ -104,16 +104,6 @@
                                                     <div class="fi-row">
                                                         <div class="fi-column fi-width-small-6">
                                                             <div class="fi-form-field">
-                                                                <div class="custom-dropdown fi-small">
-                                                                    <select id="method" v-model="filters.method" class="fi-form-control">
-                                                                        <option value="all">All Methods</option>
-                                                                        <option value="Method.1">Method.1</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="fi-column fi-width-small-6">
-                                                            <div class="fi-form-field">
                                                                 <button type="button" class="fi-button fi-primary fi-full-width fi-small" @click.prevent="clear_filters" :disabled="!filters_active">Clear All Filters</button>
                                                             </div>
                                                         </div>
@@ -150,7 +140,6 @@
                                                         <div class="cell role">Role</div>
                                                         <div class="cell rate">Rate</div>
                                                         <div class="cell replicate">Replicate</div>
-                                                        <div class="cell method">Method</div>
                                                     </div>
                                                     <drag-select attribute="attr" @change="selection_treatments($event)" class="treatment-list">
                                                         <template v-slot="{ selected }">
@@ -172,7 +161,6 @@
                                                                 <span class="cell role">{{ role_names[item.role] }}</span>
                                                                 <span class="cell rate">{{ item.rate }}</span>
                                                                 <span class="cell replicate">{{ item.replicate }}</span>
-                                                                <span class="cell method">{{ item.method }}</span>
                                                             </div>
                                                          </template>
                                                     </drag-select>
@@ -423,8 +411,8 @@
                             </div>
 
                             <div class="fi-modal-footer fi-buttons-container fi-text-right">
-                                <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                <button type="submit" class="fi-button fi-primary" :disabled="!add_plate_data.name || add_plate_data.size == 0">Add Plate</button>
+                                <button type="button" class="fi-button fi-small fi-default fi-close-modal" @click.prevent="">Cancel</button>
+                                <button type="submit" class="fi-button fi-small fi-primary" :disabled="!add_plate_data.name || add_plate_data.size == 0">Add Plate</button>
                             </div>
 
                         </form>
@@ -465,8 +453,8 @@
                             </div>
 
                             <div class="fi-modal-footer fi-buttons-container fi-text-right">
-                                <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                <button type="submit" class="fi-button fi-primary" :disabled="!edit_plate_data.name || edit_plate_data.size == 0">Save Plate</button>
+                                <button type="button" class="fi-button fi-small fi-default fi-close-modal" @click.prevent="">Cancel</button>
+                                <button type="submit" class="fi-button fi-small fi-primary" :disabled="!edit_plate_data.name || edit_plate_data.size == 0">Apply Changes</button>
                             </div>
 
                         </form>
@@ -575,8 +563,8 @@
                             </div>
 
                             <div class="fi-modal-footer fi-buttons-container fi-text-right">
-                                <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                <button type="submit" class="fi-button fi-primary fi-close-modal" :disabled="!generate_plates_data.plate_layout.name">Generate Plates</button>
+                                <button type="button" class="fi-button fi-small fi-default fi-close-modal" @click.prevent="">Cancel</button>
+                                <button type="submit" class="fi-button fi-small fi-primary fi-close-modal" :disabled="!generate_plates_data.plate_layout.name">Generate Plates</button>
                             </div>
 
                         </form>

@@ -317,11 +317,7 @@
 
 .plate-layout-container.experiment {
     position: relative;
-    /* padding-top: 2.90625rem; */
-}
-
-.plate-layout-container.experiment .method-tabs {
-    display: none;
+    padding-top: 2.90625rem;
 }
 
 .fi-tabs.fi-alt > ul > li > .fi-tab-button {

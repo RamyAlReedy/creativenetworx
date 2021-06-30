@@ -130,8 +130,8 @@ var app = new Vue({
         selected_wells: [],
         role_colors: {
             test_sample: '#ffcc32',
-            ctrl_w_sample: '#0c0',
-            ctrl_wo_sample: '#ff3302',
+            ctrl_w_sample: '#ff3302',
+            ctrl_wo_sample: '#0066ff',
             blank: '#999',
         },
         role_names: {
