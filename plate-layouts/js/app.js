@@ -1188,8 +1188,6 @@ var app = new Vue({
 
                     treatments_array = innerResultsArray;
 
-                    console.log(treatments_array);
-
                 }
 
                 if (self.plates.length) {

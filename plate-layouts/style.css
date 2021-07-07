@@ -2216,7 +2216,7 @@ a.fi-close-button, button.fi-close-button {
     .add-users-container .selected-users .remove-all,
     .add-users-container .browse-users .deselect-all,
     .add-users-container .browse-users.all-selected .select-all {
-        display: none;
+        
     }
 
     .add-users-container .browse-users.all-selected .deselect-all,

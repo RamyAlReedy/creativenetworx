@@ -878,10 +878,10 @@
                                                             <div class="panel-alt">
 
                                                                 <div class="panel-alt-header">
-                                                                    <button type="button" @click.prevent="clone_selected_condition_sets = []" class="fi-button fi-button-icon action-button remove-all" style="display: block;"><span>Remove all</span></button>
+                                                                    <button type="button" v-show="clone_selected_condition_sets.length" @click.prevent="clone_selected_condition_sets = []" class="fi-button fi-button-icon action-button remove-all"><span>Remove all</span></button>
 
                                                                     <h5 class="panel-alt-title">
-                                                                        Selected (<span class="selected-count">8</span>)
+                                                                        Selected (<span class="selected-count">{{ clone_selected_condition_sets.length }}</span>)
                                                                     </h5>
                                                                 </div>
 
@@ -1010,10 +1010,10 @@
                                                             <div class="panel-alt">
 
                                                                 <div class="panel-alt-header">
-                                                                    <button type="button" @click.prevent="clone_selected_rates = []" class="fi-button fi-button-icon action-button remove-all" style="display: block;"><span>Remove all</span></button>
+                                                                    <button type="button" v-show="clone_selected_rates.length" @click.prevent="clone_selected_rates = []" class="fi-button fi-button-icon action-button remove-all"><span>Remove all</span></button>
 
                                                                     <h5 class="panel-alt-title">
-                                                                        Selected (<span class="selected-count">8</span>)
+                                                                        Selected (<span class="selected-count">{{ clone_selected_rates.length }}</span>)
                                                                     </h5>
                                                                 </div>
 
