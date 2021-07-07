@@ -344,6 +344,9 @@ var app = new Vue({
                 }
                 else {
                     this.clone_selected_condition_sets.push(value);
+                    this.clone_selected_condition_sets.sort(function(a,b){
+                        return parseInt(a) - parseInt(b);
+                    });
                 }
             }
             else if (type === 'rates') {
@@ -353,6 +356,9 @@ var app = new Vue({
                 }
                 else {
                     this.clone_selected_rates.push(value);
+                    this.clone_selected_rates.sort(function(a,b){
+                        return parseInt(b) - parseInt(a);
+                    });
                 }
             }
         },
