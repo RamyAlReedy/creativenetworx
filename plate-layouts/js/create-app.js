@@ -104,13 +104,14 @@ var create_app = new Vue({
     data: {
         edit_mode: true,
         saved_before: false,
+        active_tab: 'basic_info',
         layout_mode: 'roles',
         role_value: 'test_sample',
         sample_value: 1,
         rate_value: 1,
         condition_set_value: 1,
         replicate_value: 1,
-        layout: { id: 0, name: 'Layout Name Goes Here', size: 384, platform: 0, wells: [], },
+        layout: { id: 0, name: 'Layout Name Goes Here', size: 384, platform: 0, dispensary: 0, wells: [], },
         selected_treatments: [],
         selected_wells: [],
         role_colors: {
@@ -403,12 +404,18 @@ var create_app = new Vue({
         //document.addEventListener('mousemove', this.selection_move_scroll);
     },
     methods: {
+        trigger_change_tab: function () {
+            this.$nextTick(function () {
+                jQuery('.tab-content').trigger('change-tab');
+            });
+        },
         get_layout: function (id) {
             var layout_data = this.getObjectByKey(layouts, 'id', id);
             this.layout.id = layout_data.id;
             this.layout.name = layout_data.name;
             this.layout.size = layout_data.size;
             this.layout.platform = layout_data.platform;
+            this.layout.dispensary = layout_data.dispensary;
             this.$nextTick(function () {
                 this.layout.wells = layout_data.wells;
                 this.samples = layout_data.samples;
@@ -418,6 +425,7 @@ var create_app = new Vue({
                 this.edit_mode = false;
                 this.saved_before = true;
             });
+            this.active_tab = 'design';
         },
         getObjectByKey: function (array, key, value) {
             for (var i = 0; i < array.length; i++) {
@@ -1278,7 +1286,7 @@ var create_app = new Vue({
             }
         },
         save_layout: function () {
-            if (!this.layout.name || !this.layout.platform || this.layout.size - this.count_placed_wells) {
+            if (!this.layout.name || !this.layout.platform || !this.layout.dispensary || this.layout.size - this.count_placed_wells) {
                 var error_message = `
                 <p>Please resolve the following error(s):</p>
                 <ul>
@@ -1288,6 +1296,9 @@ var create_app = new Vue({
                 }
                 if (!this.layout.platform) {
                     error_message += `<li>Please select a <strong>platform</strong>.</li>`;
+                }
+                if (!this.layout.dispensary) {
+                    error_message += `<li>Please select a <strong>dispensary</strong>.</li>`;
                 }
                 error_message += `
                 <li>

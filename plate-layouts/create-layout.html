@@ -40,304 +40,351 @@
 
                                     <div class="plates">
 
-                                        <div class="plate-header create-header">
-                                            <div class="plate-header-info">
-                                                <div class="fi-form fi-form-inline large-spacing">
-                                                    <div class="fi-form-field">
-                                                        <span class="fi-form-label">Name</span>
-                                                        <input type="text" v-if="edit_mode" v-model="layout.name" class="fi-form-control" :class="{'error': !layout.name}" style="width: 14rem;" />
-                                                        <span v-else class="fi-form-text">{{ layout.name }}</span>
+                                        <div class="fi-tabs fi-alt header-tabs">
+
+                                            <ul>
+                                                <li :class="{'fi-tab-active': active_tab === 'basic_info'}">
+                                                    <button @click.prevent="active_tab = 'basic_info'; trigger_change_tab();" type="button" class="fi-tab-button"><i class="far fa-exclamation-circle fi-icon-margin"></i>Basic Info</button>
+                                                </li>
+                                                <li :class="{'fi-tab-active': active_tab === 'design'}">
+                                                    <button @click.prevent="active_tab = 'design'; trigger_change_tab();" type="button" class="fi-tab-button"><i class="far fa-magic fi-icon-margin"></i>Design</button>
+                                                </li>
+                                            </ul>
+
+                                            <div class="top-right-buttons fi-form fi-form-inline large-spacing">
+
+                                                <div v-if="edit_mode" class="fi-form-field">
+                                                    <div class="plate-counts fi-text-light">
+                                                        <span>{{ count_placed_wells }} completed</span>
+                                                        <span>{{ layout.size - count_placed_wells }} remaining</span>
                                                     </div>
-                                                    <div class="fi-form-field separator"></div>
-                                                    <div class="fi-form-field">
-                                                        <span class="fi-form-label">Size</span>
-                                                        <div class="custom-dropdown" v-if="edit_mode">
-                                                            <select class="fi-form-control" v-model="layout.size">
-                                                                <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</option>
-                                                            </select>
+                                                </div>
+
+                                                <div v-if="edit_mode" class="fi-form-field main-actions fi-buttons-container fi-text-right">
+                                                    <button type="button" v-if="saved_before" @click.prevent="edit_mode = false" class="fi-button fi-default fi-small">Cancel</button>
+                                                    <button type="button" v-if="!saved_before" class="fi-button fi-primary fi-small" @click.prevent="save_layout">Create Layout</button>
+                                                    <button type="button" v-else class="fi-button fi-primary fi-small" @click.prevent="save_layout">Save Changes</button>
+                                                </div>
+                                                <div v-else class="fi-form-field main-actions fi-buttons-container fi-text-right">
+                                                    <button type="button" class="fi-button fi-primary fi-small" @click.prevent="edit_mode = true">Edit Layout</button>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="basic-info-tab-content tab-content" :class="{'active': active_tab === 'basic_info'}">
+                                            <div class="basic-info-form">
+                                                <div class="fi-form">
+                                                    <div class="fi-row fi-grid-margin">
+                                                        <div class="fi-column fi-width-small-6">
+                                                            <div class="fi-form-field">
+                                                                <span class="fi-form-label">Name <span class="fi-text-danger">*</span></span>
+                                                                <input type="text" v-model="layout.name" class="fi-form-control fi-large" :class="{'error': !layout.name}" :disabled="!edit_mode" />
+                                                            </div>
                                                         </div>
-                                                        <span v-else class="fi-form-text">{{ plate_sizes[layout.size].name }} ({{ plate_sizes[layout.size].columns }}x{{ plate_sizes[layout.size].rows }})</span>
-                                                    </div>
-                                                    <div class="fi-form-field separator"></div>
-                                                    <div class="fi-form-field">
-                                                        <span class="fi-form-label">Platform</span>
-                                                        <div class="custom-dropdown" v-if="edit_mode">
-                                                            <select class="fi-form-control" v-model="layout.platform">
-                                                                <option value="0" disabled hidden>Select...</option>
-                                                                <option v-for="platform in platforms" :value="platform.id">{{ platform.name }}</option>
-                                                            </select>
+                                                        <div class="fi-column fi-width-small-6">
+                                                            <div class="fi-form-field">
+                                                                <span class="fi-form-label">Size <span class="fi-text-danger">*</span></span>
+                                                                <div class="custom-dropdown fi-large">
+                                                                    <select class="fi-form-control" v-model="layout.size" :disabled="!edit_mode" :class="{'placeholder': layout.size == 0}">
+                                                                        <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <span v-else class="fi-form-text">{{ getObjectByKey(platforms, 'id', layout.platform).name }}</span>
                                                     </div>
-                                                    <div v-if="edit_mode" class="fi-form-field separator"></div>
-                                                    <div v-if="edit_mode" class="fi-form-field">
-                                                        <div class="plate-counts fi-text-light">
-                                                            <span>{{ count_placed_wells }} completed</span>
-                                                            <span>{{ layout.size - count_placed_wells }} remaining</span>
+
+                                                    <div class="fi-row">
+                                                        <div class="fi-column fi-width-small-6">
+                                                            <div class="fi-form-field">
+                                                                <span class="fi-form-label">Platform <span class="fi-text-danger">*</span></span>
+                                                                <div class="custom-dropdown fi-large">
+                                                                    <select class="fi-form-control" v-model="layout.platform" :disabled="!edit_mode" :class="{'placeholder': layout.platform == 0}">
+                                                                        <option value="0">Please select...</option>
+                                                                        <option v-for="platform in platforms" :value="platform.id">{{ platform.name }}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="fi-column fi-width-small-6">
+                                                            <div class="fi-form-field">
+                                                                <span class="fi-form-label">Dispensary <span class="fi-text-danger">*</span></span>
+                                                                <div class="custom-dropdown fi-large">
+                                                                    <select class="fi-form-control"  v-model="layout.dispensary":disabled="!edit_mode" :class="{'placeholder': layout.dispensary == 0}">
+                                                                        <option value="0">Please select...</option>
+                                                                        <option value="BSD">BSD</option>
+                                                                        <option value="BSD">JHD</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div v-if="edit_mode" class="main-actions fi-buttons-container fi-text-right">
-                                                <button type="button" @click.prevent="" class="fi-button fi-default fi-small"><i class="fa fa-undo"></i></button>
-                                                <button type="button" @click.prevent="" class="fi-button fi-default fi-small"><i class="fa fa-redo"></i></button>
-                                                <button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Clear</button>
-                                                <button type="button" v-if="saved_before" @click.prevent="edit_mode = false" class="fi-button fi-default fi-small">Cancel</button>
-                                                <button type="button" v-if="!saved_before" class="fi-button fi-primary fi-small" @click.prevent="save_layout">Create</button>
-                                                <button type="button" v-else class="fi-button fi-primary fi-small" @click.prevent="save_layout">Save</button>
-                                            </div>
-                                            <div v-else class="main-actions fi-buttons-container fi-text-right">
-                                                <button type="button" class="fi-button fi-primary fi-small" @click.prevent="edit_mode = true">Edit Layout</button>
                                             </div>
                                         </div>
 
-                                        <div class="layout-mode">
-                                            <div class="fi-form fi-form-inline large-spacing main">
-                                                <div class="fi-form-field">
-                                                    <span class="fi-form-label">Mode</span>
-                                                    <div class="button-group">
-                                                        <button type="button" @click.prevent="layout_mode = 'roles'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'roles', 'fi-primary': layout_mode === 'roles'}">Roles</button>
-                                                        <button type="button" @click.prevent="layout_mode = 'samples'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'samples', 'fi-primary': layout_mode === 'samples'}">Samples</button>
-                                                        <button type="button" @click.prevent="layout_mode = 'rates'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'rates', 'fi-primary': layout_mode === 'rates'}">Rates</button>
-                                                        <button type="button" @click.prevent="layout_mode = 'condition_sets'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'condition_sets', 'fi-primary': layout_mode === 'condition_sets'}">Condition Sets</button>
-                                                        <button type="button" @click.prevent="layout_mode = 'replicates'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'replicates', 'fi-primary': layout_mode === 'replicates'}">Replicates</button>
-                                                    </div>
-                                                </div>
+                                        <div class="design-tab-content tab-content" :class="{'active': active_tab === 'design'}">
 
-                                                <div class="fi-form-field" v-if="!edit_mode">
-                                                    <div class="fi-panel special alert">
-                                                        <i class="fa fa-info-circle fi-icon-margin"></i><div>You are currently in View Mode</div>
-                                                        <button type="button" @click.prevent="edit_mode = true" class="fi-button fi-default fi-small">Edit Layout</button>
-                                                    </div>
-                                                </div>
-
-                                                <div class="fi-form-field" v-if="selected_wells.length">
-
-                                                    <div class="fi-form-field separator"></div>
-
-                                                    <div class="fi-form-field" v-if="layout_mode === 'roles'">
-                                                        <span class="fi-form-label">Role</span>
-                                                        <div class="custom-dropdown fi-small value">
-                                                            <select class="fi-form-control fi-small" v-model="role_value">
-                                                                <option value="test_sample">Test Sample</option>
-                                                                <option value="ctrl_w_sample">Control with Sample</option>
-                                                                <option value="ctrl_wo_sample">Control without Sample</option>
-                                                                <option value="empty">Empty</option>
-                                                            </select>
-                                                        </div>
-                                                        <button type="button" @click.prevent="set" class="fi-button fi-default fi-small">Set</button>
-                                                    </div>
-
-                                                    <div class="fi-form-field" v-if="layout_mode === 'samples' && selected_wells.length">
-                                                        <span class="fi-form-label">Sample #</span>
-                                                        <input type="number" class="fi-form-control fi-small value" value="1" min="1" v-model="sample_value" :class="{'error': sample_value < 1}" />
-                                                        <button type="button" @click.prevent="set" class="fi-button fi-default fi-small" :disabled="sample_value < 1">Set</button>
-                                                    </div>
-
-                                                    <div class="fi-form-field" v-if="layout_mode === 'rates' && selected_wells.length">
-                                                        <span class="fi-form-label">Rate #</span>
-                                                        <input type="number" class="fi-form-control fi-small value" value="1" min="1" v-model="rate_value" :class="{'error': rate_value < 1}" />
-                                                        <button type="button" @click.prevent="set" class="fi-button fi-default fi-small" :disabled="sample_value < 1">Set</button>
-                                                    </div>
-
-                                                    <div class="fi-form-field" v-if="layout_mode === 'condition_sets' && selected_wells.length">
-                                                        <span class="fi-form-label">Condition Set #</span>
-                                                        <input type="number" class="fi-form-control fi-small value" value="1" min="1" v-model="condition_set_value" :class="{'error': condition_set_value < 1}" />
-                                                        <button type="button" @click.prevent="set" class="fi-button fi-default fi-small" :disabled="condition_set_value < 1">Set</button>
-                                                    </div>
-
-                                                    <div class="fi-form-field" v-if="layout_mode === 'replicates' && selected_wells.length">
-                                                        <span class="fi-form-label">Replicate #</span>
-                                                        <input type="number" class="fi-form-control fi-small value" value="1" min="1" v-model="replicate_value" :class="{'error': replicate_value < 1}" />
-                                                        <button type="button" @click.prevent="set" class="fi-button fi-default fi-small" :disabled="replicate_value < 1">Set</button>
-                                                    </div>
-
-                                                    <div class="fi-form-field separator" v-if="layout_mode !== 'roles'"></div>
-
-                                                    <div class="fi-form-field" v-if="layout_mode !== 'roles'">
-                                                        <button type="button" data-fi-modal=".auto_set_modal" @click.prevent="open_auto_set" class="fi-button fi-default fi-small">Auto Set</button>
-                                                    </div>
-
-                                                    <div class="fi-form-field separator"></div>
-
+                                            <div class="layout-mode">
+                                                <div class="fi-form fi-form-inline large-spacing main">
                                                     <div class="fi-form-field">
-                                                        <button type="button" @click.prevent="unset" class="fi-button fi-default fi-small">Unset</button>
+                                                        <span class="fi-form-label">Mode</span>
+                                                        <div class="button-group">
+                                                            <button type="button" @click.prevent="layout_mode = 'roles'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'roles', 'fi-primary': layout_mode === 'roles'}">Roles</button>
+                                                            <button type="button" @click.prevent="layout_mode = 'samples'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'samples', 'fi-primary': layout_mode === 'samples'}">Samples/Controls</button>
+                                                            <button type="button" @click.prevent="layout_mode = 'rates'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'rates', 'fi-primary': layout_mode === 'rates'}">Rates</button>
+                                                            <button type="button" @click.prevent="layout_mode = 'condition_sets'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'condition_sets', 'fi-primary': layout_mode === 'condition_sets'}">Condition Sets</button>
+                                                            <button type="button" @click.prevent="layout_mode = 'replicates'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'replicates', 'fi-primary': layout_mode === 'replicates'}">Replicates</button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="fi-form-field" v-if="!edit_mode">
+                                                        <div class="fi-panel special alert">
+                                                            <i class="fa fa-info-circle fi-icon-margin"></i><div>You are currently in View Mode</div>
+                                                            <button type="button" @click.prevent="edit_mode = true" class="fi-button fi-default fi-small">Edit Layout</button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="fi-form-field" v-if="selected_wells.length">
+
+                                                        <div class="fi-form-field separator"></div>
+
+                                                        <div class="fi-form-field" v-if="layout_mode === 'roles'">
+                                                            <span class="fi-form-label">Role</span>
+                                                            <div class="custom-dropdown fi-small value">
+                                                                <select class="fi-form-control fi-small" v-model="role_value">
+                                                                    <option value="test_sample">Test Sample</option>
+                                                                    <option value="ctrl_w_sample">Control with Sample</option>
+                                                                    <option value="ctrl_wo_sample">Control without Sample</option>
+                                                                    <option value="empty">Empty</option>
+                                                                </select>
+                                                            </div>
+                                                            <button type="button" @click.prevent="set" class="fi-button fi-default fi-small">Set</button>
+                                                        </div>
+
+                                                        <div class="fi-form-field" v-if="layout_mode === 'samples' && selected_wells.length">
+                                                            <span class="fi-form-label">Sample #</span>
+                                                            <input type="number" class="fi-form-control fi-small value" value="1" min="1" v-model="sample_value" :class="{'error': sample_value < 1}" />
+                                                            <button type="button" @click.prevent="set" class="fi-button fi-default fi-small" :disabled="sample_value < 1">Set</button>
+                                                        </div>
+
+                                                        <div class="fi-form-field" v-if="layout_mode === 'rates' && selected_wells.length">
+                                                            <span class="fi-form-label">Rate #</span>
+                                                            <input type="number" class="fi-form-control fi-small value" value="1" min="1" v-model="rate_value" :class="{'error': rate_value < 1}" />
+                                                            <button type="button" @click.prevent="set" class="fi-button fi-default fi-small" :disabled="sample_value < 1">Set</button>
+                                                        </div>
+
+                                                        <div class="fi-form-field" v-if="layout_mode === 'condition_sets' && selected_wells.length">
+                                                            <span class="fi-form-label">Condition Set #</span>
+                                                            <input type="number" class="fi-form-control fi-small value" value="1" min="1" v-model="condition_set_value" :class="{'error': condition_set_value < 1}" />
+                                                            <button type="button" @click.prevent="set" class="fi-button fi-default fi-small" :disabled="condition_set_value < 1">Set</button>
+                                                        </div>
+
+                                                        <div class="fi-form-field" v-if="layout_mode === 'replicates' && selected_wells.length">
+                                                            <span class="fi-form-label">Replicate #</span>
+                                                            <input type="number" class="fi-form-control fi-small value" value="1" min="1" v-model="replicate_value" :class="{'error': replicate_value < 1}" />
+                                                            <button type="button" @click.prevent="set" class="fi-button fi-default fi-small" :disabled="replicate_value < 1">Set</button>
+                                                        </div>
+
+                                                        <div class="fi-form-field separator" v-if="layout_mode !== 'roles'"></div>
+
+                                                        <div class="fi-form-field" v-if="layout_mode !== 'roles'">
+                                                            <button type="button" data-fi-modal=".auto_set_modal" @click.prevent="open_auto_set" class="fi-button fi-default fi-small">Auto Set</button>
+                                                        </div>
+
+                                                        <div class="fi-form-field separator"></div>
+
+                                                        <div class="fi-form-field">
+                                                            <button type="button" @click.prevent="unset" class="fi-button fi-default fi-small">Unset</button>
+                                                        </div>
+
                                                     </div>
 
                                                 </div>
 
-                                            </div>
-                                        </div>
+                                                <div v-if="edit_mode"  class="fi-form fi-form-inline large-spacing">
 
-                                        <div class="create-container">
-
-                                            <div class="plate-container create" :class="{'view-mode': !edit_mode}">
-
-                                                <div class="plate-outer" :class="'size_' + layout.size">
-
-                                                    <div class="plate-clear-selection" @click="selected_wells = [];"></div>
-
-                                                    <div class="plate-top-bar">
-
-                                                        <div class="plate-corner">
-                                                            <div class="plate-select-all" :class="{'selected': all_wells_selected}" @click="select_deselect_all"></div>
-                                                        </div>
-
-                                                        <div class="plate-columns">
-                                                            <div v-for="(plate_column, index) in plate_sizes[layout.size].columns" class="plate-column" :class="{'selected': selected_columns.includes(index)}" @click="select_deselect_column(index)">{{ index + 1 }}</div>
-                                                        </div>
-
+                                                    <div class="fi-form-fields fi-buttons-container fi-text-right">
+                                                        <button type="button" @click.prevent="" class="fi-button fi-default fi-small fi-no-margin">Undo</button>
+                                                        <button type="button" @click.prevent="" class="fi-button fi-default fi-small">Redo</button>
+                                                        <button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Clear</button>
                                                     </div>
 
-                                                    <div class="plate-inner" :class="{'filter-match': layout.filter_match}">
+                                                </div>
+                                            </div>
 
-                                                        <div class="plate-rows">
-                                                            <div v-for="(plate_row, index) in plate_sizes[layout.size].rows" class="plate-row" :class="{'selected': selected_rows.includes(index)}" @click="select_deselect_row(index)">{{ well_row_letters[index] }}</div>
+                                            <div class="create-container">
+
+                                                <div class="plate-container create" :class="{'view-mode': !edit_mode}">
+
+                                                    <div class="plate-outer" :class="'size_' + layout.size">
+
+                                                        <div class="plate-clear-selection" @click="selected_wells = [];"></div>
+
+                                                        <div class="plate-top-bar">
+
+                                                            <div class="plate-corner">
+                                                                <div class="plate-select-all" :class="{'selected': all_wells_selected}" @click="select_deselect_all"></div>
+                                                            </div>
+
+                                                            <div class="plate-columns">
+                                                                <div v-for="(plate_column, index) in plate_sizes[layout.size].columns" class="plate-column" :class="{'selected': selected_columns.includes(index)}" @click="select_deselect_column(index)">{{ index + 1 }}</div>
+                                                            </div>
+
                                                         </div>
 
-                                                        <drag-select attribute="attr" @change="selection($event)" v-if="edit_mode">
-                                                            <template v-slot="{ selected }">
-                                                                <div v-for="item in layout.wells"
-                                                                 :attr="item.id"
-                                                                 @mouseover="well_mouseover(item.id)"
-                                                                 @mouseout="well_mouseout(item.id)"
-                                                                 class="well"
-                                                                 :class="{
-                                                                     'disabled': item.disable
-                                                                 }">
-                                                                    <div class="well-inner"
-                                                                    :class="{
-                                                                        'selected': selected_wells.includes(String(item.id)) || temp_selection.includes(String(item.id)),
-                                                                        'role-set': item.content.role,
-                                                                        'highlighted': item.highlight
-                                                                       }">
-                                                                        <div v-if="item.content" class="well-content">
-                                                                            <span v-if="item.content.role === 'empty'" class="empty"><span class="xl"></span><span class="xr"></span></span>
-                                                                            <span v-else-if="layout_mode === 'roles' && item.content.role || layout_mode === 'rates' && item.content.role === 'ctrl_wo_sample'" :style="{ backgroundColor: role_colors[item.content.role] }"></span>
-                                                                            <span v-else-if="layout_mode === 'samples' && item.content.sample" :style="{ backgroundColor: getObjectByKey(samples, 'id', item.content.sample).color }"></span>
-                                                                            <span v-else-if="layout_mode === 'rates' && item.content.rate" :style="{ backgroundColor: getObjectByKey(rates, 'id', item.content.rate).color }"></span>
-                                                                            <span v-else-if="layout_mode === 'condition_sets' && item.content.condition_set" :style="{ backgroundColor: getObjectByKey(condition_sets, 'id', item.content.condition_set).color }"></span>
-                                                                            <span v-else-if="layout_mode === 'replicates' && item.content.replicate" :style="{ backgroundColor: getObjectByKey(replicates, 'id', item.content.replicate).color }"></span>
-                                                                            <div class="well-info" v-if="item.content.role" :data-fi-tooltip="render_tooltip_content(item.id)" :data-fi-class="tooltip_class(item.id)" :data-fi-offset="tooltip_offset"></div>
+                                                        <div class="plate-inner" :class="{'filter-match': layout.filter_match}">
+
+                                                            <div class="plate-rows">
+                                                                <div v-for="(plate_row, index) in plate_sizes[layout.size].rows" class="plate-row" :class="{'selected': selected_rows.includes(index)}" @click="select_deselect_row(index)">{{ well_row_letters[index] }}</div>
+                                                            </div>
+
+                                                            <drag-select attribute="attr" @change="selection($event)" v-if="edit_mode">
+                                                                <template v-slot="{ selected }">
+                                                                    <div v-for="item in layout.wells"
+                                                                     :attr="item.id"
+                                                                     @mouseover="well_mouseover(item.id)"
+                                                                     @mouseout="well_mouseout(item.id)"
+                                                                     class="well"
+                                                                     :class="{
+                                                                         'disabled': item.disable
+                                                                     }">
+                                                                        <div class="well-inner"
+                                                                        :class="{
+                                                                            'selected': selected_wells.includes(String(item.id)) || temp_selection.includes(String(item.id)),
+                                                                            'role-set': item.content.role,
+                                                                            'highlighted': item.highlight
+                                                                           }">
+                                                                            <div v-if="item.content" class="well-content">
+                                                                                <span v-if="item.content.role === 'empty'" class="empty"><span class="xl"></span><span class="xr"></span></span>
+                                                                                <span v-else-if="layout_mode === 'roles' && item.content.role || layout_mode === 'rates' && item.content.role === 'ctrl_wo_sample'" :style="{ backgroundColor: role_colors[item.content.role] }"></span>
+                                                                                <span v-else-if="layout_mode === 'samples' && item.content.sample" :style="{ backgroundColor: getObjectByKey(samples, 'id', item.content.sample).color }"></span>
+                                                                                <span v-else-if="layout_mode === 'rates' && item.content.rate" :style="{ backgroundColor: getObjectByKey(rates, 'id', item.content.rate).color }"></span>
+                                                                                <span v-else-if="layout_mode === 'condition_sets' && item.content.condition_set" :style="{ backgroundColor: getObjectByKey(condition_sets, 'id', item.content.condition_set).color }"></span>
+                                                                                <span v-else-if="layout_mode === 'replicates' && item.content.replicate" :style="{ backgroundColor: getObjectByKey(replicates, 'id', item.content.replicate).color }"></span>
+                                                                                <div class="well-info" v-if="item.content.role" :data-fi-tooltip="render_tooltip_content(item.id)" :data-fi-class="tooltip_class(item.id)" :data-fi-offset="tooltip_offset"></div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                             </template>
-                                                        </drag-select>
+                                                                 </template>
+                                                            </drag-select>
 
-                                                        <div class="drag-select-container" v-else>
-                                                            <div class="drag-select-inner fi-clearfix">
-                                                                <div v-for="item in layout.wells"
-                                                                 :attr="item.id"
-                                                                 @mouseover="well_mouseover(item.id)"
-                                                                 @mouseout="well_mouseout(item.id)"
-                                                                 class="well"
-                                                                 :class="{
-                                                                     'disabled': item.disable
-                                                                 }">
-                                                                 <div class="well-inner"
-                                                                 :class="{
-                                                                     'selected': selected_wells.includes(String(item.id)) || temp_selection.includes(String(item.id)),
-                                                                     'role-set': item.content.role,
-                                                                     'highlighted': item.highlight
-                                                                    }">
-                                                                     <div v-if="item.content" class="well-content">
-                                                                         <span v-if="item.content.role === 'empty'" class="empty"><span class="xl"></span><span class="xr"></span></span>
-                                                                         <span v-else-if="layout_mode === 'roles' && item.content.role || layout_mode === 'rates' && item.content.role === 'ctrl_wo_sample'" :style="{ backgroundColor: role_colors[item.content.role] }"></span>
-                                                                         <span v-else-if="layout_mode === 'samples' && item.content.sample" :style="{ backgroundColor: getObjectByKey(samples, 'id', item.content.sample).color }"></span>
-                                                                         <span v-else-if="layout_mode === 'rates' && item.content.rate" :style="{ backgroundColor: getObjectByKey(rates, 'id', item.content.rate).color }"></span>
-                                                                         <span v-else-if="layout_mode === 'condition_sets' && item.content.condition_set" :style="{ backgroundColor: getObjectByKey(condition_sets, 'id', item.content.condition_set).color }"></span>
-                                                                         <span v-else-if="layout_mode === 'replicates' && item.content.replicate" :style="{ backgroundColor: getObjectByKey(replicates, 'id', item.content.replicate).color }"></span>
-                                                                         <div class="well-info" v-if="item.content.role" :data-fi-tooltip="render_tooltip_content(item.id)" :data-fi-class="tooltip_class(item.id)" :data-fi-offset="tooltip_offset"></div>
+                                                            <div class="drag-select-container" v-else>
+                                                                <div class="drag-select-inner fi-clearfix">
+                                                                    <div v-for="item in layout.wells"
+                                                                     :attr="item.id"
+                                                                     @mouseover="well_mouseover(item.id)"
+                                                                     @mouseout="well_mouseout(item.id)"
+                                                                     class="well"
+                                                                     :class="{
+                                                                         'disabled': item.disable
+                                                                     }">
+                                                                     <div class="well-inner"
+                                                                     :class="{
+                                                                         'selected': selected_wells.includes(String(item.id)) || temp_selection.includes(String(item.id)),
+                                                                         'role-set': item.content.role,
+                                                                         'highlighted': item.highlight
+                                                                        }">
+                                                                         <div v-if="item.content" class="well-content">
+                                                                             <span v-if="item.content.role === 'empty'" class="empty"><span class="xl"></span><span class="xr"></span></span>
+                                                                             <span v-else-if="layout_mode === 'roles' && item.content.role || layout_mode === 'rates' && item.content.role === 'ctrl_wo_sample'" :style="{ backgroundColor: role_colors[item.content.role] }"></span>
+                                                                             <span v-else-if="layout_mode === 'samples' && item.content.sample" :style="{ backgroundColor: getObjectByKey(samples, 'id', item.content.sample).color }"></span>
+                                                                             <span v-else-if="layout_mode === 'rates' && item.content.rate" :style="{ backgroundColor: getObjectByKey(rates, 'id', item.content.rate).color }"></span>
+                                                                             <span v-else-if="layout_mode === 'condition_sets' && item.content.condition_set" :style="{ backgroundColor: getObjectByKey(condition_sets, 'id', item.content.condition_set).color }"></span>
+                                                                             <span v-else-if="layout_mode === 'replicates' && item.content.replicate" :style="{ backgroundColor: getObjectByKey(replicates, 'id', item.content.replicate).color }"></span>
+                                                                             <div class="well-info" v-if="item.content.role" :data-fi-tooltip="render_tooltip_content(item.id)" :data-fi-class="tooltip_class(item.id)" :data-fi-offset="tooltip_offset"></div>
+                                                                         </div>
                                                                      </div>
-                                                                 </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
 
-                                                        <div class="back-drop"></div>
+                                                            <div class="back-drop"></div>
+
+                                                        </div>
 
                                                     </div>
 
                                                 </div>
 
-                                            </div>
+                                                <div class="keymap">
+                                                    <div>
+                                                        <h5>Key</h5>
+                                                        <ul class="fi-list">
+                                                            <li class="color-key" :class="{'active': highlight_by === 'role_not_set', 'none': !unset_count}">
+                                                                <div class="color-key-button" @click="highlight('role_not_set')" v-click-outside="reset_highlight">
+                                                                    <span class="circle unset"></span>Role not set ({{ unset_count }})
+                                                                </div>
+                                                            </li>
+                                                            <li class="color-key" :class="{'active': highlight_by === 'test_sample', 'none': !test_sample_count}" v-if="layout_mode === 'roles'">
+                                                                <div class="color-key-button" @click="highlight('test_sample')" v-click-outside="reset_highlight">
+                                                                    <span class="circle" :style="{ backgroundColor: role_colors['test_sample'] }"></span>Test Samples ({{ test_sample_count }})
+                                                                </div>
+                                                            </li>
+                                                            <li class="color-key" :class="{'active': highlight_by === 'ctrl_w_sample', 'none': !ctrl_w_sample_count}" v-if="layout_mode === 'roles'">
+                                                                <div class="color-key-button" @click="highlight('ctrl_w_sample')" v-click-outside="reset_highlight">
+                                                                    <span class="circle" :style="{ backgroundColor: role_colors['ctrl_w_sample'] }"></span>Controls with Samples ({{ ctrl_w_sample_count }})
+                                                                </div>
+                                                            </li>
+                                                            <li class="color-key" :class="{'active': highlight_by === 'ctrl_wo_sample', 'none': !ctrl_wo_sample_count}" v-if="layout_mode === 'roles' || layout_mode === 'rates'">
+                                                                <div class="color-key-button" @click="highlight('ctrl_wo_sample')" v-click-outside="reset_highlight">
+                                                                    <span class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>Controls without Samples ({{ ctrl_wo_sample_count }})
+                                                                </div>
+                                                            </li>
+                                                            <li class="color-key" :class="{'active': highlight_by === 'empty', 'none': !empty_count}">
+                                                                <div class="color-key-button" @click="highlight('empty')" v-click-outside="reset_highlight">
+                                                                    <span class="circle empty"><span class="xl"></span><span class="xr"></span></span>Empty ({{ empty_count }})
+                                                                </div>
+                                                            </li>
 
-                                            <div class="keymap">
-                                                <div>
-                                                    <h5>Key</h5>
-                                                    <ul class="fi-list">
-                                                        <li class="color-key" :class="{'active': highlight_by === 'role_not_set', 'none': !unset_count}">
-                                                            <div class="color-key-button" @click="highlight('role_not_set')" v-click-outside="reset_highlight">
-                                                                <span class="circle unset"></span>Role not set ({{ unset_count }})
-                                                            </div>
-                                                        </li>
-                                                        <li class="color-key" :class="{'active': highlight_by === 'test_sample', 'none': !test_sample_count}" v-if="layout_mode === 'roles'">
-                                                            <div class="color-key-button" @click="highlight('test_sample')" v-click-outside="reset_highlight">
-                                                                <span class="circle" :style="{ backgroundColor: role_colors['test_sample'] }"></span>Test Samples ({{ test_sample_count }})
-                                                            </div>
-                                                        </li>
-                                                        <li class="color-key" :class="{'active': highlight_by === 'ctrl_w_sample', 'none': !ctrl_w_sample_count}" v-if="layout_mode === 'roles'">
-                                                            <div class="color-key-button" @click="highlight('ctrl_w_sample')" v-click-outside="reset_highlight">
-                                                                <span class="circle" :style="{ backgroundColor: role_colors['ctrl_w_sample'] }"></span>Controls with Samples ({{ ctrl_w_sample_count }})
-                                                            </div>
-                                                        </li>
-                                                        <li class="color-key" :class="{'active': highlight_by === 'ctrl_wo_sample', 'none': !ctrl_wo_sample_count}" v-if="layout_mode === 'roles' || layout_mode === 'rates'">
-                                                            <div class="color-key-button" @click="highlight('ctrl_wo_sample')" v-click-outside="reset_highlight">
-                                                                <span class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>Controls without Samples ({{ ctrl_wo_sample_count }})
-                                                            </div>
-                                                        </li>
-                                                        <li class="color-key" :class="{'active': highlight_by === 'empty', 'none': !empty_count}">
-                                                            <div class="color-key-button" @click="highlight('empty')" v-click-outside="reset_highlight">
-                                                                <span class="circle empty"><span class="xl"></span><span class="xr"></span></span>Empty ({{ empty_count }})
-                                                            </div>
-                                                        </li>
+                                                            <li class="color-key" :class="{'active': highlight_by === 'sample_not_set', 'none': !sample_not_set_count}" v-if="layout_mode === 'samples'">
+                                                                <div class="color-key-button" @click="highlight('sample_not_set')" v-click-outside="reset_highlight">
+                                                                    <span class="circle sample-not-set"></span>Sample/Control not set ({{ sample_not_set_count }})
+                                                                </div>
+                                                            </li>
+                                                            <li class="color-key" :class="{'active': highlight_by === 'sample' && highlight_id == sample.id}" v-if="layout_mode === 'samples'" v-for="sample in sorted_samples">
+                                                                <div class="color-key-button" @click="highlight('sample', sample.id)" v-click-outside="reset_highlight">
+                                                                    <span class="circle" :style="{ backgroundColor: sample.color }"></span>S/C {{ sample.id }} ({{ count_wells_by_sample(sample.id) }})
+                                                                </div>
+                                                            </li>
 
-                                                        <li class="color-key" :class="{'active': highlight_by === 'sample_not_set', 'none': !sample_not_set_count}" v-if="layout_mode === 'samples'">
-                                                            <div class="color-key-button" @click="highlight('sample_not_set')" v-click-outside="reset_highlight">
-                                                                <span class="circle sample-not-set"></span>Sample not set ({{ sample_not_set_count }})
-                                                            </div>
-                                                        </li>
-                                                        <li class="color-key" :class="{'active': highlight_by === 'sample' && highlight_id == sample.id}" v-if="layout_mode === 'samples'" v-for="sample in sorted_samples">
-                                                            <div class="color-key-button" @click="highlight('sample', sample.id)" v-click-outside="reset_highlight">
-                                                                <span class="circle" :style="{ backgroundColor: sample.color }"></span>S{{ sample.id }} ({{ count_wells_by_sample(sample.id) }})
-                                                            </div>
-                                                        </li>
+                                                            <li class="color-key" :class="{'active': highlight_by === 'rate_not_set', 'none': !rate_not_set_count}" v-if="layout_mode === 'rates'">
+                                                                <div class="color-key-button" @click="highlight('rate_not_set')" v-click-outside="reset_highlight">
+                                                                    <span class="circle rate-not-set"></span>Rate not set ({{ rate_not_set_count }})
+                                                                </div>
+                                                            </li>
+                                                            <li class="color-key" :class="{'active': highlight_by === 'rate' && highlight_id == rate.id}" v-if="layout_mode === 'rates'" v-for="rate in sorted_rates">
+                                                                <div class="color-key-button" @click="highlight('rate', rate.id)" v-click-outside="reset_highlight">
+                                                                    <span class="circle" :style="{ backgroundColor: rate.color }"></span>R {{ rate.id }} ({{ count_wells_by_rate(rate.id) }})
+                                                                </div>
+                                                            </li>
 
-                                                        <li class="color-key" :class="{'active': highlight_by === 'rate_not_set', 'none': !rate_not_set_count}" v-if="layout_mode === 'rates'">
-                                                            <div class="color-key-button" @click="highlight('rate_not_set')" v-click-outside="reset_highlight">
-                                                                <span class="circle rate-not-set"></span>Rate not set ({{ rate_not_set_count }})
-                                                            </div>
-                                                        </li>
-                                                        <li class="color-key" :class="{'active': highlight_by === 'rate' && highlight_id == rate.id}" v-if="layout_mode === 'rates'" v-for="rate in sorted_rates">
-                                                            <div class="color-key-button" @click="highlight('rate', rate.id)" v-click-outside="reset_highlight">
-                                                                <span class="circle" :style="{ backgroundColor: rate.color }"></span>R{{ rate.id }} ({{ count_wells_by_rate(rate.id) }})
-                                                            </div>
-                                                        </li>
+                                                            <li class="color-key" :class="{'active': highlight_by === 'condition_set_not_set', 'none': !condition_set_not_set_count}" v-if="layout_mode === 'condition_sets'">
+                                                                <div class="color-key-button" @click="highlight('condition_set_not_set')" v-click-outside="reset_highlight">
+                                                                    <span class="circle condition-set-not-set"></span>Condition Set not set ({{ condition_set_not_set_count }})
+                                                                </div>
+                                                            </li>
+                                                            <li class="color-key" :class="{'active': highlight_by === 'condition_set' && highlight_id == condition_set.id}" v-if="layout_mode === 'condition_sets'" v-for="condition_set in sorted_condition_sets">
+                                                                <div class="color-key-button" @click="highlight('condition_set', condition_set.id)" v-click-outside="reset_highlight">
+                                                                    <span class="circle" :style="{ backgroundColor: condition_set.color }"></span>CS {{ condition_set.id }} ({{ count_wells_by_condition_set(condition_set.id) }})
+                                                                </div>
+                                                            </li>
 
-                                                        <li class="color-key" :class="{'active': highlight_by === 'condition_set_not_set', 'none': !condition_set_not_set_count}" v-if="layout_mode === 'condition_sets'">
-                                                            <div class="color-key-button" @click="highlight('condition_set_not_set')" v-click-outside="reset_highlight">
-                                                                <span class="circle condition-set-not-set"></span>Condition Set not set ({{ condition_set_not_set_count }})
-                                                            </div>
-                                                        </li>
-                                                        <li class="color-key" :class="{'active': highlight_by === 'condition_set' && highlight_id == condition_set.id}" v-if="layout_mode === 'condition_sets'" v-for="condition_set in sorted_condition_sets">
-                                                            <div class="color-key-button" @click="highlight('condition_set', condition_set.id)" v-click-outside="reset_highlight">
-                                                                <span class="circle" :style="{ backgroundColor: condition_set.color }"></span>CS{{ condition_set.id }} ({{ count_wells_by_condition_set(condition_set.id) }})
-                                                            </div>
-                                                        </li>
-
-                                                        <li class="color-key" :class="{'active': highlight_by === 'replicate_not_set', 'none': !replicate_not_set_count}" v-if="layout_mode === 'replicates'">
-                                                            <div class="color-key-button" @click="highlight('replicate_not_set')" v-click-outside="reset_highlight">
-                                                                <span class="circle replicate-not-set"></span>Replicate not set ({{ replicate_not_set_count }})
-                                                            </div>
-                                                        </li>
-                                                        <li class="color-key" :class="{'active': highlight_by === 'replicate' && highlight_id == replicate.id}" v-if="layout_mode === 'replicates'" v-for="replicate in sorted_replicates">
-                                                            <div class="color-key-button" @click="highlight('replicate', replicate.id)" v-click-outside="reset_highlight">
-                                                                <span class="circle" :style="{ backgroundColor: replicate.color }"></span>Rep{{ replicate.id }} ({{ count_wells_by_replicate(replicate.id) }})
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+                                                            <li class="color-key" :class="{'active': highlight_by === 'replicate_not_set', 'none': !replicate_not_set_count}" v-if="layout_mode === 'replicates'">
+                                                                <div class="color-key-button" @click="highlight('replicate_not_set')" v-click-outside="reset_highlight">
+                                                                    <span class="circle replicate-not-set"></span>Replicate not set ({{ replicate_not_set_count }})
+                                                                </div>
+                                                            </li>
+                                                            <li class="color-key" :class="{'active': highlight_by === 'replicate' && highlight_id == replicate.id}" v-if="layout_mode === 'replicates'" v-for="replicate in sorted_replicates">
+                                                                <div class="color-key-button" @click="highlight('replicate', replicate.id)" v-click-outside="reset_highlight">
+                                                                    <span class="circle" :style="{ backgroundColor: replicate.color }"></span>Rep {{ replicate.id }} ({{ count_wells_by_replicate(replicate.id) }})
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
+
                                             </div>
 
                                         </div>

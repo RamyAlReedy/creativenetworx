@@ -1949,6 +1949,11 @@ Figure.positionDropdown = function () {
         var dropdown = jQuery(this);
         var thisMobileAttr = dropdown.attr('data-fi-mobile-dropdown');
 
+        if (!dropdown.find('.fi-dropdown-trigger:visible').not(dropdown.find('.fi-dropdown *')).length) {
+            Figure.toggleDropdown(dropdown);
+            return;
+        }
+
         var screenSize = Figure.getScreenSize();
         var canPosition = true;
 
@@ -2388,7 +2393,7 @@ jQuery(document).on('documentClick', function (e, element) {
     if (jQuery(element.target).closest('.side-panel').length) {
         Figure.documentClick = false;
     }
-    if (!jQuery(element.target).closest('.fi-dropdown-trigger, .fi-dropdown-content, .fi-dropdown-arrow').length) {
+    if (!jQuery(element.target).closest('.fi-dropdown-trigger, .fi-dropdown-content, .fi-dropdown-arrow, .vue-click-bug').length && !jQuery(element.target).hasClass('vue-click-bug')) {
         Figure.hideAllDropdownMenus();
         Figure.hideOtherPagesElements();
 

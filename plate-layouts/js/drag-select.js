@@ -138,6 +138,7 @@ Vue.component('drag-select', {
 
         function containerSize() {
             var plate_container = jQuery(container).closest('.plate-container');
+            jQuery(container).css({width: '', height: ''});
             jQuery(container).css({ width: plate_container.outerWidth(), height: plate_container.outerHeight()});
         }
 
@@ -145,6 +146,10 @@ Vue.component('drag-select', {
             containerSize();
 
             jQuery(window).on('resize', function () {
+                containerSize();
+            });
+
+            jQuery(document).on('change-tab', '.tab-content', function () {
                 containerSize();
             });
         }

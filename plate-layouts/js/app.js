@@ -46,11 +46,11 @@ var app = new Vue({
     el: '#app',
     data: {
         filters: {
-            sample_id: 'all',
-            role: 'all',
-            rate: 'all',
-            method: 'all',
-            condition_set: 'all',
+            sample_id: [],
+            role: [],
+            rate: [],
+            method: [],
+            condition_set: [],
         },
         treatments: [
             { id: 1, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
@@ -118,13 +118,16 @@ var app = new Vue({
             { id: 48, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
         ],
         plates: [
-            //{ id: 1, size: 384, name: 'Plate Name Goes Here', wells: [], filter_match: false, },
+            //{ id: 1, size: 384, name: 'Plate Name Goes Here', wells: [], filter_match: false, well_result_count: 0, },
         ],
         last_plate_id_used: 0,
-        add_plate_data: { id: -1, size: 0, name: '', wells: [], filter_match: false, },
-        edit_plate_data: { id: -1, size: 0, name: '', wells: [], filter_match: false, },
+        add_plate_data: { id: -1, name: '', size: 0, barcode: '', wells: [], filter_match: false, well_result_count: 0, },
+        edit_plate_data: { id: -1, name: '', size: 0, barcode: '', wells: [], filter_match: false, well_result_count: 0, },
         generate_plates_data: { plate_layout: {}, prefix: 'Plate - ' },
-        layouts_filter: 'my_layouts',
+        layouts_filter: {
+            main_view: 'my_layouts',
+            sizes: [],
+        },
         current_plate_index: -1,
         selected_treatments: [],
         selected_wells: [],
@@ -177,14 +180,14 @@ var app = new Vue({
             { id: 10, name: 'HSPS', },
         ],
         plate_layouts: [
-            {id: 1, name: 'Plate.Layout.1', size: 384, platform: 1, 'recommended': ['Rhopalosiphum.barley', 'Rhopalosiphum.barley\ 01']},
-            {id: 2, name: 'Plate.Layout.2', size: 96, platform: 2, 'recommended': ['Rhopalosiphum.barley']},
-            {id: 3, name: 'Plate.Layout.3', size: 48, platform: 3, 'recommended': []},
-            {id: 4, name: 'Plate.Layout.4', size: 24, platform: 4, 'recommended': []},
-            {id: 5, name: 'Plate.Layout.5', size: 384, platform: 1, 'recommended': []},
-            {id: 6, name: 'Plate.Layout.6', size: 96, platform: 2, 'recommended': []},
-            {id: 7, name: 'Plate.Layout.7', size: 48, platform: 3, 'recommended': []},
-            {id: 8, name: 'Plate.Layout.8', size: 24, platform: 4, 'recommended': []},
+            {id: 1, name: 'Plate.Layout.1', size: 96, platform: 1, method_default: true,},
+            {id: 2, name: 'Plate.Layout.2', size: 384, platform: 2, method_default: false,},
+            {id: 3, name: 'Plate.Layout.3', size: 48, platform: 3, method_default: false,},
+            {id: 4, name: 'Plate.Layout.4', size: 24, platform: 4, method_default: false,},
+            {id: 5, name: 'Plate.Layout.5', size: 96, platform: 1, method_default: false,},
+            {id: 6, name: 'Plate.Layout.6', size: 384, platform: 2, method_default: false,},
+            {id: 7, name: 'Plate.Layout.7', size: 48, platform: 3, method_default: false,},
+            {id: 8, name: 'Plate.Layout.8', size: 24, platform: 4, method_default: false,},
         ],
         treatment_result_count: 0,
         well_result_count: 0,
@@ -208,6 +211,23 @@ var app = new Vue({
         last_row_index: -1,
         createModalScrollInterval: null,
         createMultiplePluginIntervals: [],
+
+        clone_step: 'select_parameter',
+
+        clone_selected_sample_ids: [],
+
+        clone_original_condition_sets: ['Condition.Set.1'],
+        clone_available_condition_sets: ['Condition.Set.2', 'Condition.Set.3', 'Condition.Set.4', 'Condition.Set.5'],
+        clone_selected_condition_sets: [],
+
+        clone_original_rates: [1000, 500, 250, 100],
+        clone_available_rates: [2000, 750, 600, 125, 50, 25, 12.5, 3.125],
+        clone_selected_rates: [],
+
+        clone_original_replicates: 2,
+        clone_available_replicates: 2,
+        clone_selected_replicates: 2,
+
     },
     watch: {
         selected_wells: function () {
@@ -316,6 +336,31 @@ var app = new Vue({
         close_generate_plates: function () {
             this.generate_plates_data.plate_layout = { plate_layout: {}, prefix: 'Plate - ', };
         },
+        toggle_clone_value: function (type, value) {
+            if (type === 'condition_sets') {
+                var value_index = this.clone_selected_condition_sets.indexOf(value);
+                if (value_index > -1) {
+                    this.clone_selected_condition_sets.splice(value_index, 1);
+                }
+                else {
+                    this.clone_selected_condition_sets.push(value);
+                }
+            }
+            else if (type === 'rates') {
+                var value_index = this.clone_selected_rates.indexOf(value);
+                if (value_index > -1) {
+                    this.clone_selected_rates.splice(value_index, 1);
+                }
+                else {
+                    this.clone_selected_rates.push(value);
+                }
+            }
+        },
+        close_clone_plate: function () {
+            this.clone_step = 'select_parameter';
+            this.clone_selected_condition_sets = [];
+            this.clone_selected_rates = [];
+        },
         regenerate_wells_for_plate: function (plate_id) {
 
             var option3 = jQuery('.option-3-container').length;
@@ -332,6 +377,7 @@ var app = new Vue({
                         id: i+1,
                         content: content,
                         filter_match: false,
+                        well_result_count: 0,
                         highlight: false,
                     });
                 }
@@ -350,7 +396,7 @@ var app = new Vue({
             }
         },
         close_add_plate: function () {
-            this.add_plate_data = { id: -1, size: 0, name: '', wells: [], filter_match: false, };
+            this.add_plate_data = { id: -1, name: '', size: 0, barcode: '', wells: [], filter_match: false, well_result_count: 0, };
         },
         open_edit_plate: function (plate_id) {
             var plate = this.getObjectByKey(app.plates, 'id', plate_id);
@@ -364,6 +410,7 @@ var app = new Vue({
                 var plate = this.getObjectByKey(app.plates, 'id', this.edit_plate_data.id);
                 if (plate) {
                     plate.name = this.edit_plate_data.name;
+                    plate.barcode = this.edit_plate_data.barcode;
                     if (plate.size != this.edit_plate_data.size) {
                         plate.size = this.edit_plate_data.size;
                         this.regenerate_wells_for_plate(plate.id);
@@ -377,7 +424,7 @@ var app = new Vue({
             }
         },
         close_edit_plate: function () {
-            this.edit_plate_data = { id: -1, size: 0, name: '', wells: [], filter_match: false, };
+            this.edit_plate_data = { id: -1, name: '', size: 0, barcode: '', wells: [], filter_match: false, well_result_count: 0, };
         },
         delete_plate: function (plate_index) {
 
@@ -387,6 +434,7 @@ var app = new Vue({
                 message: 'Are you sure you want to delete this plate?',
                 title: 'Delete Plate',
                 onConfirm: function () {
+                    self.clear_plate(plate_index);
                     self.plates.splice(plate_index, 1);
                     if (self.current_plate_index == plate_index && plate_index === self.plates.length || self.current_plate_index > plate_index) {
                         self.current_plate_index--;
@@ -738,25 +786,45 @@ var app = new Vue({
             }
             this.selected_wells = [];
         },
-        clear_plate: function () {
+        clear_plate: function (plate_index) {
             var option3 = jQuery('.option-3-container').length;
-            for (var i = 0; i < this.plates[this.current_plate_index].wells.length; i++) {
-                if (this.plates[this.current_plate_index].wells[i].content) {
-                    var treatment = this.getObjectByKey(this.treatments, 'id', this.plates[this.current_plate_index].wells[i].content);
+            for (var i = 0; i < this.plates[plate_index].wells.length; i++) {
+                if (this.plates[plate_index].wells[i].content) {
+                    var treatment = this.getObjectByKey(this.treatments, 'id', this.plates[plate_index].wells[i].content);
                     if (treatment) {
                         treatment.place = null;
                     }
-                    this.plates[this.current_plate_index].wells[i].content = null;
+                    this.plates[plate_index].wells[i].content = null;
                     if (option3) {
-                        this.plates[this.current_plate_index].wells[i].content = {sample_id: '', role: '', condition_set: '', method: '', replicate: '', rate: '',};
+                        this.plates[plate_index].wells[i].content = {sample_id: '', role: '', condition_set: '', method: '', replicate: '', rate: '',};
                     }
                 }
+            }
+        },
+        toggle_filter: function (type, value) {
+            var self = this;
+            var value_index = self.filters[type].indexOf(value);
+            if (value_index === -1) {
+                self.filters[type].push(value);
+            }
+            else {
+                self.filters[type].splice(value_index, 1);
+            }
+        },
+        toggle_layouts_filter: function (type, value) {
+            var self = this;
+            var value_index = self.layouts_filter[type].indexOf(value);
+            if (value_index === -1) {
+                self.layouts_filter[type].push(value);
+            }
+            else {
+                self.layouts_filter[type].splice(value_index, 1);
             }
         },
         clear_filters: function () {
             var filters = this.filters;
             for (var key of Object.keys(filters)) {
-                this.$set(this.filters, key, 'all');
+                this.$set(this.filters, key, []);
             }
         },
         fill_wells: function () {
@@ -987,62 +1055,176 @@ var app = new Vue({
             all_selected_wells = this.remove_duplicates(all_selected_wells);
             return all_selected_wells;
         },
+        all_condition_sets: function () {
+            var self = this;
+            var flags = [];
+            var output = [];
+            for(var i = 0; i < self.treatments.length; i++) {
+                if( flags[self.treatments[i].condition_set]) continue;
+                flags[self.treatments[i].condition_set] = true;
+                output.push(self.treatments[i].condition_set);
+            }
+            return output;
+        },
+        all_roles: function () {
+            var self = this;
+            var flags = [];
+            var output = [];
+            for(var i = 0; i < self.treatments.length; i++) {
+                if( flags[self.treatments[i].role]) continue;
+                flags[self.treatments[i].role] = true;
+                output.push(self.treatments[i].role);
+            }
+            return output;
+        },
+        all_sample_ids: function () {
+            var self = this;
+            var flags = [];
+            var output = [];
+            for(var i = 0; i < self.treatments.length; i++) {
+                if( flags[self.treatments[i].sample_id]) continue;
+                flags[self.treatments[i].sample_id] = true;
+                output.push(self.treatments[i].sample_id);
+            }
+            return output;
+        },
+        all_rates: function () {
+            var self = this;
+            var flags = [];
+            var output = [];
+            for(var i = 0; i < self.treatments.length; i++) {
+                if( flags[self.treatments[i].rate]) continue;
+                flags[self.treatments[i].rate] = true;
+                output.push(self.treatments[i].rate);
+            }
+            return output;
+        },
         treatments_filtered_list: function () {
             var self = this;
-            var resultsArray = self.treatments;
-            if (self.current_plate_index > -1) {
-                var wellsArray = self.plates[self.current_plate_index].wells;
-                if (wellsArray.length) {
-                    for (var i = 0; i < wellsArray.length; i++) {
-                        wellsArray[i].filter_match = false;
+
+
+
+            if (self.plates.length) {
+                for (var i = 0; i < self.plates.length; i++) {
+                    self.plates[i].filter_match = false;
+                    self.plates[i].well_result_count = 0;
+                    for (var j = 0; j < self.plates[i].wells.length; j++) {
+                        self.plates[i].wells[j].filter_match = false;
                     }
                 }
-                var wells_results_array = wellsArray;
-                var well_filter_active = false;
-                self.plates[this.current_plate_index].filter_match = false;
             }
 
             self.treatment_result_count = 0;
-            self.well_result_count = 0;
             var filters = this.filters;
-            for (var key of Object.keys(filters)) {
-                if (filters[key] !== 'all') {
-                    var filter_array = resultsArray.filter(function (el) {
-                        return el[key] == filters[key];
-                    });
-                    if (filter_array.length) {
-                        resultsArray = filter_array;
-                        self.treatment_result_count = filter_array.length;
+            if (self.filters_active) {
+                var treatments_array = JSON.parse(JSON.stringify(self.treatments));
+                var filter_array = [];
+                var active_filter_keys = [];
+                for (var key of Object.keys(filters)) {
+                    if (filters[key].length) {
+
+                        active_filter_keys.push(key);
+
+                        // var filter_array = resultsArray;
+                        // for (var i = 0; i < filters[key].length; i++) {
+                        //
+                        //     filter_array = filter_array.filter(function (el) {
+                        //         return el[key] == filters[key][i];
+                        //     });
+                        //     if (filter_array.length) {
+                        //         resultsArray = resultsArray.concat(filter_array);
+                        //         self.treatment_result_count += filter_array.length;
+                        //     }
+                        //     if (self.plates.length) {
+                        //         for (var j = 0; j < self.plates.length; j++) {
+                        //             var well_filter_array = JSON.parse(JSON.stringify(self.plates[j].wells));
+                        //
+                        //             well_filter_array = well_filter_array.filter(function (el) {
+                        //                 if (el.content) {
+                        //                     var treatment = self.getObjectByKey(self.treatments, 'id', el.content);
+                        //                     if (treatment) {
+                        //                         if (treatment[key] == filters[key][i]) {
+                        //                         }
+                        //                         return treatment[key] == filters[key][i];
+                        //                     }
+                        //                 }
+                        //             });
+                        //             if (well_filter_array.length) {
+                        //                 self.plates[j].filter_match = true;
+                        //                 self.plates[j].well_result_count += well_filter_array.length;
+                        //                 for (var k = 0; k < well_filter_array.length; k++) {
+                        //                     var well_object = self.getObjectByKey(self.plates[j].wells, 'id', well_filter_array[k].id)
+                        //                     if (well_object) {
+                        //                         well_object.filter_match = true;
+                        //                     }
+                        //                 }
+                        //             }
+                        //         }
+                        //     }
+                        //
+                        // }
                     }
-                    if (self.current_plate_index > -1) {
-                        wells_results_array = wells_results_array.filter(function (el) {
+                }
+
+
+
+                for (var i = 0; i < active_filter_keys.length; i++) {
+                    var innerResultsArray = [];
+                    for (var j = 0; j < filters[active_filter_keys[i]].length; j++) {
+
+                        for (var k = 0; k < treatments_array.length; k++) {
+                            if (treatments_array[k][active_filter_keys[i]] == filters[active_filter_keys[i]][j]) {
+                                innerResultsArray.push(treatments_array[k]);
+                            }
+                        }
+
+                    }
+
+                    treatments_array = innerResultsArray;
+
+                    console.log(treatments_array);
+
+                }
+
+                if (self.plates.length) {
+                    for (var j = 0; j < self.plates.length; j++) {
+                        var well_filter_array = JSON.parse(JSON.stringify(self.plates[j].wells));
+
+                        well_filter_array = well_filter_array.filter(function (el) {
                             if (el.content) {
-                                var treatment = self.getObjectByKey(self.treatments, 'id', el.content);
+                                var treatment = self.getObjectByKey(treatments_array, 'id', el.content);
                                 if (treatment) {
-                                    return treatment[key] == filters[key];
+                                    return true;
                                 }
                             }
                         });
-                        if (wells_results_array.length) {
-                            well_filter_active = true;
+                        if (well_filter_array.length) {
+                            self.plates[j].filter_match = true;
+                            self.plates[j].well_result_count += well_filter_array.length;
+                            for (var k = 0; k < well_filter_array.length; k++) {
+                                var well_object = self.getObjectByKey(self.plates[j].wells, 'id', well_filter_array[k].id)
+                                if (well_object) {
+                                    well_object.filter_match = true;
+                                }
+                            }
                         }
                     }
                 }
-            }
-            if (self.current_plate_index > -1 && well_filter_active && wells_results_array.length) {
-                self.plates[this.current_plate_index].filter_match = true;
-                for (var i = 0; i < wells_results_array.length; i++) {
-                    wells_results_array[i].filter_match = true;
-                }
-                self.well_result_count = wells_results_array.length;
+
+                self.treatment_result_count = treatments_array.length;
+
+                self.selected_treatments = [];
+                return treatments_array.sort(function(a,b){
+                    return parseInt(a.id) - parseInt(b.id);
+                });
             }
             self.selected_treatments = [];
-            return resultsArray;
+            return self.treatments;
         },
         filters_active: function () {
             var filters = this.filters;
             for (var key of Object.keys(filters)) {
-                if (filters[key] !== 'all') {
+                if (filters[key].length) {
                     return true;
                 }
             }
@@ -1076,10 +1258,20 @@ jQuery(document).on('fi-modal:hidden', '.generate_plates_modal', function () {
     app.close_generate_plates();
 });
 
+jQuery(document).on('fi-modal:hidden', '.clone_plate_modal', function () {
+    app.close_clone_plate();
+});
+
 jQuery(document).on('fi-dropdown:shown', '.choose-layout', function () {
     jQuery(this).find('.fi-search input[type]').focus();
 });
 
 jQuery(document).on('click', '.plate-dropdown .fi-dropdown-content li a', function () {
     Figure.toggleDropdown(jQuery(this).closest('.fi-dropdown'));
+});
+
+jQuery(document).on('fi-dropdown:shown', '.filter-trigger', function (e, dropdownTrigger, dropdownContent) {
+    app.$nextTick(function () {
+        dropdownContent.find('.fi-search input[type]').focus();
+    });
 });
