@@ -752,7 +752,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#" class="fi-list-link-wrapper" @click.prevent="clone_step = 'replicates'">
+                                                <a href="#" class="fi-list-link-wrapper" @click.prevent="clone_step = 'replicates'; $nextTick( function () { $refs.clone_reps_number.focus(); });">
                                                     <span>Replicates</span>
                                                     <i class="far fa-chevron-right more-chevron"></i>
                                                 </a>
@@ -810,7 +810,7 @@
 
                                         <div class="fi-row">
                                             <div class="fi-column fi-width-small-4">
-                                                <p><strong>Condition sets in original plate (1)</strong></p>
+                                                <p><strong>Condition sets in original plate ({{ clone_original_condition_sets.length }})</strong></p>
                                                 <div class="fi-panel fi-no-padding scroll-list">
                                                     <div class="select-items original-values">
 
@@ -828,7 +828,7 @@
                                                 </div>
                                             </div>
                                             <div class="fi-column fi-width-small-8">
-                                                <p><strong>Available condition sets from unplaced treatments (32)</strong></p>
+                                                <p><strong>Available condition sets from unplaced treatments ({{ clone_available_condition_sets.length }})</strong></p>
                                                 <div class="fi-panel fi-no-padding">
                                                     <div class="add-users-container">
 
@@ -942,7 +942,7 @@
 
                                         <div class="fi-row">
                                             <div class="fi-column fi-width-small-4">
-                                                <p><strong>Rates in original plate (8)</strong></p>
+                                                <p><strong>Rates in original plate ({{ clone_original_rates.length }})</strong></p>
                                                 <div class="fi-panel fi-no-padding scroll-list">
                                                     <div class="select-items original-values">
 
@@ -960,7 +960,7 @@
                                                 </div>
                                             </div>
                                             <div class="fi-column fi-width-small-8">
-                                                <p><strong>Available rates from unplaced treatments (32)</strong></p>
+                                                <p><strong>Available rates from unplaced treatments ({{ clone_available_rates.length }})</strong></p>
                                                 <div class="fi-panel fi-no-padding">
                                                     <div class="add-users-container">
 
@@ -1072,9 +1072,9 @@
 
                                     <div>
                                         <p>Replicate count in original plate: <strong>{{ clone_original_replicates }}</strong></p>
-                                        <p>Available replicates: <strong>2</strong></p>
-                                        <p>Replicate count to use in cloned plate ({{ clone_available_replicates }} max):</p>
-                                        <p><input type="number" class="fi-form-control" v-model="clone_selected_replicates" :max="clone_original_replicates" :class="{'error': clone_selected_replicates > clone_original_replicates || clone_selected_replicates == 0}" /></p>
+                                        <p>Available replicates: <strong>{{ clone_available_replicates }}</strong></p>
+                                        <p>Replicate count to use in cloned plate ({{ clone_original_replicates }} max):</p>
+                                        <p><input ref="clone_reps_number" type="number" class="fi-form-control" v-model="clone_selected_replicates" :max="clone_original_replicates" :class="{'error': clone_selected_replicates > clone_original_replicates || clone_selected_replicates == 0}" /></p>
                                     </div>
 
                                 </div>

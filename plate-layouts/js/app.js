@@ -225,7 +225,7 @@ var app = new Vue({
         clone_selected_rates: [],
 
         clone_original_replicates: 2,
-        clone_available_replicates: 2,
+        clone_available_replicates: 4,
         clone_selected_replicates: 2,
 
     },
@@ -366,6 +366,7 @@ var app = new Vue({
             this.clone_step = 'select_parameter';
             this.clone_selected_condition_sets = [];
             this.clone_selected_rates = [];
+            this.clone_selected_replicates = 2;
         },
         regenerate_wells_for_plate: function (plate_id) {
 
