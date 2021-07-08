@@ -164,7 +164,7 @@
                                                         </div>
 
                                                         <div class="fi-form-field" v-if="layout_mode === 'samples' && selected_wells.length">
-                                                            <span class="fi-form-label">Sample #</span>
+                                                            <span class="fi-form-label">Sample/Control #</span>
                                                             <input type="number" class="fi-form-control fi-small value" value="1" min="1" v-model="sample_value" :class="{'error': sample_value < 1}" />
                                                             <button type="button" @click.prevent="set" class="fi-button fi-default fi-small" :disabled="sample_value < 1">Set</button>
                                                         </div>
