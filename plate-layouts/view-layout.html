@@ -7,12 +7,12 @@
 
     <title>View Layout</title>
 
-    <link href="fontawesome/css/all.min.css?v0.1" rel="stylesheet">
-    <link href="figure-ui/css/figure.css?v0.1" rel="stylesheet">
-    <link href="style.css?v0.1" rel="stylesheet">
+    <link href="fontawesome/css/all.min.css?v0.12" rel="stylesheet">
+    <link href="figure-ui/css/figure.css?v0.12" rel="stylesheet">
+    <link href="style.css?v0.12" rel="stylesheet">
 
     <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="figure-ui/js/figure.js?v0.1"></script>
+    <script src="figure-ui/js/figure.js?v0.12"></script>
 
     <style>
         html, body, #create_app {
@@ -331,14 +331,14 @@
                                                                     Controls with Samples ({{ ctrl_w_sample_count }})
                                                                 </div>
                                                             </li>
-                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'ctrl_wo_sample', 'active-selection': edit_mode && highlight_by === 'ctrl_wo_sample', 'none': !ctrl_wo_sample_count || layout_mode === 'rates'}">
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'ctrl_wo_sample', 'active-selection': edit_mode && highlight_by === 'ctrl_wo_sample', 'none': !ctrl_wo_sample_count || layout_mode === 'rates', 'disabled': layout_mode === 'rates'}">
                                                                 <div class="color-key-button" @click="highlight('ctrl_wo_sample')" v-click-outside="reset_highlight_click_outside">
-                                                                    <span v-if="layout_mode === 'roles'" class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>
+                                                                    <span v-if="layout_mode === 'roles' || layout_mode === 'rates'" class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>
                                                                     <span v-else class="circle"><i class="far fa-minus"></i></span>
                                                                     Controls without Samples ({{ ctrl_wo_sample_count }})
                                                                 </div>
                                                             </li>
-                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'empty', 'active-selection': edit_mode && highlight_by === 'empty', 'none': !empty_count || layout_mode !== 'roles'}">
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'empty', 'active-selection': edit_mode && highlight_by === 'empty', 'none': !empty_count || layout_mode !== 'roles', 'disabled': layout_mode !== 'roles'}">
                                                                 <div class="color-key-button" @click="highlight('empty')" v-click-outside="reset_highlight_click_outside">
                                                                     <span class="circle empty"><span class="xl"></span><span class="xr"></span></span>Empty ({{ empty_count }})
                                                                 </div>
@@ -464,14 +464,14 @@
 
     </div>
 
-    <script src="js/vue.js?v0.1"></script>
-    <script src="js/drag-select.js?v0.1"></script>
+    <script src="js/vue.js?v0.12"></script>
+    <script src="js/drag-select.js?v0.12"></script>
 
     <script>
         var edit_layout_id = 1;
     </script>
 
-    <script src="js/create-app.js?v0.1"></script>
+    <script src="js/create-app.js?v0.12"></script>
 
 </body>
 </html>

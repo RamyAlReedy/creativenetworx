@@ -1432,25 +1432,27 @@ var create_app = new Vue({
                 <ul>
                 `;
                 if (!this.layout.name) {
-                    error_message += `<li><strong>Name</strong> cannot be empty.</li>`;
+                    error_message += `<li><strong>Name</strong> is empty.</li>`;
                 }
                 if (!this.layout.platform) {
-                    error_message += `<li>Please select a <strong>platform</strong>.</li>`;
+                    error_message += `<li><strong>Platform</strong> is empty.</li>`;
                 }
                 if (!this.layout.dispensary) {
-                    error_message += `<li>Please select a <strong>dispensary</strong>.</li>`;
+                    error_message += `<li><strong>Dispensary</strong> is empty.</li>`;
                 }
-                error_message += `
-                <li>
-                    <p>There are wells that are <strong>unset</strong> or <strong>incomplete</strong>.</p>
-                    <p>Unneeded wells can be set to empty. Otherwise, please make sure the following rules are met:</p>
-                    <ul>
-                        <li>Test Samples and Controls with Samples must have Sample #s and Rates #s</li>
-                        <li>Controls without Samples must have Sample #s</li>
-                        <li>All wells (except for empty ones) must have Condition Set #s and Replicate #s</li>
-                    </ul>
-                </li>
-                `;
+                if (this.layout.size - this.count_placed_wells) {
+                    error_message += `
+                    <li>
+                        <p>There are wells that are <strong>unset</strong> or <strong>incomplete</strong>.</p>
+                        <p>Unneeded wells can be set to empty. Otherwise, please make sure the following rules are met:</p>
+                        <ul>
+                            <li>Test Samples and Controls with Samples must have Sample #s and Rates #s</li>
+                            <li>Controls without Samples must have Sample #s</li>
+                            <li>All wells (except for empty ones) must have Condition Set #s and Replicate #s</li>
+                        </ul>
+                    </li>
+                    `;
+                }
                 Figure.dialog({
                     title: `<i class="far fa-exclamation-triangle fi-icon-margin fi-text-danger"></i>Can't Save Layout`,
                     message: error_message,

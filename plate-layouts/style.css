@@ -1468,6 +1468,10 @@ a.fi-close-button, button.fi-close-button {
         opacity: 0.75;
     }
 
+    .color-key.none .circle {
+        opacity: 0.25;
+    }
+
     .color-key.none .color-key-button {
         color: #b4b4b4;
     }
@@ -1512,6 +1516,10 @@ a.fi-close-button, button.fi-close-button {
         background-color: #8bd6ff !important;
         box-shadow: 0 0 5px 1px #0062bd !important;
     }
+
+.color-key.disabled .circle {
+    opacity: 0.25;
+}
 
 
 .plates-grid-container {
