@@ -1477,21 +1477,27 @@ a.fi-close-button, button.fi-close-button {
         }
 
         .color-key.none .color-key-button:hover,
-        .color-key.active .color-key-button {
+        .color-key.active .color-key-button,
+        .color-key.active-selection .color-key-button {
             opacity: 1;
         }
 
-.color-key.active {
+.color-key.active,
+.color-key.active-selection {
     font-weight: 700;
 }
 
     .color-key .circle {
         flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 1.25rem;
         height: 1.25rem;
         border-radius: 50%;
         margin-right: 0.375rem;
         border: 2px solid #333;
+        color: #4a4a4a;
     }
 
     .color-key .circle.unset {
@@ -1500,6 +1506,11 @@ a.fi-close-button, button.fi-close-button {
 
     .color-key.active .circle {
         box-shadow: 0 0 0px 2px #000000;
+    }
+
+    .color-key.active-selection .circle {
+        background-color: #8bd6ff !important;
+        box-shadow: 0 0 5px 1px #0062bd !important;
     }
 
 
@@ -2216,7 +2227,7 @@ a.fi-close-button, button.fi-close-button {
     .add-users-container .selected-users .remove-all,
     .add-users-container .browse-users .deselect-all,
     .add-users-container .browse-users.all-selected .select-all {
-        
+
     }
 
     .add-users-container .browse-users.all-selected .deselect-all,

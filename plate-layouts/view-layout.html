@@ -7,12 +7,12 @@
 
     <title>View Layout</title>
 
-    <link href="fontawesome/css/all.min.css" rel="stylesheet">
-    <link href="figure-ui/css/figure.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
+    <link href="fontawesome/css/all.min.css?v0.1" rel="stylesheet">
+    <link href="figure-ui/css/figure.css?v0.1" rel="stylesheet">
+    <link href="style.css?v0.1" rel="stylesheet">
 
     <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="figure-ui/js/figure.js"></script>
+    <script src="figure-ui/js/figure.js?v0.1"></script>
 
     <style>
         html, body, #create_app {
@@ -208,7 +208,7 @@
                                                     <div class="fi-form-fields fi-buttons-container fi-text-right">
                                                         <button type="button" @click.prevent="" class="fi-button fi-default fi-small fi-no-margin">Undo</button>
                                                         <button type="button" @click.prevent="" class="fi-button fi-default fi-small">Redo</button>
-                                                        <button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Clear</button>
+                                                        <button type="button" @click.prevent="clear_plate" class="fi-button fi-default fi-small">Clear Layout</button>
                                                     </div>
 
                                                 </div>
@@ -312,72 +312,78 @@
                                                     <div>
                                                         <h5>Key</h5>
                                                         <ul class="fi-list">
-                                                            <li class="color-key" :class="{'active': highlight_by === 'role_not_set', 'none': !unset_count}">
-                                                                <div class="color-key-button" @click="highlight('role_not_set')" v-click-outside="reset_highlight">
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'role_not_set', 'active-selection': edit_mode && highlight_by === 'role_not_set', 'none': !unset_count || layout_mode !== 'roles'}">
+                                                                <div class="color-key-button" @click="highlight('role_not_set')" v-click-outside="reset_highlight_click_outside">
                                                                     <span class="circle unset"></span>Role not set ({{ unset_count }})
                                                                 </div>
                                                             </li>
-                                                            <li class="color-key" :class="{'active': highlight_by === 'test_sample', 'none': !test_sample_count}" v-if="layout_mode === 'roles'">
-                                                                <div class="color-key-button" @click="highlight('test_sample')" v-click-outside="reset_highlight">
-                                                                    <span class="circle" :style="{ backgroundColor: role_colors['test_sample'] }"></span>Test Samples ({{ test_sample_count }})
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'test_sample', 'active-selection': edit_mode && highlight_by === 'test_sample', 'none': !test_sample_count}">
+                                                                <div class="color-key-button" @click="highlight('test_sample')" v-click-outside="reset_highlight_click_outside">
+                                                                    <span v-if="layout_mode === 'roles'" class="circle" :style="{ backgroundColor: role_colors['test_sample'] }"></span>
+                                                                    <span v-else class="circle"><i class="far fa-minus"></i></span>
+                                                                    Test Samples ({{ test_sample_count }})
                                                                 </div>
                                                             </li>
-                                                            <li class="color-key" :class="{'active': highlight_by === 'ctrl_w_sample', 'none': !ctrl_w_sample_count}" v-if="layout_mode === 'roles'">
-                                                                <div class="color-key-button" @click="highlight('ctrl_w_sample')" v-click-outside="reset_highlight">
-                                                                    <span class="circle" :style="{ backgroundColor: role_colors['ctrl_w_sample'] }"></span>Controls with Samples ({{ ctrl_w_sample_count }})
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'ctrl_w_sample', 'active-selection': edit_mode && highlight_by === 'ctrl_w_sample', 'none': !ctrl_w_sample_count}">
+                                                                <div class="color-key-button" @click="highlight('ctrl_w_sample')" v-click-outside="reset_highlight_click_outside">
+                                                                    <span v-if="layout_mode === 'roles'" class="circle" :style="{ backgroundColor: role_colors['ctrl_w_sample'] }"></span>
+                                                                    <span v-else class="circle"><i class="far fa-minus"></i></span>
+                                                                    Controls with Samples ({{ ctrl_w_sample_count }})
                                                                 </div>
                                                             </li>
-                                                            <li class="color-key" :class="{'active': highlight_by === 'ctrl_wo_sample', 'none': !ctrl_wo_sample_count}" v-if="layout_mode === 'roles' || layout_mode === 'rates'">
-                                                                <div class="color-key-button" @click="highlight('ctrl_wo_sample')" v-click-outside="reset_highlight">
-                                                                    <span class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>Controls without Samples ({{ ctrl_wo_sample_count }})
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'ctrl_wo_sample', 'active-selection': edit_mode && highlight_by === 'ctrl_wo_sample', 'none': !ctrl_wo_sample_count || layout_mode === 'rates'}">
+                                                                <div class="color-key-button" @click="highlight('ctrl_wo_sample')" v-click-outside="reset_highlight_click_outside">
+                                                                    <span v-if="layout_mode === 'roles'" class="circle" :style="{ backgroundColor: role_colors['ctrl_wo_sample'] }"></span>
+                                                                    <span v-else class="circle"><i class="far fa-minus"></i></span>
+                                                                    Controls without Samples ({{ ctrl_wo_sample_count }})
                                                                 </div>
                                                             </li>
-                                                            <li class="color-key" :class="{'active': highlight_by === 'empty', 'none': !empty_count}">
-                                                                <div class="color-key-button" @click="highlight('empty')" v-click-outside="reset_highlight">
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'empty', 'active-selection': edit_mode && highlight_by === 'empty', 'none': !empty_count || layout_mode !== 'roles'}">
+                                                                <div class="color-key-button" @click="highlight('empty')" v-click-outside="reset_highlight_click_outside">
                                                                     <span class="circle empty"><span class="xl"></span><span class="xr"></span></span>Empty ({{ empty_count }})
                                                                 </div>
                                                             </li>
 
-                                                            <li class="color-key" :class="{'active': highlight_by === 'sample_not_set', 'none': !sample_not_set_count}" v-if="layout_mode === 'samples'">
-                                                                <div class="color-key-button" @click="highlight('sample_not_set')" v-click-outside="reset_highlight">
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'sample_not_set', 'active-selection': edit_mode && highlight_by === 'sample_not_set', 'none': !sample_not_set_count}" v-if="layout_mode === 'samples'">
+                                                                <div class="color-key-button" @click="highlight('sample_not_set')" v-click-outside="reset_highlight_click_outside">
                                                                     <span class="circle sample-not-set"></span>Sample/Control not set ({{ sample_not_set_count }})
                                                                 </div>
                                                             </li>
-                                                            <li class="color-key" :class="{'active': highlight_by === 'sample' && highlight_id == sample.id}" v-if="layout_mode === 'samples'" v-for="sample in sorted_samples">
-                                                                <div class="color-key-button" @click="highlight('sample', sample.id)" v-click-outside="reset_highlight">
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'sample' && highlight_id == sample.id, 'active-selection': edit_mode && highlight_by === 'sample' && highlight_id == sample.id}" v-if="layout_mode === 'samples'" v-for="sample in sorted_samples">
+                                                                <div class="color-key-button" @click="highlight('sample', sample.id)" v-click-outside="reset_highlight_click_outside">
                                                                     <span class="circle" :style="{ backgroundColor: sample.color }"></span>S/C {{ sample.id }} ({{ count_wells_by_sample(sample.id) }})
                                                                 </div>
                                                             </li>
 
-                                                            <li class="color-key" :class="{'active': highlight_by === 'rate_not_set', 'none': !rate_not_set_count}" v-if="layout_mode === 'rates'">
-                                                                <div class="color-key-button" @click="highlight('rate_not_set')" v-click-outside="reset_highlight">
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'rate_not_set', 'active-selection': edit_mode && highlight_by === 'rate_not_set', 'none': !rate_not_set_count}" v-if="layout_mode === 'rates'">
+                                                                <div class="color-key-button" @click="highlight('rate_not_set')" v-click-outside="reset_highlight_click_outside">
                                                                     <span class="circle rate-not-set"></span>Rate not set ({{ rate_not_set_count }})
                                                                 </div>
                                                             </li>
-                                                            <li class="color-key" :class="{'active': highlight_by === 'rate' && highlight_id == rate.id}" v-if="layout_mode === 'rates'" v-for="rate in sorted_rates">
-                                                                <div class="color-key-button" @click="highlight('rate', rate.id)" v-click-outside="reset_highlight">
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'rate' && highlight_id == rate.id, 'active-selection': edit_mode && highlight_by === 'rate' && highlight_id == rate.id}" v-if="layout_mode === 'rates'" v-for="rate in sorted_rates">
+                                                                <div class="color-key-button" @click="highlight('rate', rate.id)" v-click-outside="reset_highlight_click_outside">
                                                                     <span class="circle" :style="{ backgroundColor: rate.color }"></span>R {{ rate.id }} ({{ count_wells_by_rate(rate.id) }})
                                                                 </div>
                                                             </li>
 
-                                                            <li class="color-key" :class="{'active': highlight_by === 'condition_set_not_set', 'none': !condition_set_not_set_count}" v-if="layout_mode === 'condition_sets'">
-                                                                <div class="color-key-button" @click="highlight('condition_set_not_set')" v-click-outside="reset_highlight">
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'condition_set_not_set', 'active-selection': edit_mode && highlight_by === 'condition_set_not_set', 'none': !condition_set_not_set_count}" v-if="layout_mode === 'condition_sets'">
+                                                                <div class="color-key-button" @click="highlight('condition_set_not_set')" v-click-outside="reset_highlight_click_outside">
                                                                     <span class="circle condition-set-not-set"></span>Condition Set not set ({{ condition_set_not_set_count }})
                                                                 </div>
                                                             </li>
-                                                            <li class="color-key" :class="{'active': highlight_by === 'condition_set' && highlight_id == condition_set.id}" v-if="layout_mode === 'condition_sets'" v-for="condition_set in sorted_condition_sets">
-                                                                <div class="color-key-button" @click="highlight('condition_set', condition_set.id)" v-click-outside="reset_highlight">
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'condition_set' && highlight_id == condition_set.id, 'active-selection': edit_mode && highlight_by === 'condition_set' && highlight_id == condition_set.id}" v-if="layout_mode === 'condition_sets'" v-for="condition_set in sorted_condition_sets">
+                                                                <div class="color-key-button" @click="highlight('condition_set', condition_set.id)" v-click-outside="reset_highlight_click_outside">
                                                                     <span class="circle" :style="{ backgroundColor: condition_set.color }"></span>CS {{ condition_set.id }} ({{ count_wells_by_condition_set(condition_set.id) }})
                                                                 </div>
                                                             </li>
 
-                                                            <li class="color-key" :class="{'active': highlight_by === 'replicate_not_set', 'none': !replicate_not_set_count}" v-if="layout_mode === 'replicates'">
-                                                                <div class="color-key-button" @click="highlight('replicate_not_set')" v-click-outside="reset_highlight">
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'replicate_not_set', 'active-selection': edit_mode && highlight_by === 'replicate_not_set', 'none': !replicate_not_set_count}" v-if="layout_mode === 'replicates'">
+                                                                <div class="color-key-button" @click="highlight('replicate_not_set')" v-click-outside="reset_highlight_click_outside">
                                                                     <span class="circle replicate-not-set"></span>Replicate not set ({{ replicate_not_set_count }})
                                                                 </div>
                                                             </li>
-                                                            <li class="color-key" :class="{'active': highlight_by === 'replicate' && highlight_id == replicate.id}" v-if="layout_mode === 'replicates'" v-for="replicate in sorted_replicates">
-                                                                <div class="color-key-button" @click="highlight('replicate', replicate.id)" v-click-outside="reset_highlight">
+                                                            <li class="color-key" :class="{'active': !edit_mode && highlight_by === 'replicate' && highlight_id == replicate.id, 'active-selection': edit_mode && highlight_by === 'replicate' && highlight_id == replicate.id}" v-if="layout_mode === 'replicates'" v-for="replicate in sorted_replicates">
+                                                                <div class="color-key-button" @click="highlight('replicate', replicate.id)" v-click-outside="reset_highlight_click_outside">
                                                                     <span class="circle" :style="{ backgroundColor: replicate.color }"></span>Rep {{ replicate.id }} ({{ count_wells_by_replicate(replicate.id) }})
                                                                 </div>
                                                             </li>
@@ -458,14 +464,14 @@
 
     </div>
 
-    <script src="js/vue.js"></script>
-    <script src="js/drag-select.js"></script>
+    <script src="js/vue.js?v0.1"></script>
+    <script src="js/drag-select.js?v0.1"></script>
 
     <script>
         var edit_layout_id = 1;
     </script>
 
-    <script src="js/create-app.js"></script>
+    <script src="js/create-app.js?v0.1"></script>
 
 </body>
 </html>

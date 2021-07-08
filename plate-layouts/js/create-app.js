@@ -333,7 +333,7 @@ var create_app = new Vue({
                 return n + (!well.disable);
             }, 0);
 
-            if (this.selected_wells.length === all_enabled_wells_count) {
+            if (this.selected_wells.length && this.selected_wells.length === all_enabled_wells_count) {
                 this.all_wells_selected = true;
             }
         },
@@ -539,6 +539,12 @@ var create_app = new Vue({
             });
         },
         selection: function (new_selection) {
+
+            if (this.edit_mode) {
+                this.highlight_by = '';
+                this.highlight_id = 0;
+            }
+
             var first_item = parseInt(this.selection_sorted(this.selected_wells)[0]);
             var last_item = parseInt(this.selection_sorted(new_selection)[new_selection.length-1]);
 
@@ -649,6 +655,7 @@ var create_app = new Vue({
            }
        },
         check_selection: function () {
+            this.reset_highlight();
             for (var i = 0; i < this.layout.wells.length; i++) {
                 var well = this.layout.wells[i];
                 if (
@@ -721,6 +728,7 @@ var create_app = new Vue({
                 }
             }
             this.selected_wells = [];
+            this.reset_highlight();
         },
         unset: function () {
             for (var i = 0; i < this.selected_wells.length; i++) {
@@ -747,6 +755,7 @@ var create_app = new Vue({
                 }
             }
             this.selected_wells = [];
+            this.reset_highlight();
         },
         well_mouseover: function (id) {
             var columns = this.plate_sizes[this.layout.size].columns;
@@ -773,6 +782,7 @@ var create_app = new Vue({
             }
             this.selected_treatments = [];
             this.selected_wells = [];
+            this.reset_highlight();
         },
         place_across: function () {
             this.place_series(this.selected_wells);
@@ -833,6 +843,7 @@ var create_app = new Vue({
             }
             this.$nextTick(function () {
                 this.selected_wells = [];
+                this.reset_highlight();
             });
         },
         auto_set_across: function () {
@@ -914,6 +925,7 @@ var create_app = new Vue({
                 well.content = 'blank';
             }
             this.selected_wells = [];
+            this.reset_highlight();
         },
         unplace_treatments: function () {
             for (var i = 0; i < this.selected_treatments.length; i++) {
@@ -940,6 +952,7 @@ var create_app = new Vue({
                 }
             }
             this.selected_wells = [];
+            this.reset_highlight();
         },
         clear_plate: function () {
             for (var i = 0; i < this.layout.wells.length; i++) {
@@ -1004,6 +1017,7 @@ var create_app = new Vue({
                 }
             }
             self.selected_wells = [];
+            self.reset_highlight();
             self.add_content = {
                 condition_set: '',
                 sample_id: '',
@@ -1110,106 +1124,229 @@ var create_app = new Vue({
             }
         },
         highlight: function(type, id) {
+            if (!id) {
+                id = 0;
+            }
             this.selected_wells = [];
-            this.reset_highlight();
-            for (var i = 0; i < this.layout.wells.length; i++) {
-                var well = this.layout.wells[i];
-                if (type === 'role_not_set' && this.unset_count) {
-                    if (!well.content.role) {
-                        well.highlight = true;
-                        this.highlight_by = type;
+            if (this.highlight_by == type && this.highlight_id == id) {
+                if (this.edit_mode) {
+                    this.reset_highlight();
+                }
+                else {
+                    this.reset_highlight();
+                    for (var i = 0; i < this.layout.wells.length; i++) {
+                        this.layout.wells[i].highlight = false;
                     }
                 }
-                else if (type === 'empty' && this.empty_count) {
-                    if (well.content.role === 'empty') {
-                        well.highlight = true;
-                        this.highlight_by = type;
+            }
+            else {
+                this.reset_highlight();
+
+                if (!this.edit_mode) {
+                    for (var i = 0; i < this.layout.wells.length; i++) {
+                        this.layout.wells[i].highlight = false;
                     }
                 }
-                else if (type === 'test_sample' && this.test_sample_count) {
-                    if (well.content.role === 'test_sample') {
-                        well.highlight = true;
-                        this.highlight_by = type;
+
+                for (var i = 0; i < this.layout.wells.length; i++) {
+                    var well = this.layout.wells[i];
+                    if (type === 'role_not_set' && this.unset_count) {
+                        if (!well.content.role) {
+                            this.highlight_by = type;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'empty' && this.empty_count) {
+                        if (well.content.role === 'empty') {
+                            this.highlight_by = type;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'test_sample' && this.test_sample_count) {
+                        if (well.content.role === 'test_sample') {
+                            this.highlight_by = type;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'ctrl_w_sample' && this.ctrl_w_sample_count) {
+                        if (well.content.role === 'ctrl_w_sample') {
+                            this.highlight_by = type;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'ctrl_wo_sample' && this.ctrl_wo_sample_count) {
+                        if (well.content.role === 'ctrl_wo_sample') {
+                            this.highlight_by = type;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'sample_not_set' && this.sample_not_set_count) {
+                        if (!well.content.sample && (well.content.role === 'test_sample' || well.content.role === 'ctrl_w_sample' || well.content.role === 'ctrl_wo_sample')) {
+                            this.highlight_by = type;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'sample' && id) {
+                        if (well.content.sample == id) {
+                            this.highlight_by = type;
+                            this.highlight_id = id;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'rate_not_set' && this.rate_not_set_count) {
+                        if (!well.content.rate && (well.content.role === 'test_sample' || well.content.role === 'ctrl_w_sample')) {
+                            this.highlight_by = type;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'rate' && id) {
+                        if (well.content.rate == id) {
+                            this.highlight_by = type;
+                            this.highlight_id = id;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'condition_set_not_set' && this.condition_set_not_set_count) {
+                        if (!well.content.condition_set && (well.content.role === 'test_sample' || well.content.role === 'ctrl_w_sample' || well.content.role === 'ctrl_wo_sample')) {
+                            this.highlight_by = type;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'condition_set' && id) {
+                        if (well.content.condition_set == id) {
+                            this.highlight_by = type;
+                            this.highlight_id = id;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'replicate_not_set' && this.replicate_not_set_count) {
+                        if (!well.content.replicate && (well.content.role === 'test_sample' || well.content.role === 'ctrl_w_sample' || well.content.role === 'ctrl_wo_sample')) {
+                            this.highlight_by = type;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'replicate' && id) {
+                        if (well.content.replicate == id) {
+                            this.highlight_by = type;
+                            this.highlight_id = id;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
                     }
                 }
-                else if (type === 'ctrl_w_sample' && this.ctrl_w_sample_count) {
-                    if (well.content.role === 'ctrl_w_sample') {
-                        well.highlight = true;
-                        this.highlight_by = type;
-                    }
-                }
-                else if (type === 'ctrl_wo_sample' && this.ctrl_wo_sample_count) {
-                    if (well.content.role === 'ctrl_wo_sample') {
-                        well.highlight = true;
-                        this.highlight_by = type;
-                    }
-                }
-                else if (type === 'sample_not_set' && this.sample_not_set_count) {
-                    if (!well.content.sample && (well.content.role === 'test_sample' || well.content.role === 'ctrl_w_sample' || well.content.role === 'ctrl_wo_sample')) {
-                        well.highlight = true;
-                        this.highlight_by = type;
-                    }
-                }
-                else if (type === 'sample' && id) {
-                    if (well.content.sample == id) {
-                        well.highlight = true;
-                        this.highlight_by = type;
-                        this.highlight_id = id;
-                    }
-                }
-                else if (type === 'rate_not_set' && this.rate_not_set_count) {
-                    if (!well.content.rate && (well.content.role === 'test_sample' || well.content.role === 'ctrl_w_sample')) {
-                        well.highlight = true;
-                        this.highlight_by = type;
-                    }
-                }
-                else if (type === 'rate' && id) {
-                    if (well.content.rate == id) {
-                        well.highlight = true;
-                        this.highlight_by = type;
-                        this.highlight_id = id;
-                    }
-                }
-                else if (type === 'condition_set_not_set' && this.condition_set_not_set_count) {
-                    if (!well.content.condition_set && (well.content.role === 'test_sample' || well.content.role === 'ctrl_w_sample' || well.content.role === 'ctrl_wo_sample')) {
-                        well.highlight = true;
-                        this.highlight_by = type;
-                    }
-                }
-                else if (type === 'condition_set' && id) {
-                    if (well.content.condition_set == id) {
-                        well.highlight = true;
-                        this.highlight_by = type;
-                        this.highlight_id = id;
-                    }
-                }
-                else if (type === 'replicate_not_set' && this.replicate_not_set_count) {
-                    if (!well.content.replicate && (well.content.role === 'test_sample' || well.content.role === 'ctrl_w_sample' || well.content.role === 'ctrl_wo_sample')) {
-                        well.highlight = true;
-                        this.highlight_by = type;
-                    }
-                }
-                else if (type === 'replicate' && id) {
-                    if (well.content.replicate == id) {
-                        well.highlight = true;
-                        this.highlight_by = type;
-                        this.highlight_id = id;
-                    }
+                if (this.edit_mode && !this.selected_wells.length) {
+                    this.reset_highlight();
                 }
             }
         },
         reset_highlight: function () {
-            for (var i = 0; i < this.layout.wells.length; i++) {
-                this.layout.wells[i].highlight = false;
-            }
             this.highlight_by = '';
             this.highlight_id = 0;
+        },
+        reset_highlight_click_outside: function () {
+            if (!this.edit_mode && !jQuery(event.target).is('.color-key-button') && !jQuery(event.target).closest('.color-key-button').length) {
+                this.reset_highlight();
+                for (var i = 0; i < this.layout.wells.length; i++) {
+                    this.layout.wells[i].highlight = false;
+                }
+            }
         },
         select_deselect_column: function (index) {
 
             if (this.edit_mode) {
 
                 this.selected_wells = [];
+                this.reset_highlight();
 
                 if (this.last_col_index != index) {
                     var columns = this.plate_sizes[this.layout.size].columns;
@@ -1240,6 +1377,7 @@ var create_app = new Vue({
             if (this.edit_mode) {
 
                 this.selected_wells = [];
+                this.reset_highlight();
 
                 if (this.last_row_index != index) {
                     var columns = this.plate_sizes[this.layout.size].columns;
@@ -1267,6 +1405,8 @@ var create_app = new Vue({
         },
         select_deselect_all: function () {
             if (this.edit_mode) {
+
+                this.reset_highlight();
 
                 var all_enabled_wells_count = this.layout.wells.reduce(function(n, well) {
                     return n + (!well.disable);
@@ -1420,6 +1560,9 @@ var create_app = new Vue({
 jQuery(document).on('mousedown', function (e) {
     if (jQuery(e.target).is('.plate-container .drag-select-container, .plate-top-bar, .plate-corner, .plate-columns, .plate-rows, .well.disabled')) {
         create_app.selected_wells = [];
+        if (create_app.edit_mode) {
+            create_app.reset_highlight();
+        }
     }
 });
 
