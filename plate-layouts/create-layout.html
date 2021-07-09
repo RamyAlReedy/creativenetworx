@@ -53,11 +53,12 @@
 
                                             <div class="top-right-buttons fi-form fi-form-inline large-spacing">
 
-                                                <div v-if="edit_mode" class="fi-form-field">
-                                                    <div class="plate-counts fi-text-light">
-                                                        <span>{{ count_placed_wells }} completed</span>
-                                                        <span>{{ layout.size - count_placed_wells }} remaining</span>
-                                                    </div>
+                                                <div v-if="edit_mode" class="fi-form-field fi-text-light">
+                                                    <span>{{ count_placed_wells }} completed</span>
+                                                </div>
+
+                                                <div v-if="edit_mode" class="fi-form-field fi-text-light">
+                                                    <span>{{ layout.size - count_placed_wells }} remaining</span>
                                                 </div>
 
                                                 <div v-if="edit_mode" class="fi-form-field main-actions fi-buttons-container fi-text-right">
