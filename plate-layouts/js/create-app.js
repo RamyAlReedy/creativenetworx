@@ -45,13 +45,18 @@ Vue.mixin( {
     data: function () {
         return {
             sample_color_palatte: [
-                '#1e2493', '#5456b5', '#9495d5', '#d7d7f2',
-                '#1e4b20', '#468547', '#80bb80', '#caecc6',
-                '#d7782d', '#e29e57', '#eec294', '#f9e5d0',
-                '#461393', '#703fb4', '#a580d4', '#dac8f2',
-                '#8c1a11', '#ad4c3e', '#cf9281', '#f0d5c9',
-                '#ea3323', '#ec6331', '#f2a84a', '#fbe772',
-                '#4aa22e', '#91c148', '#dacb72', '#e7c4b4',
+                // '#1e2493', '#5456b5', '#9495d5', '#d7d7f2',
+                // '#1e4b20', '#468547', '#80bb80', '#caecc6',
+                // '#d7782d', '#e29e57', '#eec294', '#f9e5d0',
+                // '#461393', '#703fb4', '#a580d4', '#dac8f2',
+                // '#8c1a11', '#ad4c3e', '#cf9281', '#f0d5c9',
+                // '#ea3323', '#ec6331', '#f2a84a', '#fbe772',
+                // '#4aa22e', '#91c148', '#dacb72', '#e7c4b4',
+
+                '#1e2493', '#1e4b20', '#d7782d', '#461393', '#8c1a11', '#ea3323', '#4aa22e',
+                '#5456b5', '#468547', '#e29e57', '#703fb4', '#ad4c3e', '#ec6331', '#91c148',
+                '#9495d5', '#80bb80', '#eec294', '#a580d4', '#cf9281', '#f2a84a', '#dacb72',
+                '#d7d7f2', '#caecc6', '#f9e5d0', '#dac8f2', '#f0d5c9', '#fbe772', '#e7c4b4',
             ],
             rate_color_palatte: [
                 '#d7782d', '#e29e57', '#eec294', '#f9e5d0',
@@ -479,6 +484,28 @@ var create_app = new Vue({
         ShadeHexColor: function (color, percent) {
             return this.rgb2hex(this.shadeRGBColor(this.hexToRgb(color), percent));
         },
+        generate_shades: function (color, count) {
+            var shades = [];
+            if (count > 1) {
+                var step = 1 / (count - 1) * 1.2;
+                var shade = -0.6;
+                for (var i = 0; i < count; i++) {
+                    shades.push(this.ShadeHexColor(color, shade));
+                    shade = shade + step;
+                }
+                return shades;
+            }
+            return [this.ShadeHexColor(color, -0.6)];
+        },
+        update_rate_shades: function () {
+            // this.rates.sort(function(a, b) {
+            //     return parseInt(a.id) - parseInt(b.id);
+            // });
+            var rate_shades = this.generate_shades('#ff3302', this.rates.length)
+            for (var i = 0; i < this.rates.length; i++) {
+                this.rates[i].color = rate_shades[i];
+            }
+        },
         count_placed_treatments: function () {
             var count = 0;
             for (var i = 0; i < this.treatments.length; i++) {
@@ -692,9 +719,13 @@ var create_app = new Vue({
         add_update_content: function (well_id, type, value) {
             var plural = type + 's';
             if (!this.getObjectByKey(this[plural], 'id', value)) {
+                var color = this[type + '_color_palatte'][this[type + '_color_index']]
+                if (type === 'rate') {
+                    color = '';
+                }
                 this[plural].push({
                     id: value,
-                    color: this[type + '_color_palatte'][this[type + '_color_index']],
+                    color: color,
                 });
                 if (this[type + '_color_index'] == this[type + '_color_palatte'].length - 1) {
                     this[type + '_color_index'] = 0;
@@ -727,8 +758,13 @@ var create_app = new Vue({
                     this.add_update_content(this.selected_wells[i], 'replicate', this.replicate_value);
                 }
             }
-            this.selected_wells = [];
-            this.reset_highlight();
+            this.$nextTick(function () {
+                if (this.rates.length) {
+                    this.update_rate_shades();
+                }
+                this.selected_wells = [];
+                this.reset_highlight();
+            });
         },
         unset: function () {
             for (var i = 0; i < this.selected_wells.length; i++) {
@@ -842,6 +878,9 @@ var create_app = new Vue({
                 starting_number++;
             }
             this.$nextTick(function () {
+                if (this.rates.length) {
+                    this.update_rate_shades();
+                }
                 this.selected_wells = [];
                 this.reset_highlight();
             });

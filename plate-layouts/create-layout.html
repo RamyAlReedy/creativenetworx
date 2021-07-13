@@ -438,7 +438,7 @@
                                             <span v-else-if="layout_mode === 'replicates'">Replicate</span>
                                             #
                                         </label>
-                                        <input type="number" class="fi-form-control" v-model="auto_set_data.starting_number" data-fi-focus-start />
+                                        <input type="number" class="fi-form-control" v-model="auto_set_data.starting_number" min="1" :class="{'error': auto_set_data.starting_number < 1}" data-fi-focus-start />
                                     </div>
                                     <div class="fi-form-field">
                                         <label class="fi-form-label">Direction</label>
@@ -453,7 +453,7 @@
 
                             <div class="fi-modal-footer fi-buttons-container fi-text-right">
                                 <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                <button type="submit" class="fi-button fi-primary" :disabled="!auto_set_data.starting_number || auto_set_data.direction == 0">Auto Set</button>
+                                <button type="submit" class="fi-button fi-primary" :disabled="!auto_set_data.starting_number || auto_set_data.starting_number < 1">Auto Set</button>
                             </div>
 
                         </form>

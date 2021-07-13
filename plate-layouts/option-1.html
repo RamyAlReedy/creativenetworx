@@ -1064,17 +1064,16 @@
 
                                 <div class="fi-modal-body">
 
-                                    <div style="display: none;">
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                                    <div>
+                                        <h4><i class="far fa-exclamation-triangle fi-text-warning fi-icon-margin"></i><strong>Some replicates are unavailable</strong></h4>
+                                        <p>Only <strong>76</strong> out of the <strong>82</strong> treatments in the original plate have available replicates that can be used in the cloned plate.</p>
+                                        <p>If you choose to proceed, the wells for the unavailable replicates will be set as Empty.</p>
                                     </div>
 
-                                    <hr style="display: none;" />
-
-                                    <div>
-                                        <p>Replicate count in original plate: <strong>{{ clone_original_replicates }}</strong></p>
-                                        <p>Available replicates: <strong>{{ clone_available_replicates }}</strong></p>
-                                        <p>Replicate count to use in cloned plate ({{ clone_original_replicates }} max):</p>
-                                        <p><input ref="clone_reps_number" type="number" class="fi-form-control" v-model="clone_selected_replicates" :max="clone_original_replicates" :class="{'error': clone_selected_replicates > clone_original_replicates || clone_selected_replicates == 0}" /></p>
+                                    <div style="display: none;">
+                                        <h4><strong>All replicates available</strong></h4>
+                                        <p>All the treatments in the original plate have available replicates that can be used in the cloned plate.</p>
+                                        <p>Click <strong>Clone Plate</strong> to complete the cloning process.</p>
                                     </div>
 
                                 </div>
