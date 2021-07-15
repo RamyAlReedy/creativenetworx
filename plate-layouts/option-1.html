@@ -7,12 +7,12 @@
 
     <title>Option 1</title>
 
-    <link href="fontawesome/css/all.min.css?v0.14" rel="stylesheet">
-    <link href="figure-ui/css/figure.css?v0.14" rel="stylesheet">
-    <link href="style.css?v0.14" rel="stylesheet">
+    <link href="fontawesome/css/all.min.css?v0.15" rel="stylesheet">
+    <link href="figure-ui/css/figure.css?v0.15" rel="stylesheet">
+    <link href="style.css?v0.15" rel="stylesheet">
 
     <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="figure-ui/js/figure.js?v0.14"></script>
+    <script src="figure-ui/js/figure.js?v0.15"></script>
 </head>
 
 <body class="option-1 test">
@@ -41,16 +41,36 @@
                                 <div class="plate-layout-container experiment">
 
                                     <div class="fi-tabs fi-alt method-tabs">
-                                        <div class="top-right-buttons">
-                                            <button type="button" @click.prevent="" class="fi-button fi-default fi-small generate-with-default-button" data-fi-modal=".generate_using_defaults_modal">
-                                                Generate Plates for All Methods
-                                            </button>
-                                        </div>
                                         <ul>
                                             <li class="fi-tab-active"><button type="button" class="fi-tab-button">Method.1.Name</button></li>
                                             <li><button type="button" class="fi-tab-button">Method.2.Name</button></li>
                                             <li><button type="button" class="fi-tab-button">Method.3.Name</button></li>
                                         </ul>
+                                        <div class="top-right-buttons">
+                                            <div class="fi-form fi-form-inline large-spacing">
+                                                <div class="fi-form-field separator"></div>
+                                                <div class="fi-form-field">
+                                                    <span class="fi-form-label">View by</span>
+                                                    <div class="custom-dropdown fi-small value">
+                                                        <select class="fi-form-control fi-small">
+                                                            <option value="roles">Roles</option>
+                                                            <option value="test_sample">Test Samples</option>
+                                                            <option value="ctrl_w_sample">Control with Sample</option>
+                                                            <option value="ctrl_wo_sample">Control without Sample</option>
+                                                            <option value="rates">Rates</option>
+                                                            <option value="condition_sets">Condition Sets</option>
+                                                            <option value="replicates">Replicates</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="fi-form-field separator"></div>
+                                                <div class="fi-form-field">
+                                                    <button type="button" @click.prevent="" class="fi-button fi-default fi-small generate-with-default-button" data-fi-modal=".generate_using_defaults_modal">
+                                                        Generate Plates for All Methods
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="treatments">
@@ -465,8 +485,8 @@
                                     </div>
                                     <div class="fi-form-field">
                                         <label class="fi-form-label">Barcode (Optional)</label>
-                                        <input type="text" class="fi-form-control" v-model="add_plate_data.barcode" maxlength="12" />
-                                        <div class="fi-hint"><span>12 characters max</span></div>
+                                        <input type="text" class="fi-form-control" v-model="add_plate_data.barcode" maxlength="10" :class="{'error': add_plate_data.barcode != '' && !check_number(add_plate_data.barcode)}" />
+                                        <div class="fi-hint"><span>10 digits</span></div>
                                     </div>
                                 </div>
 
@@ -474,7 +494,7 @@
 
                             <div class="fi-modal-footer fi-buttons-container fi-text-right">
                                 <button type="button" class="fi-button fi-small fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                <button type="submit" class="fi-button fi-small fi-primary" :disabled="!add_plate_data.name || add_plate_data.size == 0">Add Plate</button>
+                                <button type="submit" class="fi-button fi-small fi-primary" :disabled="!add_plate_data.name || add_plate_data.size == 0 || (add_plate_data.barcode != '' && !check_number(add_plate_data.barcode)) || (add_plate_data.barcode != '' && add_plate_data.barcode.toString().length < 10)">Add Plate</button>
                             </div>
 
                         </form>
@@ -567,7 +587,7 @@
                                                         <button type="button" @click.prevent="layouts_filter.main_view = 'all'" class="fi-button fi-small fi-width-small-6" :class="{'fi-primary': layouts_filter.main_view === 'all', 'fi-default': layouts_filter.main_view !== 'all',}">All</button>
                                                     </div>
                                                 </div>
-                                                <div class="filters-multiple fi-panel">
+                                                <!-- <div class="filters-multiple fi-panel">
                                                     <div class="filter-section">
                                                         <div class="fi-dropdown filter-trigger" data-fi-append-to-body>
                                                             <button type="button" class="fi-dropdown-trigger fi-button fi-default fi-small fi-button-icon">
@@ -594,6 +614,22 @@
                                                             </button>
                                                         </div>
                                                         <button v-show="layouts_filter.sizes.length" @click="layouts_filter.sizes = []" class="fi-close-button remove-all"></button>
+                                                    </div>
+                                                </div> -->
+                                                <div class="fi-form fi-form-inline toggle-thumbs">
+                                                    <div class="fi-form-field">
+                                                        <span class="fi-form-label">Show thumbnails for</span>
+                                                        <div class="custom-dropdown fi-small value">
+                                                            <select class="fi-form-control fi-small">
+                                                                <option value="roles">Roles</option>
+                                                                <option value="test_sample">Test Samples</option>
+                                                                <option value="ctrl_w_sample">Control with Sample</option>
+                                                                <option value="ctrl_wo_sample">Control without Sample</option>
+                                                                <option value="rates">Rates</option>
+                                                                <option value="condition_sets">Condition Sets</option>
+                                                                <option value="replicates">Replicates</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <ul class="fi-list fi-list-line fi-no-spacing fi-no-margin">
@@ -1536,15 +1572,15 @@
 
     </div>
 
-    <script src="js/vue.js?v0.14"></script>
-    <script src="js/drag-select.js?v0.14"></script>
+    <script src="js/vue.js?v0.15"></script>
+    <script src="js/drag-select.js?v0.15"></script>
 
-    <script src="js/app.js?v0.14"></script>
+    <script src="js/app.js?v0.15"></script>
 
     <script>
         var edit_layout_id = 1;
     </script>
-    <script src="js/create-app.js?v0.14"></script>
+    <script src="js/create-app.js?v0.15"></script>
 
     <script>
         jQuery(document).on('click', '.plate-exp-container .well', function () {

@@ -288,7 +288,7 @@ select.fi-form-control.placeholder {
 
 .fi-modal-body-inner .fi-tabs.method-tabs ul {
     padding: 0 1rem;
-    padding-right: 15.5625rem;
+    padding-right: 33.6875rem;
 }
 
 .top-right-buttons {
@@ -298,6 +298,10 @@ select.fi-form-control.placeholder {
     right: 1.5rem;
     display: flex;
     align-items: center;
+}
+
+.method-tabs .top-right-buttons {
+    right: 1rem;
 }
 
 .fi-button.more-button {
@@ -1747,7 +1751,32 @@ a.fi-close-button, button.fi-close-button {
     border-right: none;
 }
 
-.fi-dropdown-content.fi-full-width .filters-multiple + ul {
+.fi-form.toggle-thumbs {
+    padding: 0.75rem;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+    .fi-form.toggle-thumbs .fi-form-field {
+        display: flex;
+        align-items: center;
+    }
+
+    .fi-form.toggle-thumbs .fi-form-label {
+        margin-top: 0;
+        padding-top: 0;
+    }
+
+    .fi-form.toggle-thumbs .custom-dropdown {
+        flex-grow: 1;
+    }
+
+        .fi-form.toggle-thumbs .custom-dropdown .fi-form-control {
+            width: 100%;
+        }
+
+.fi-dropdown-content.fi-full-width .filters-multiple + ul,
+.fi-dropdown-content.fi-full-width .fi-form.toggle-thumbs + ul {
     max-height: 32rem;
     overflow: auto;
 }
@@ -1933,7 +1962,7 @@ a.fi-close-button, button.fi-close-button {
 
 .fi-form-field.separator {
     border-left: 1px solid #ddd;
-    height: 100%;
+    height: 1.828125rem;
 }
 
 .plate-header .fi-form-field.separator {
@@ -1944,13 +1973,19 @@ a.fi-close-button, button.fi-close-button {
         flex-grow: 1;
     }
 
-        .layout-mode .fi-form.fi-form-inline .fi-form-field {
+        .layout-mode .fi-form.fi-form-inline .fi-form-field,
+        .top-right-buttons .fi-form.fi-form-inline,
+        .top-right-buttons .fi-form.fi-form-inline .fi-form-field {
             display: flex;
             align-items: center;
+        }
+
+        .layout-mode .fi-form.fi-form-inline .fi-form-field {
             height: 100%;
         }
 
-        .layout-mode .fi-form.fi-form-inline .fi-form-label {
+        .layout-mode .fi-form.fi-form-inline .fi-form-label,
+        .top-right-buttons .fi-form.fi-form-inline .fi-form-label {
             margin-top: 0;
             padding-top: 0;
         }

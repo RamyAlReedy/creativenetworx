@@ -472,6 +472,10 @@ var app = new Vue({
             }
             return null;
         },
+        check_number: function (value) {
+            var reg = /^\d+$/;
+            return reg.test(value);
+        },
         remove_duplicates: function (array) {
             var unique = {};
             array.forEach(function(i) {
