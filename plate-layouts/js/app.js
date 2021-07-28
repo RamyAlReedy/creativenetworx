@@ -45,6 +45,11 @@ Vue.directive('click-outside', {
 var app = new Vue({
     el: '#app',
     data: {
+        edit_mode: true,
+        sort: {
+            sort_by: 'id',
+            sort_order: 'ASC',
+        },
         filters: {
             sample_id: [],
             role: [],
@@ -129,6 +134,7 @@ var app = new Vue({
             sizes: [],
         },
         current_plate_index: -1,
+        current_plate_index_id: -1,
         selected_treatments: [],
         selected_wells: [],
         role_colors: {
@@ -456,6 +462,13 @@ var app = new Vue({
             });
 
         },
+        start_plate_drag: function () {
+            this.current_plate_index_id = this.plates[this.current_plate_index].id;
+        },
+        end_plate_drag: function () {
+            this.current_plate_index = this.getObjectIndexByKey(this.plates, 'id', this.current_plate_index_id);
+            jQuery(document).trigger('mouseup');
+        },
         getObjectByKey: function (array, key, value) {
             for (var i = 0; i < array.length; i++) {
                 if (array[i][key] == value) {
@@ -544,6 +557,12 @@ var app = new Vue({
             this.selected_treatments = new_selection;
         },
         selection: function (new_selection) {
+
+            if (this.edit_mode) {
+                this.highlight_by = '';
+                this.highlight_id = 0;
+            }
+
             var option3 = jQuery('.option-3-container').length;
             if (this.shiftKeyPressed) {
                 var first_item = parseInt(this.selection_sorted(this.selected_wells)[0]);
@@ -697,6 +716,7 @@ var app = new Vue({
             this.$nextTick(function () {
                 this.selected_treatments = [];
                 this.selected_wells = [];
+                this.reset_highlight();
             });
         },
         place_across: function () {
@@ -765,6 +785,7 @@ var app = new Vue({
                 well.content = 'blank';
             }
             this.selected_wells = [];
+            this.reset_highlight();
         },
         unplace_treatments: function () {
             for (var i = 0; i < this.selected_treatments.length; i++) {
@@ -796,6 +817,7 @@ var app = new Vue({
                 }
             }
             this.selected_wells = [];
+            this.reset_highlight();
         },
         clear_plate: function (plate_index) {
             var option3 = jQuery('.option-3-container').length;
@@ -811,6 +833,9 @@ var app = new Vue({
                     }
                 }
             }
+            this.selected_wells = [];
+            this.highlight_by = '';
+            this.highlight_id = 0;
         },
         toggle_filter: function (type, value) {
             var self = this;
@@ -863,6 +888,7 @@ var app = new Vue({
                 }
             }
             self.selected_wells = [];
+            self.reset_highlight();
             self.add_content = {
                 condition_set: '',
                 sample_id: '',
@@ -882,97 +908,178 @@ var app = new Vue({
                 return 'not-complete';
             }
         },
-        highlight: function(type) {
+        highlight: function(type, id) {
+            if (!id) {
+                id = 0;
+            }
             this.selected_wells = [];
-            this.reset_highlight();
-            for (var i = 0; i < this.plates[this.current_plate_index].wells.length; i++) {
-                var well = this.plates[this.current_plate_index].wells[i];
-                var well_content = well.content;
-                if (type === 'empty' && well_content === 'blank') {
-                    well.highlight = true;
-                    this.highlight_by = type;
+            if (this.highlight_by == type && this.highlight_id == id) {
+                if (this.edit_mode) {
+                    this.reset_highlight();
                 }
                 else {
-                    var treatement_id = parseInt(well_content);
-                    var treatment = this.getObjectByKey(this.treatments, 'id', treatement_id);
-
-                    var option3 = jQuery('.option-3-container').length;
-                    if (option3) {
-                        treatment = well_content;
+                    this.reset_highlight();
+                    for (var i = 0; i < this.plates[this.current_plate_index].wells.length; i++) {
+                        this.plates[this.current_plate_index].wells[i].highlight = false;
                     }
+                }
+            }
+            else {
+                this.reset_highlight();
 
-                    if (treatment) {
-                        if (type === treatment.role) {
+                if (!this.edit_mode) {
+                    for (var i = 0; i < this.plates[this.current_plate_index].wells.length; i++) {
+                        this.plates[this.current_plate_index].wells[i].highlight = false;
+                    }
+                }
+
+                for (var i = 0; i < this.plates[this.current_plate_index].wells.length; i++) {
+                    var well = this.plates[this.current_plate_index].wells[i];
+                    var well_content = well.content;
+
+                    if (type === 'unset' && !well_content) {
+                        this.highlight_by = type;
+                        if (this.edit_mode) {
+                            if (!well.disable) {
+                                this.selected_wells.push(well.id.toString());
+                            }
+                        }
+                        else {
                             well.highlight = true;
-                            this.highlight_by = type;
+                        }
+                    }
+                    else if (type === 'empty' && well_content === 'blank') {
+                        this.highlight_by = type;
+                        if (this.edit_mode) {
+                            if (!well.disable) {
+                                this.selected_wells.push(well.id.toString());
+                            }
+                        }
+                        else {
+                            well.highlight = true;
+                        }
+                    }
+                    else {
+                        var treatement_id = parseInt(well_content);
+                        var treatment = this.getObjectByKey(this.treatments, 'id', treatement_id);
+
+                        var option3 = jQuery('.option-3-container').length;
+                        if (option3) {
+                            treatment = well_content;
+                        }
+
+                        if (treatment) {
+                            if (type === treatment.role) {
+                                this.highlight_by = type;
+                                if (this.edit_mode) {
+                                    if (!well.disable) {
+                                        this.selected_wells.push(well.id.toString());
+                                    }
+                                }
+                                else {
+                                    well.highlight = true;
+                                }
+                            }
                         }
                     }
                 }
+                if (this.edit_mode && !this.selected_wells.length) {
+                    this.reset_highlight();
+                }
             }
         },
+        // reset_highlight: function () {
+        //     for (var i = 0; i < this.plates[this.current_plate_index].wells.length; i++) {
+        //         this.plates[this.current_plate_index].wells[i].highlight = false;
+        //     }
+        //     this.highlight_by = '';
+        // },
         reset_highlight: function () {
-            for (var i = 0; i < this.plates[this.current_plate_index].wells.length; i++) {
-                this.plates[this.current_plate_index].wells[i].highlight = false;
-            }
             this.highlight_by = '';
+            this.highlight_id = 0;
+        },
+        reset_highlight_click_outside: function () {
+            if (!this.edit_mode && !jQuery(event.target).is('.color-key-button') && !jQuery(event.target).closest('.color-key-button').length) {
+                this.reset_highlight();
+                for (var i = 0; i < this.plates[this.current_plate_index].wells.length; i++) {
+                    this.plates[this.current_plate_index].wells[i].highlight = false;
+                }
+            }
         },
         select_deselect_column: function (index) {
 
-            this.selected_wells = [];
+            if (this.edit_mode) {
 
-            if (this.last_col_index != index) {
-                var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
-                var rows = this.plate_sizes[this.plates[this.current_plate_index].size].rows;
+                this.selected_wells = [];
+                this.reset_highlight();
 
-                var id = index + 1;
+                if (this.last_col_index != index) {
+                    var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
+                    var rows = this.plate_sizes[this.plates[this.current_plate_index].size].rows;
 
-                var well_ids = [id.toString()];
+                    var id = index + 1;
 
-                for (var i = 0; i < rows - 1; i++) {
-                    id = parseInt(id) + columns;
-                    well_ids.push(id.toString());
+                    var well_ids = [id.toString()];
+
+                    for (var i = 0; i < rows - 1; i++) {
+                        id = parseInt(id) + columns;
+                        well_ids.push(id.toString());
+                    }
+
+                    for (var i = 0; i < well_ids.length; i++) {
+                        var well = this.getObjectByKey(this.plates[this.current_plate_index].wells, 'id', well_ids[i]);
+                        this.selected_wells.push(well_ids[i]);
+                    }
                 }
 
-                for (var i = 0; i < well_ids.length; i++) {
-                    var well = this.getObjectByKey(this.plates[this.current_plate_index].wells, 'id', well_ids[i]);
-                    this.selected_wells.push(well_ids[i]);
-                }
             }
 
         },
         select_deselect_row: function (index) {
 
-            this.selected_wells = [];
+            if (this.edit_mode) {
 
-            if (this.last_row_index != index) {
-                var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
-                var rows = this.plate_sizes[this.plates[this.current_plate_index].size].rows;
+                this.selected_wells = [];
+                this.reset_highlight();
 
-                var id = columns * (index + 1) - columns + 1;
+                if (this.last_row_index != index) {
+                    var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
+                    var rows = this.plate_sizes[this.plates[this.current_plate_index].size].rows;
 
-                var well_ids = [id.toString()];
+                    var id = columns * (index + 1) - columns + 1;
 
-                for (var i = 0; i < columns - 1; i++) {
-                    id = parseInt(id) + 1;
-                    well_ids.push(id.toString());
-                }
+                    var well_ids = [id.toString()];
 
-                for (var i = 0; i < well_ids.length; i++) {
+                    for (var i = 0; i < columns - 1; i++) {
+                        id = parseInt(id) + 1;
+                        well_ids.push(id.toString());
+                    }
+
                     for (var i = 0; i < well_ids.length; i++) {
-                        this.selected_wells.push(well_ids[i]);
+                        for (var i = 0; i < well_ids.length; i++) {
+                            this.selected_wells.push(well_ids[i]);
+                        }
                     }
                 }
+
             }
+
         },
         select_deselect_all: function () {
-            if (this.selected_wells.length !== this.plates[this.current_plate_index].wells.length) {
-                this.selected_wells = [];
-                for (var i = 0; i < this.plates[this.current_plate_index].wells.length; i++) {
-                    this.selected_wells.push(this.plates[this.current_plate_index].wells[i].id.toString());
+            if (this.edit_mode) {
+
+                this.reset_highlight();
+
+                if (this.selected_wells.length !== this.plates[this.current_plate_index].wells.length) {
+                    this.selected_wells = [];
+                    for (var i = 0; i < this.plates[this.current_plate_index].wells.length; i++) {
+                        this.selected_wells.push(this.plates[this.current_plate_index].wells[i].id.toString());
+                    }
                 }
-            }
-            else {
-                this.selected_wells = [];
+                else {
+                    this.selected_wells = [];
+                }
+
             }
         },
         render_tooltip_content: function (well_id) {
@@ -1057,8 +1164,138 @@ var app = new Vue({
                 }
             }
         },
+        sort_treatments: function (treatments) {
+            var self = this;
+            var sort_by = self.sort.sort_by;
+            var sort_order = self.sort.sort_order;
+            return treatments.sort(function(a, b) {
+                if (sort_by == 'place') {
+                    var a_place = '', b_place = '';
+                    if (a.place) {
+                        var well_location = self.get_well_location(a.place.well_id);
+                        a_place = a.place.plate_id + ' / ' + well_location.row + '-' + well_location.column;
+                    }
+                    if (b.place) {
+                        var well_location = self.get_well_location(b.place.well_id);
+                        b_place = b.place.plate_id + ' / ' + well_location.row + '-' + well_location.column;
+                    }
+                    if (a_place < b_place || a_place == b_place && parseInt(a.id) < parseInt(b.id)) {
+                        if (sort_order == 'DESC') {
+                            return 1;
+                        }
+                        else {
+                            return -1;
+                        }
+                    }
+                    else if (a_place > b_place || a_place == b_place && parseInt(a.id) > parseInt(b.id)) {
+                        if (sort_order == 'DESC') {
+                            return -1;
+                        }
+                        else {
+                            return 1;
+                        }
+                    }
+                }
+                else if (sort_by == 'id' || sort_by == 'rate') {
+                    if (parseInt(a[sort_by]) < parseInt(b[sort_by]) || parseInt(a[sort_by]) == parseInt(b[sort_by]) && parseInt(a.id) < parseInt(b.id)) {
+                        if (sort_order == 'DESC') {
+                            return 1;
+                        }
+                        else {
+                            return -1;
+                        }
+                    }
+                    else if (parseInt(a[sort_by]) > parseInt(b[sort_by]) || parseInt(a[sort_by]) == parseInt(b[sort_by]) && parseInt(a.id) > parseInt(b.id)) {
+                        if (sort_order == 'DESC') {
+                            return -1;
+                        }
+                        else {
+                            return 1;
+                        }
+                    }
+                }
+                else {
+                    if (a[sort_by].toLowerCase() < b[sort_by].toLowerCase() || a[sort_by].toLowerCase() == b[sort_by].toLowerCase() && parseInt(a.id) < parseInt(b.id)) {
+                        if (sort_order == 'DESC') {
+                            return 1;
+                        }
+                        else {
+                            return -1;
+                        }
+                    }
+                    else if (a[sort_by].toLowerCase() > b[sort_by].toLowerCase() || a[sort_by].toLowerCase() == b[sort_by].toLowerCase() && parseInt(a.id) > parseInt(b.id)) {
+                        if (sort_order == 'DESC') {
+                            return -1;
+                        }
+                        else {
+                            return 1;
+                        }
+                    }
+                }
+                return 0;
+            });
+        },
+        apply_sort: function (sort_by) {
+            if (sort_by !== this.sort.sort_by) {
+                this.sort.sort_by = sort_by;
+                this.sort.sort_order = 'ASC';
+            }
+            else if (this.sort.sort_order === 'ASC') {
+                this.sort.sort_order = 'DESC';
+            }
+            else if (this.sort.sort_order === 'DESC') {
+                this.sort.sort_order = 'ASC';
+            }
+        },
     },
     computed: {
+        sort_class: function () {
+            if (this.sort.sort_order === 'DESC') {
+                return 'fa-caret-down';
+            }
+            return 'fa-caret-up';
+        },
+        unset_count: function () {
+            return this.plates[this.current_plate_index].wells.reduce(function(n, well) {
+                return n + (!well.content);
+            }, 0);
+        },
+        empty_count: function () {
+            var self = this;
+            return self.plates[self.current_plate_index].wells.reduce(function(n, well) {
+                return n + (well.content === 'blank');
+            }, 0);
+        },
+        test_sample_count: function () {
+            var self = this;
+            return self.plates[self.current_plate_index].wells.reduce(function(n, well) {
+                var role;
+                if (parseInt(well.content)) {
+                    role = self.getObjectByKey(self.treatments, 'id', well.content).role;
+                }
+                return n + (role === 'test_sample');
+            }, 0);
+        },
+        ctrl_w_sample_count: function () {
+            var self = this;
+            return self.plates[self.current_plate_index].wells.reduce(function(n, well) {
+                var role;
+                if (parseInt(well.content)) {
+                    role = self.getObjectByKey(self.treatments, 'id', well.content).role;
+                }
+                return n + (role === 'ctrl_w_sample');
+            }, 0);
+        },
+        ctrl_wo_sample_count: function () {
+            var self = this;
+            return self.plates[self.current_plate_index].wells.reduce(function(n, well) {
+                var role;
+                if (parseInt(well.content)) {
+                    role = self.getObjectByKey(self.treatments, 'id', well.content).role;
+                }
+                return n + (role === 'ctrl_wo_sample');
+            }, 0);
+        },
         overall_selected_wells: function () {
             var all_selected_wells = [];
             all_selected_wells.push.apply(all_selected_wells, this.selected_wells);
@@ -1223,12 +1460,17 @@ var app = new Vue({
                 self.treatment_result_count = treatments_array.length;
 
                 self.selected_treatments = [];
-                return treatments_array.sort(function(a,b){
-                    return parseInt(a.id) - parseInt(b.id);
-                });
+
+                // return treatments_array.sort(function(a,b){
+                //     return parseInt(a.id) - parseInt(b.id);
+                // });
+
+                return self.sort_treatments(treatments_array);
+
             }
             self.selected_treatments = [];
-            return self.treatments;
+            //return self.treatments;
+            return self.sort_treatments(self.treatments);
         },
         filters_active: function () {
             var filters = this.filters;
@@ -1253,6 +1495,9 @@ var app = new Vue({
 jQuery(document).on('mousedown', function (e) {
     if (jQuery(e.target).is('.plate-container .drag-select-container, .plate-top-bar, .plate-corner, .plate-columns, .plate-rows')) {
         app.selected_wells = [];
+        if (app.edit_mode) {
+            app.reset_highlight();
+        }
     }
 });
 

@@ -44,61 +44,41 @@ Vue.directive('click-outside', {
 Vue.mixin( {
     data: function () {
         return {
-            sample_color_palatte: [
-                // '#1e2493', '#5456b5', '#9495d5', '#d7d7f2',
-                // '#1e4b20', '#468547', '#80bb80', '#caecc6',
-                // '#d7782d', '#e29e57', '#eec294', '#f9e5d0',
-                // '#461393', '#703fb4', '#a580d4', '#dac8f2',
-                // '#8c1a11', '#ad4c3e', '#cf9281', '#f0d5c9',
-                // '#ea3323', '#ec6331', '#f2a84a', '#fbe772',
-                // '#4aa22e', '#91c148', '#dacb72', '#e7c4b4',
-
+            test_sample_color_palatte: [
                 '#1e2493', '#1e4b20', '#d7782d', '#461393', '#8c1a11', '#ea3323', '#4aa22e',
                 '#5456b5', '#468547', '#e29e57', '#703fb4', '#ad4c3e', '#ec6331', '#91c148',
                 '#9495d5', '#80bb80', '#eec294', '#a580d4', '#cf9281', '#f2a84a', '#dacb72',
                 '#d7d7f2', '#caecc6', '#f9e5d0', '#dac8f2', '#f0d5c9', '#fbe772', '#e7c4b4',
             ],
+            ctrl_w_sample_color_palatte: [
+                '#5456b5', '#468547', '#e29e57', '#703fb4', '#ad4c3e', '#ec6331', '#91c148',
+                '#9495d5', '#80bb80', '#eec294', '#a580d4', '#cf9281', '#f2a84a', '#dacb72',
+                '#d7d7f2', '#caecc6', '#f9e5d0', '#dac8f2', '#f0d5c9', '#fbe772', '#e7c4b4',
+                '#1e2493', '#1e4b20', '#d7782d', '#461393', '#8c1a11', '#ea3323', '#4aa22e',
+            ],
+            ctrl_wo_sample_color_palatte: [
+                '#9495d5', '#80bb80', '#eec294', '#a580d4', '#cf9281', '#f2a84a', '#dacb72',
+                '#d7d7f2', '#caecc6', '#f9e5d0', '#dac8f2', '#f0d5c9', '#fbe772', '#e7c4b4',
+                '#1e2493', '#1e4b20', '#d7782d', '#461393', '#8c1a11', '#ea3323', '#4aa22e',
+                '#5456b5', '#468547', '#e29e57', '#703fb4', '#ad4c3e', '#ec6331', '#91c148',
+            ],
             rate_color_palatte: [
-                // '#d7782d', '#e29e57', '#eec294', '#f9e5d0',
-                // '#461393', '#703fb4', '#a580d4', '#dac8f2',
-                // '#8c1a11', '#ad4c3e', '#cf9281', '#f0d5c9',
-                // '#ea3323', '#ec6331', '#f2a84a', '#fbe772',
-                // '#4aa22e', '#91c148', '#dacb72', '#e7c4b4',
-                // '#1e2493', '#5456b5', '#9495d5', '#d7d7f2',
-                // '#1e4b20', '#468547', '#80bb80', '#caecc6',
-
                 '#5456b5', '#468547', '#e29e57', '#703fb4', '#ad4c3e', '#ec6331', '#91c148',
                 '#9495d5', '#80bb80', '#eec294', '#a580d4', '#cf9281', '#f2a84a', '#dacb72',
                 '#d7d7f2', '#caecc6', '#f9e5d0', '#dac8f2', '#f0d5c9', '#fbe772', '#e7c4b4',
                 '#1e2493', '#1e4b20', '#d7782d', '#461393', '#8c1a11', '#ea3323', '#4aa22e',
             ],
             condition_set_color_palatte: [
-                // '#8c1a11', '#ad4c3e', '#cf9281', '#f0d5c9',
-                // '#ea3323', '#ec6331', '#f2a84a', '#fbe772',
-                // '#4aa22e', '#91c148', '#dacb72', '#e7c4b4',
-                // '#1e2493', '#5456b5', '#9495d5', '#d7d7f2',
-                // '#1e4b20', '#468547', '#80bb80', '#caecc6',
-                // '#d7782d', '#e29e57', '#eec294', '#f9e5d0',
-                // '#461393', '#703fb4', '#a580d4', '#dac8f2',
-
-                '#5456b5', '#468547', '#e29e57', '#703fb4', '#ad4c3e', '#ec6331', '#91c148',
-                '#9495d5', '#80bb80', '#eec294', '#a580d4', '#cf9281', '#f2a84a', '#dacb72',
                 '#d7d7f2', '#caecc6', '#f9e5d0', '#dac8f2', '#f0d5c9', '#fbe772', '#e7c4b4',
                 '#1e2493', '#1e4b20', '#d7782d', '#461393', '#8c1a11', '#ea3323', '#4aa22e',
+                '#5456b5', '#468547', '#e29e57', '#703fb4', '#ad4c3e', '#ec6331', '#91c148',
+                '#9495d5', '#80bb80', '#eec294', '#a580d4', '#cf9281', '#f2a84a', '#dacb72',
             ],
             replicate_color_palatte: [
-                // '#4aa22e', '#91c148', '#dacb72', '#e7c4b4',
-                // '#1e2493', '#5456b5', '#9495d5', '#d7d7f2',
-                // '#1e4b20', '#468547', '#80bb80', '#caecc6',
-                // '#d7782d', '#e29e57', '#eec294', '#f9e5d0',
-                // '#461393', '#703fb4', '#a580d4', '#dac8f2',
-                // '#8c1a11', '#ad4c3e', '#cf9281', '#f0d5c9',
-                // '#ea3323', '#ec6331', '#f2a84a', '#fbe772',
-
-                '#9495d5', '#80bb80', '#eec294', '#a580d4', '#cf9281', '#f2a84a', '#dacb72',
-                '#d7d7f2', '#caecc6', '#f9e5d0', '#dac8f2', '#f0d5c9', '#fbe772', '#e7c4b4',
                 '#1e2493', '#1e4b20', '#d7782d', '#461393', '#8c1a11', '#ea3323', '#4aa22e',
                 '#5456b5', '#468547', '#e29e57', '#703fb4', '#ad4c3e', '#ec6331', '#91c148',
+                '#9495d5', '#80bb80', '#eec294', '#a580d4', '#cf9281', '#f2a84a', '#dacb72',
+                '#d7d7f2', '#caecc6', '#f9e5d0', '#dac8f2', '#f0d5c9', '#fbe772', '#e7c4b4',
             ],
         }
     },
@@ -109,13 +89,16 @@ var layouts= [{
     name: 'Plate.Layout.1',
     size: 96,
     platform: 1,
+    dispensary: 'BSD',
     wells: JSON.parse(
-        "[{\"id\":1,\"content\":{\"role\":\"test_sample\",\"sample\":1,\"rate\":1,\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":2,\"content\":{\"role\":\"test_sample\",\"sample\":\"2\",\"rate\":1,\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":3,\"content\":{\"role\":\"test_sample\",\"sample\":\"3\",\"rate\":1,\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":4,\"content\":{\"role\":\"test_sample\",\"sample\":\"4\",\"rate\":1,\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":5,\"content\":{\"role\":\"test_sample\",\"sample\":\"5\",\"rate\":1,\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":6,\"content\":{\"role\":\"test_sample\",\"sample\":\"6\",\"rate\":1,\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":7,\"content\":{\"role\":\"test_sample\",\"sample\":\"7\",\"rate\":1,\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":8,\"content\":{\"role\":\"test_sample\",\"sample\":\"8\",\"rate\":1,\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":9,\"content\":{\"role\":\"test_sample\",\"sample\":\"9\",\"rate\":1,\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":10,\"content\":{\"role\":\"empty\",\"sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":11,\"content\":{\"role\":\"ctrl_w_sample\",\"sample\":\"1\",\"rate\":1,\"condition_set\":\"1\",\"replicate\":\"1\"},\"highlight\":false,\"disable\":false},{\"id\":12,\"content\":{\"role\":\"ctrl_w_sample\",\"sample\":\"2\",\"rate\":1,\"condition_set\":\"2\",\"replicate\":\"1\"},\"highlight\":false,\"disable\":false},{\"id\":13,\"content\":{\"role\":\"test_sample\",\"sample\":1,\"rate\":\"2\",\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":14,\"content\":{\"role\":\"test_sample\",\"sample\":\"2\",\"rate\":\"2\",\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":15,\"content\":{\"role\":\"test_sample\",\"sample\":\"3\",\"rate\":\"2\",\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":16,\"content\":{\"role\":\"test_sample\",\"sample\":\"4\",\"rate\":\"2\",\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":17,\"content\":{\"role\":\"test_sample\",\"sample\":\"5\",\"rate\":\"2\",\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":18,\"content\":{\"role\":\"test_sample\",\"sample\":\"6\",\"rate\":\"2\",\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":19,\"content\":{\"role\":\"test_sample\",\"sample\":\"7\",\"rate\":\"2\",\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":20,\"content\":{\"role\":\"test_sample\",\"sample\":\"8\",\"rate\":\"2\",\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":21,\"content\":{\"role\":\"test_sample\",\"sample\":\"9\",\"rate\":\"2\",\"condition_set\":1,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":22,\"content\":{\"role\":\"empty\",\"sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":23,\"content\":{\"role\":\"ctrl_w_sample\",\"sample\":\"1\",\"rate\":\"2\",\"condition_set\":\"1\",\"replicate\":\"1\"},\"highlight\":false,\"disable\":false},{\"id\":24,\"content\":{\"role\":\"ctrl_w_sample\",\"sample\":\"2\",\"rate\":\"2\",\"condition_set\":\"2\",\"replicate\":\"1\"},\"highlight\":false,\"disable\":false},{\"id\":25,\"content\":{\"role\":\"test_sample\",\"sample\":1,\"rate\":\"3\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":26,\"content\":{\"role\":\"test_sample\",\"sample\":\"2\",\"rate\":\"3\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":27,\"content\":{\"role\":\"test_sample\",\"sample\":\"3\",\"rate\":\"3\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":28,\"content\":{\"role\":\"test_sample\",\"sample\":\"4\",\"rate\":\"3\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":29,\"content\":{\"role\":\"test_sample\",\"sample\":\"5\",\"rate\":\"3\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":30,\"content\":{\"role\":\"test_sample\",\"sample\":\"6\",\"rate\":\"3\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":31,\"content\":{\"role\":\"test_sample\",\"sample\":\"7\",\"rate\":\"3\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":32,\"content\":{\"role\":\"test_sample\",\"sample\":\"8\",\"rate\":\"3\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":33,\"content\":{\"role\":\"test_sample\",\"sample\":\"9\",\"rate\":\"3\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":34,\"content\":{\"role\":\"empty\",\"sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":35,\"content\":{\"role\":\"ctrl_w_sample\",\"sample\":\"1\",\"rate\":\"3\",\"condition_set\":\"1\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":36,\"content\":{\"role\":\"ctrl_w_sample\",\"sample\":\"2\",\"rate\":\"3\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":37,\"content\":{\"role\":\"test_sample\",\"sample\":1,\"rate\":\"4\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":38,\"content\":{\"role\":\"test_sample\",\"sample\":\"2\",\"rate\":\"4\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":39,\"content\":{\"role\":\"test_sample\",\"sample\":\"3\",\"rate\":\"4\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":40,\"content\":{\"role\":\"test_sample\",\"sample\":\"4\",\"rate\":\"4\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":41,\"content\":{\"role\":\"test_sample\",\"sample\":\"5\",\"rate\":\"4\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":42,\"content\":{\"role\":\"test_sample\",\"sample\":\"6\",\"rate\":\"4\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":43,\"content\":{\"role\":\"test_sample\",\"sample\":\"7\",\"rate\":\"4\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":44,\"content\":{\"role\":\"test_sample\",\"sample\":\"8\",\"rate\":\"4\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":45,\"content\":{\"role\":\"test_sample\",\"sample\":\"9\",\"rate\":\"4\",\"condition_set\":1,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":46,\"content\":{\"role\":\"empty\",\"sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":47,\"content\":{\"role\":\"ctrl_w_sample\",\"sample\":\"1\",\"rate\":\"4\",\"condition_set\":\"1\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":48,\"content\":{\"role\":\"ctrl_w_sample\",\"sample\":\"2\",\"rate\":\"4\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":49,\"content\":{\"role\":\"test_sample\",\"sample\":1,\"rate\":\"5\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":50,\"content\":{\"role\":\"test_sample\",\"sample\":\"2\",\"rate\":\"5\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":51,\"content\":{\"role\":\"test_sample\",\"sample\":\"3\",\"rate\":\"5\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":52,\"content\":{\"role\":\"test_sample\",\"sample\":\"4\",\"rate\":\"5\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":53,\"content\":{\"role\":\"test_sample\",\"sample\":\"5\",\"rate\":\"5\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":54,\"content\":{\"role\":\"test_sample\",\"sample\":\"6\",\"rate\":\"5\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":55,\"content\":{\"role\":\"test_sample\",\"sample\":\"7\",\"rate\":\"5\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":56,\"content\":{\"role\":\"test_sample\",\"sample\":\"8\",\"rate\":\"5\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":57,\"content\":{\"role\":\"test_sample\",\"sample\":\"9\",\"rate\":\"5\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":58,\"content\":{\"role\":\"empty\",\"sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":59,\"content\":{\"role\":\"ctrl_wo_sample\",\"sample\":\"1\",\"rate\":\"\",\"condition_set\":\"1\",\"replicate\":\"1\"},\"highlight\":false,\"disable\":false},{\"id\":60,\"content\":{\"role\":\"ctrl_wo_sample\",\"sample\":\"2\",\"rate\":\"\",\"condition_set\":\"2\",\"replicate\":\"1\"},\"highlight\":false,\"disable\":false},{\"id\":61,\"content\":{\"role\":\"test_sample\",\"sample\":1,\"rate\":\"6\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":62,\"content\":{\"role\":\"test_sample\",\"sample\":\"2\",\"rate\":\"6\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":63,\"content\":{\"role\":\"test_sample\",\"sample\":\"3\",\"rate\":\"6\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":64,\"content\":{\"role\":\"test_sample\",\"sample\":\"4\",\"rate\":\"6\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":65,\"content\":{\"role\":\"test_sample\",\"sample\":\"5\",\"rate\":\"6\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":66,\"content\":{\"role\":\"test_sample\",\"sample\":\"6\",\"rate\":\"6\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":67,\"content\":{\"role\":\"test_sample\",\"sample\":\"7\",\"rate\":\"6\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":68,\"content\":{\"role\":\"test_sample\",\"sample\":\"8\",\"rate\":\"6\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":69,\"content\":{\"role\":\"test_sample\",\"sample\":\"9\",\"rate\":\"6\",\"condition_set\":\"2\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":70,\"content\":{\"role\":\"empty\",\"sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":71,\"content\":{\"role\":\"ctrl_wo_sample\",\"sample\":\"1\",\"rate\":\"\",\"condition_set\":\"1\",\"replicate\":\"1\"},\"highlight\":false,\"disable\":false},{\"id\":72,\"content\":{\"role\":\"ctrl_wo_sample\",\"sample\":\"2\",\"rate\":\"\",\"condition_set\":\"2\",\"replicate\":\"1\"},\"highlight\":false,\"disable\":false},{\"id\":73,\"content\":{\"role\":\"test_sample\",\"sample\":1,\"rate\":\"7\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":74,\"content\":{\"role\":\"test_sample\",\"sample\":\"2\",\"rate\":\"7\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":75,\"content\":{\"role\":\"test_sample\",\"sample\":\"3\",\"rate\":\"7\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":76,\"content\":{\"role\":\"test_sample\",\"sample\":\"4\",\"rate\":\"7\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":77,\"content\":{\"role\":\"test_sample\",\"sample\":\"5\",\"rate\":\"7\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":78,\"content\":{\"role\":\"test_sample\",\"sample\":\"6\",\"rate\":\"7\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":79,\"content\":{\"role\":\"test_sample\",\"sample\":\"7\",\"rate\":\"7\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":80,\"content\":{\"role\":\"test_sample\",\"sample\":\"8\",\"rate\":\"7\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":81,\"content\":{\"role\":\"test_sample\",\"sample\":\"9\",\"rate\":\"7\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":82,\"content\":{\"role\":\"empty\",\"sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":83,\"content\":{\"role\":\"ctrl_wo_sample\",\"sample\":\"1\",\"rate\":\"\",\"condition_set\":\"1\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":84,\"content\":{\"role\":\"ctrl_wo_sample\",\"sample\":\"2\",\"rate\":\"\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":85,\"content\":{\"role\":\"test_sample\",\"sample\":1,\"rate\":\"8\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":86,\"content\":{\"role\":\"test_sample\",\"sample\":\"2\",\"rate\":\"8\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":87,\"content\":{\"role\":\"test_sample\",\"sample\":\"3\",\"rate\":\"8\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":88,\"content\":{\"role\":\"test_sample\",\"sample\":\"4\",\"rate\":\"8\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":89,\"content\":{\"role\":\"test_sample\",\"sample\":\"5\",\"rate\":\"8\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":90,\"content\":{\"role\":\"test_sample\",\"sample\":\"6\",\"rate\":\"8\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":91,\"content\":{\"role\":\"test_sample\",\"sample\":\"7\",\"rate\":\"8\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":92,\"content\":{\"role\":\"test_sample\",\"sample\":\"8\",\"rate\":\"8\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":93,\"content\":{\"role\":\"test_sample\",\"sample\":\"9\",\"rate\":\"8\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":94,\"content\":{\"role\":\"empty\",\"sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":95,\"content\":{\"role\":\"ctrl_wo_sample\",\"sample\":\"1\",\"rate\":\"\",\"condition_set\":\"1\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":96,\"content\":{\"role\":\"ctrl_wo_sample\",\"sample\":\"2\",\"rate\":\"\",\"condition_set\":\"2\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false}]"
+        "[{\"id\":1,\"content\":{\"role\":\"test_sample\",\"test_sample\":1,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":1,\"condition_set\":\"1\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":2,\"content\":{\"role\":\"test_sample\",\"test_sample\":2,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":1,\"condition_set\":\"1\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":3,\"content\":{\"role\":\"test_sample\",\"test_sample\":3,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":1,\"condition_set\":\"1\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":4,\"content\":{\"role\":\"test_sample\",\"test_sample\":4,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":1,\"condition_set\":\"1\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":5,\"content\":{\"role\":\"test_sample\",\"test_sample\":5,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":1,\"condition_set\":\"1\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":6,\"content\":{\"role\":\"test_sample\",\"test_sample\":6,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":1,\"condition_set\":\"1\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":7,\"content\":{\"role\":\"test_sample\",\"test_sample\":7,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":1,\"condition_set\":\"1\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":8,\"content\":{\"role\":\"test_sample\",\"test_sample\":8,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":1,\"condition_set\":\"1\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":9,\"content\":{\"role\":\"test_sample\",\"test_sample\":9,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":1,\"condition_set\":\"1\",\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":10,\"content\":{\"role\":\"empty\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":11,\"content\":{\"role\":\"ctrl_w_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":1,\"ctrl_wo_sample\":\"\",\"rate\":1,\"condition_set\":\"1\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":12,\"content\":{\"role\":\"ctrl_w_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":2,\"ctrl_wo_sample\":\"\",\"rate\":1,\"condition_set\":\"1\",\"replicate\":2},\"highlight\":false,\"disable\":false},{\"id\":13,\"content\":{\"role\":\"test_sample\",\"test_sample\":1,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":2,\"condition_set\":2,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":14,\"content\":{\"role\":\"test_sample\",\"test_sample\":2,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":2,\"condition_set\":2,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":15,\"content\":{\"role\":\"test_sample\",\"test_sample\":3,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":2,\"condition_set\":2,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":16,\"content\":{\"role\":\"test_sample\",\"test_sample\":4,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":2,\"condition_set\":2,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":17,\"content\":{\"role\":\"test_sample\",\"test_sample\":5,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":2,\"condition_set\":2,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":18,\"content\":{\"role\":\"test_sample\",\"test_sample\":6,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":2,\"condition_set\":2,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":19,\"content\":{\"role\":\"test_sample\",\"test_sample\":7,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":2,\"condition_set\":2,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":20,\"content\":{\"role\":\"test_sample\",\"test_sample\":8,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":2,\"condition_set\":2,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":21,\"content\":{\"role\":\"test_sample\",\"test_sample\":9,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":2,\"condition_set\":2,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":22,\"content\":{\"role\":\"empty\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":23,\"content\":{\"role\":\"ctrl_w_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":1,\"ctrl_wo_sample\":\"\",\"rate\":2,\"condition_set\":2,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":24,\"content\":{\"role\":\"ctrl_w_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":2,\"ctrl_wo_sample\":\"\",\"rate\":2,\"condition_set\":2,\"replicate\":2},\"highlight\":false,\"disable\":false},{\"id\":25,\"content\":{\"role\":\"test_sample\",\"test_sample\":1,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":3,\"condition_set\":3,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":26,\"content\":{\"role\":\"test_sample\",\"test_sample\":2,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":3,\"condition_set\":3,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":27,\"content\":{\"role\":\"test_sample\",\"test_sample\":3,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":3,\"condition_set\":3,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":28,\"content\":{\"role\":\"test_sample\",\"test_sample\":4,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":3,\"condition_set\":3,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":29,\"content\":{\"role\":\"test_sample\",\"test_sample\":5,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":3,\"condition_set\":3,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":30,\"content\":{\"role\":\"test_sample\",\"test_sample\":6,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":3,\"condition_set\":3,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":31,\"content\":{\"role\":\"test_sample\",\"test_sample\":7,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":3,\"condition_set\":3,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":32,\"content\":{\"role\":\"test_sample\",\"test_sample\":8,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":3,\"condition_set\":3,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":33,\"content\":{\"role\":\"test_sample\",\"test_sample\":9,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":3,\"condition_set\":3,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":34,\"content\":{\"role\":\"empty\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":35,\"content\":{\"role\":\"ctrl_w_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":1,\"ctrl_wo_sample\":\"\",\"rate\":3,\"condition_set\":3,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":36,\"content\":{\"role\":\"ctrl_w_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":2,\"ctrl_wo_sample\":\"\",\"rate\":3,\"condition_set\":3,\"replicate\":2},\"highlight\":false,\"disable\":false},{\"id\":37,\"content\":{\"role\":\"test_sample\",\"test_sample\":1,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":4,\"condition_set\":4,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":38,\"content\":{\"role\":\"test_sample\",\"test_sample\":2,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":4,\"condition_set\":4,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":39,\"content\":{\"role\":\"test_sample\",\"test_sample\":3,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":4,\"condition_set\":4,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":40,\"content\":{\"role\":\"test_sample\",\"test_sample\":4,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":4,\"condition_set\":4,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":41,\"content\":{\"role\":\"test_sample\",\"test_sample\":5,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":4,\"condition_set\":4,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":42,\"content\":{\"role\":\"test_sample\",\"test_sample\":6,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":4,\"condition_set\":4,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":43,\"content\":{\"role\":\"test_sample\",\"test_sample\":7,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":4,\"condition_set\":4,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":44,\"content\":{\"role\":\"test_sample\",\"test_sample\":8,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":4,\"condition_set\":4,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":45,\"content\":{\"role\":\"test_sample\",\"test_sample\":9,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":4,\"condition_set\":4,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":46,\"content\":{\"role\":\"empty\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":47,\"content\":{\"role\":\"ctrl_w_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":1,\"ctrl_wo_sample\":\"\",\"rate\":4,\"condition_set\":4,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":48,\"content\":{\"role\":\"ctrl_w_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":2,\"ctrl_wo_sample\":\"\",\"rate\":4,\"condition_set\":4,\"replicate\":2},\"highlight\":false,\"disable\":false},{\"id\":49,\"content\":{\"role\":\"test_sample\",\"test_sample\":1,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":5,\"condition_set\":5,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":50,\"content\":{\"role\":\"test_sample\",\"test_sample\":2,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":5,\"condition_set\":5,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":51,\"content\":{\"role\":\"test_sample\",\"test_sample\":3,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":5,\"condition_set\":5,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":52,\"content\":{\"role\":\"test_sample\",\"test_sample\":4,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":5,\"condition_set\":5,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":53,\"content\":{\"role\":\"test_sample\",\"test_sample\":5,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":5,\"condition_set\":5,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":54,\"content\":{\"role\":\"test_sample\",\"test_sample\":6,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":5,\"condition_set\":5,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":55,\"content\":{\"role\":\"test_sample\",\"test_sample\":7,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":5,\"condition_set\":5,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":56,\"content\":{\"role\":\"test_sample\",\"test_sample\":8,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":5,\"condition_set\":5,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":57,\"content\":{\"role\":\"test_sample\",\"test_sample\":9,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":5,\"condition_set\":5,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":58,\"content\":{\"role\":\"empty\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":59,\"content\":{\"role\":\"ctrl_wo_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":1,\"rate\":\"\",\"condition_set\":\"1\",\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":60,\"content\":{\"role\":\"ctrl_wo_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":2,\"rate\":\"\",\"condition_set\":\"1\",\"replicate\":2},\"highlight\":false,\"disable\":false},{\"id\":61,\"content\":{\"role\":\"test_sample\",\"test_sample\":1,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":6,\"condition_set\":6,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":62,\"content\":{\"role\":\"test_sample\",\"test_sample\":2,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":6,\"condition_set\":6,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":63,\"content\":{\"role\":\"test_sample\",\"test_sample\":3,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":6,\"condition_set\":6,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":64,\"content\":{\"role\":\"test_sample\",\"test_sample\":4,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":6,\"condition_set\":6,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":65,\"content\":{\"role\":\"test_sample\",\"test_sample\":5,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":6,\"condition_set\":6,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":66,\"content\":{\"role\":\"test_sample\",\"test_sample\":6,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":6,\"condition_set\":6,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":67,\"content\":{\"role\":\"test_sample\",\"test_sample\":7,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":6,\"condition_set\":6,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":68,\"content\":{\"role\":\"test_sample\",\"test_sample\":8,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":6,\"condition_set\":6,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":69,\"content\":{\"role\":\"test_sample\",\"test_sample\":9,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":6,\"condition_set\":6,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":70,\"content\":{\"role\":\"empty\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":71,\"content\":{\"role\":\"ctrl_wo_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":1,\"rate\":\"\",\"condition_set\":2,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":72,\"content\":{\"role\":\"ctrl_wo_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":2,\"rate\":\"\",\"condition_set\":2,\"replicate\":2},\"highlight\":false,\"disable\":false},{\"id\":73,\"content\":{\"role\":\"test_sample\",\"test_sample\":1,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":7,\"condition_set\":7,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":74,\"content\":{\"role\":\"test_sample\",\"test_sample\":2,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":7,\"condition_set\":7,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":75,\"content\":{\"role\":\"test_sample\",\"test_sample\":3,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":7,\"condition_set\":7,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":76,\"content\":{\"role\":\"test_sample\",\"test_sample\":4,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":7,\"condition_set\":7,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":77,\"content\":{\"role\":\"test_sample\",\"test_sample\":5,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":7,\"condition_set\":7,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":78,\"content\":{\"role\":\"test_sample\",\"test_sample\":6,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":7,\"condition_set\":7,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":79,\"content\":{\"role\":\"test_sample\",\"test_sample\":7,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":7,\"condition_set\":7,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":80,\"content\":{\"role\":\"test_sample\",\"test_sample\":8,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":7,\"condition_set\":7,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":81,\"content\":{\"role\":\"test_sample\",\"test_sample\":9,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":7,\"condition_set\":7,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":82,\"content\":{\"role\":\"empty\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":83,\"content\":{\"role\":\"ctrl_wo_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":1,\"rate\":\"\",\"condition_set\":3,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":84,\"content\":{\"role\":\"ctrl_wo_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":2,\"rate\":\"\",\"condition_set\":3,\"replicate\":2},\"highlight\":false,\"disable\":false},{\"id\":85,\"content\":{\"role\":\"test_sample\",\"test_sample\":1,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":8,\"condition_set\":8,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":86,\"content\":{\"role\":\"test_sample\",\"test_sample\":2,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":8,\"condition_set\":8,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":87,\"content\":{\"role\":\"test_sample\",\"test_sample\":3,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":8,\"condition_set\":8,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":88,\"content\":{\"role\":\"test_sample\",\"test_sample\":4,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":8,\"condition_set\":8,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":89,\"content\":{\"role\":\"test_sample\",\"test_sample\":5,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":8,\"condition_set\":8,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":90,\"content\":{\"role\":\"test_sample\",\"test_sample\":6,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":8,\"condition_set\":8,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":91,\"content\":{\"role\":\"test_sample\",\"test_sample\":7,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":8,\"condition_set\":8,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":92,\"content\":{\"role\":\"test_sample\",\"test_sample\":8,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":8,\"condition_set\":8,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":93,\"content\":{\"role\":\"test_sample\",\"test_sample\":9,\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":8,\"condition_set\":8,\"replicate\":\"2\"},\"highlight\":false,\"disable\":false},{\"id\":94,\"content\":{\"role\":\"empty\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":\"\",\"rate\":\"\",\"condition_set\":\"\",\"replicate\":\"\"},\"highlight\":false,\"disable\":false},{\"id\":95,\"content\":{\"role\":\"ctrl_wo_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":1,\"rate\":\"\",\"condition_set\":4,\"replicate\":1},\"highlight\":false,\"disable\":false},{\"id\":96,\"content\":{\"role\":\"ctrl_wo_sample\",\"test_sample\":\"\",\"ctrl_w_sample\":\"\",\"ctrl_wo_sample\":2,\"rate\":\"\",\"condition_set\":4,\"replicate\":2},\"highlight\":false,\"disable\":false}]"
     ),
-    samples: JSON.parse("[{\"id\":1,\"color\":\"#1e2493\"},{\"id\":\"2\",\"color\":\"#5456b5\"},{\"id\":\"3\",\"color\":\"#9495d5\"},{\"id\":\"4\",\"color\":\"#d7d7f2\"},{\"id\":\"5\",\"color\":\"#1e4b20\"},{\"id\":\"6\",\"color\":\"#468547\"},{\"id\":\"7\",\"color\":\"#80bb80\"},{\"id\":\"8\",\"color\":\"#caecc6\"},{\"id\":\"9\",\"color\":\"#d7782d\"}]"),
-    rates: JSON.parse("[{\"id\":1,\"color\":\"#d7782d\"},{\"id\":\"2\",\"color\":\"#e29e57\"},{\"id\":\"3\",\"color\":\"#eec294\"},{\"id\":\"4\",\"color\":\"#f9e5d0\"},{\"id\":\"5\",\"color\":\"#461393\"},{\"id\":\"6\",\"color\":\"#703fb4\"},{\"id\":\"7\",\"color\":\"#a580d4\"},{\"id\":\"8\",\"color\":\"#dac8f2\"}]"),
-    condition_sets: JSON.parse("[{\"id\":1,\"color\":\"#8c1a11\"},{\"id\":\"2\",\"color\":\"#ad4c3e\"}]"),
-    replicates: JSON.parse("[{\"id\":1,\"color\":\"#4aa22e\"},{\"id\":\"2\",\"color\":\"#91c148\"}]"),
+    test_samples: JSON.parse("[{\"id\":1,\"color\":\"#1e2493\"},{\"id\":2,\"color\":\"#1e4b20\"},{\"id\":3,\"color\":\"#d7782d\"},{\"id\":4,\"color\":\"#461393\"},{\"id\":5,\"color\":\"#8c1a11\"},{\"id\":6,\"color\":\"#ea3323\"},{\"id\":7,\"color\":\"#4aa22e\"},{\"id\":8,\"color\":\"#5456b5\"},{\"id\":9,\"color\":\"#468547\"}]"),
+    ctrl_w_samples: JSON.parse("[{\"id\":1,\"color\":\"#5456b5\"},{\"id\":2,\"color\":\"#468547\"}]"),
+    ctrl_wo_samples: JSON.parse("[{\"id\":1,\"color\":\"#9495d5\"},{\"id\":2,\"color\":\"#80bb80\"}]"),
+    rates: JSON.parse("[{\"id\":1,\"color\":\"#661401\"},{\"id\":2,\"color\":\"#921D01\"},{\"id\":3,\"color\":\"#BD2601\"},{\"id\":4,\"color\":\"#E92F02\"},{\"id\":5,\"color\":\"#FF4418\"},{\"id\":6,\"color\":\"#FF6743\"},{\"id\":7,\"color\":\"#FF8A6E\"},{\"id\":8,\"color\":\"#FFAD9A\"}]"),
+    condition_sets: JSON.parse("[{\"id\":1,\"color\":\"#d7d7f2\"},{\"id\":2,\"color\":\"#caecc6\"},{\"id\":3,\"color\":\"#f9e5d0\"},{\"id\":4,\"color\":\"#dac8f2\"},{\"id\":5,\"color\":\"#8c1a11\"},{\"id\":6,\"color\":\"#ea3323\"},{\"id\":7,\"color\":\"#e7c4b4\"},{\"id\":8,\"color\":\"#1e2493\"}]"),
+    replicates: JSON.parse("[{\"id\":1,\"color\":\"#1e2493\"},{\"id\":2,\"color\":\"#1e4b20\"}]"),
 }];
 
 //CREATE APP
@@ -127,7 +110,9 @@ var create_app = new Vue({
         active_tab: 'basic_info',
         layout_mode: 'roles',
         role_value: 'test_sample',
-        sample_value: 1,
+        test_sample_value: 1,
+        ctrl_w_sample_value: 1,
+        ctrl_wo_sample_value: 1,
         rate_value: 1,
         condition_set_value: 1,
         replicate_value: 1,
@@ -182,13 +167,18 @@ var create_app = new Vue({
             { id: 9, name: 'ISPS', },
             { id: 10, name: 'HSPS', },
         ],
-        samples: [],
+        test_samples: [],
+        ctrl_w_samples: [],
+        ctrl_wo_samples: [],
         rates: [],
         condition_sets: [],
         replicates: [],
         current_sample_shade: -0.8,
         current_rate_shade: -0.8,
         sample_color_index: 0,
+        test_sample_color_index: 0,
+        ctrl_w_sample_color_index: 0,
+        ctrl_wo_sample_color_index: 0,
         rate_color_index: 0,
         condition_set_color_index: 0,
         replicate_color_index: 0,
@@ -205,6 +195,7 @@ var create_app = new Vue({
         last_row_index: -1,
         all_wells_selected: false,
         auto_set_data: {
+            mode: 'rows',
             starting_number: 1,
             direction: 'across',
         },
@@ -221,7 +212,9 @@ var create_app = new Vue({
                     id: i+1,
                     content: {
                         role: '',
-                        sample: '',
+                        test_sample: '',
+                        ctrl_w_sample: '',
+                        ctrl_wo_sample: '',
                         rate: '',
                         condition_set: '',
                         replicate: '',
@@ -234,18 +227,38 @@ var create_app = new Vue({
         layout: {
             deep: true,
             handler: function (newData) {
-                for (var i = 0; i < this.samples.length; i++) {
-                    if (!this.count_wells_by_sample(this.samples[i].id)) {
-                        this.samples.splice(i, 1);
+                for (var i = 0; i < this.test_samples.length; i++) {
+                    if (!this.count_wells_by('test_sample', this.test_samples[i].id)) {
+                        this.test_samples.splice(i, 1);
                         this.$forceUpdate();
                         i--;
                     }
                 }
-                if (!this.samples.length) {
-                    this.sample_color_index = 0;
+                if (!this.test_samples.length) {
+                    this.test_sample_color_index = 0;
+                }
+                for (var i = 0; i < this.ctrl_w_samples.length; i++) {
+                    if (!this.count_wells_by('ctrl_w_sample', this.ctrl_w_samples[i].id)) {
+                        this.ctrl_w_samples.splice(i, 1);
+                        this.$forceUpdate();
+                        i--;
+                    }
+                }
+                if (!this.ctrl_w_samples.length) {
+                    this.ctrl_w_sample_color_index = 0;
+                }
+                for (var i = 0; i < this.ctrl_wo_samples.length; i++) {
+                    if (!this.count_wells_by('ctrl_wo_sample', this.ctrl_wo_samples[i].id)) {
+                        this.ctrl_wo_samples.splice(i, 1);
+                        this.$forceUpdate();
+                        i--;
+                    }
+                }
+                if (!this.ctrl_wo_samples.length) {
+                    this.ctrl_wo_sample_color_index = 0;
                 }
                 for (var i = 0; i < this.rates.length; i++) {
-                    if (!this.count_wells_by_rate(this.rates[i].id)) {
+                    if (!this.count_wells_by('rate', this.rates[i].id)) {
                         this.rates.splice(i, 1);
                         this.$forceUpdate();
                         i--;
@@ -255,7 +268,7 @@ var create_app = new Vue({
                     this.rate_color_index = 0;
                 }
                 for (var i = 0; i < this.condition_sets.length; i++) {
-                    if (!this.count_wells_by_condition_set(this.condition_sets[i].id)) {
+                    if (!this.count_wells_by('condition_set', this.condition_sets[i].id)) {
                         this.condition_sets.splice(i, 1);
                         this.$forceUpdate();
                         i--;
@@ -265,7 +278,7 @@ var create_app = new Vue({
                     this.condition_set_color_index = 0;
                 }
                 for (var i = 0; i < this.replicates.length; i++) {
-                    if (!this.count_wells_by_replicate(this.replicates[i].id)) {
+                    if (!this.count_wells_by('replicate', this.replicates[i].id)) {
                         this.replicates.splice(i, 1);
                         this.$forceUpdate();
                         i--;
@@ -369,7 +382,9 @@ var create_app = new Vue({
                     id: i+1,
                     content: {
                         role: '',
-                        sample: '',
+                        test_sample: '',
+                        ctrl_w_sample: '',
+                        ctrl_wo_sample: '',
                         rate: '',
                         condition_set: '',
                         replicate: '',
@@ -438,7 +453,9 @@ var create_app = new Vue({
             this.layout.dispensary = layout_data.dispensary;
             this.$nextTick(function () {
                 this.layout.wells = layout_data.wells;
-                this.samples = layout_data.samples;
+                this.test_samples = layout_data.test_samples;
+                this.ctrl_w_samples = layout_data.ctrl_w_samples;
+                this.ctrl_wo_samples = layout_data.ctrl_wo_samples;
                 this.rates = layout_data.rates;
                 this.condition_sets = layout_data.condition_sets;
                 this.replicates = layout_data.replicates;
@@ -696,12 +713,16 @@ var create_app = new Vue({
                }
            }
        },
-        check_selection: function () {
+       check_selection: function () {
             this.reset_highlight();
             for (var i = 0; i < this.layout.wells.length; i++) {
                 var well = this.layout.wells[i];
                 if (
-                    this.layout_mode === 'samples' && (!well.content.role || well.content.role === 'empty')
+                    this.layout_mode === 'test_samples' && (!well.content.role || well.content.role !== 'test_sample')
+                    ||
+                    this.layout_mode === 'ctrl_w_samples' && (!well.content.role || well.content.role !== 'ctrl_w_sample')
+                    ||
+                    this.layout_mode === 'ctrl_wo_samples' && (!well.content.role || well.content.role !== 'ctrl_wo_sample')
                     ||
                     this.layout_mode === 'rates' && (!well.content.role || well.content.role === 'empty' || well.content.role === 'ctrl_wo_sample')
                     ||
@@ -718,7 +739,11 @@ var create_app = new Vue({
             for (var i = 0; i < this.selected_wells.length; i++) {
                 var well_role = this.getObjectByKey(this.layout.wells, 'id', this.selected_wells[i]).content.role;
                 if (
-                    this.layout_mode === 'samples' && (!well_role || well_role === 'empty')
+                    this.layout_mode === 'test_samples' && (!well_role || well_role !== 'test_sample')
+                    ||
+                    this.layout_mode === 'ctrl_w_samples' && (!well_role || well_role !== 'ctrl_w_sample')
+                    ||
+                    this.layout_mode === 'ctrl_wo_samples' && (!well_role || well_role !== 'ctrl_wo_sample')
                     ||
                     this.layout_mode === 'rates' && (!well_role || well_role === 'empty' || well_role === 'ctrl_wo_sample')
                     ||
@@ -754,14 +779,39 @@ var create_app = new Vue({
         set: function () {
             for (var i = 0; i < this.selected_wells.length; i++) {
                 if (this.layout_mode === 'roles') {
-                    this.getObjectByKey(this.layout.wells, 'id', this.selected_wells[i]).content.role = this.role_value;
-                    if (this.role_value === 'ctrl_wo_sample' || this.role_value === 'empty') {
-                        this.getObjectByKey(this.layout.wells, 'id', this.selected_wells[i]).content.sample = '';
-                        this.getObjectByKey(this.layout.wells, 'id', this.selected_wells[i]).content.rate = '';
+                    var well = this.getObjectByKey(this.layout.wells, 'id', this.selected_wells[i]);
+                    well.content.role = this.role_value;
+
+                    if (this.role_value === 'test_sample') {
+                        well.content.ctrl_w_sample = '';
+                        well.content.ctrl_wo_sample = '';
+                    }
+                    else if (this.role_value === 'ctrl_w_sample') {
+                        well.content.test_sample = '';
+                        well.content.ctrl_wo_sample = '';
+                    }
+                    else if (this.role_value === 'ctrl_wo_sample') {
+                        well.content.test_sample = '';
+                        well.content.ctrl_w_sample = '';
+                        well.content.rate = '';
+                    }
+                    else if (this.role_value === 'empty') {
+                        well.content.test_sample = '';
+                        well.content.ctrl_w_sample = '';
+                        well.content.ctrl_wo_sample = '';
+                        well.content.rate = '';
+                        well.content.condition_set = '';
+                        well.content.replicate = '';
                     }
                 }
-                else if (this.layout_mode === 'samples') {
-                    this.add_update_content(this.selected_wells[i], 'sample', this.sample_value);
+                else if (this.layout_mode === 'test_samples') {
+                    this.add_update_content(this.selected_wells[i], 'test_sample', this.test_sample_value);
+                }
+                else if (this.layout_mode === 'ctrl_w_samples') {
+                    this.add_update_content(this.selected_wells[i], 'ctrl_w_sample', this.ctrl_w_sample_value);
+                }
+                else if (this.layout_mode === 'ctrl_wo_samples') {
+                    this.add_update_content(this.selected_wells[i], 'ctrl_wo_sample', this.ctrl_wo_sample_value);
                 }
                 else if (this.layout_mode === 'rates') {
                     this.add_update_content(this.selected_wells[i], 'rate', this.rate_value);
@@ -783,30 +833,44 @@ var create_app = new Vue({
         },
         unset: function () {
             for (var i = 0; i < this.selected_wells.length; i++) {
+                var well = this.getObjectByKey(this.layout.wells, 'id', this.selected_wells[i]);
                 if (this.layout_mode === 'roles') {
-                    this.getObjectByKey(this.layout.wells, 'id', this.selected_wells[i]).content = {
+                    well.content = {
                         role: '',
-                        sample: '',
+                        test_sample: '',
+                        ctrl_w_sample: '',
+                        ctrl_wo_sample: '',
                         rate: '',
                         condition_set: '',
                         replicate: '',
                     };
                 }
-                else if (this.layout_mode === 'samples') {
-                    this.getObjectByKey(this.layout.wells, 'id', this.selected_wells[i]).content.sample = '';
+                else if (this.layout_mode === 'test_samples') {
+                    well.content.test_sample = '';
+                }
+                else if (this.layout_mode === 'ctrl_w_samples') {
+                    well.content.ctrl_w_sample = '';
+                }
+                else if (this.layout_mode === 'ctrl_wo_samples') {
+                    well.content.ctrl_wo_sample = '';
                 }
                 else if (this.layout_mode === 'rates') {
-                    this.getObjectByKey(this.layout.wells, 'id', this.selected_wells[i]).content.rate = '';
+                    well.content.rate = '';
                 }
                 else if (this.layout_mode === 'condition_sets') {
-                    this.getObjectByKey(this.layout.wells, 'id', this.selected_wells[i]).content.condition_set = '';
+                    well.content.condition_set = '';
                 }
                 else if (this.layout_mode === 'replicates') {
-                    this.getObjectByKey(this.layout.wells, 'id', this.selected_wells[i]).content.replicate = '';
+                    well.content.replicate = '';
                 }
             }
-            this.selected_wells = [];
-            this.reset_highlight();
+            this.$nextTick(function () {
+                if (this.layout_mode === 'rates' && this.rates.length) {
+                    this.update_rate_shades();
+                }
+                this.selected_wells = [];
+                this.reset_highlight();
+            });
         },
         well_mouseover: function (id) {
             var columns = this.plate_sizes[this.layout.size].columns;
@@ -860,8 +924,14 @@ var create_app = new Vue({
             this.place_series(down_array);
         },
         open_auto_set: function () {
-            if (this.layout_mode === 'samples') {
-                this.auto_set_data.starting_number = this.sample_value;
+            if (this.layout_mode === 'test_samples') {
+                this.auto_set_data.starting_number = this.test_sample_value;
+            }
+            else if (this.layout_mode === 'ctrl_w_samples') {
+                this.auto_set_data.starting_number = this.ctrl_w_sample_value;
+            }
+            else if (this.layout_mode === 'ctrl_wo_samples') {
+                this.auto_set_data.starting_number = this.ctrl_wo_sample_value;
             }
             else if (this.layout_mode === 'rates') {
                 this.auto_set_data.starting_number = this.rate_value;
@@ -873,10 +943,16 @@ var create_app = new Vue({
                 this.auto_set_data.starting_number = this.replicate_value;
             }
         },
-        auto_set_series: function (array) {
+        auto_set_series: function (array, chunks) {
             var content_type = '';
-            if (this.layout_mode === 'samples') {
-                content_type = 'sample';
+            if (this.layout_mode === 'test_samples') {
+                content_type = 'test_sample';
+            }
+            else if (this.layout_mode === 'ctrl_w_samples') {
+                content_type = 'ctrl_w_sample';
+            }
+            else if (this.layout_mode === 'ctrl_wo_samples') {
+                content_type = 'ctrl_wo_sample';
             }
             else if (this.layout_mode === 'rates') {
                 content_type = 'rate';
@@ -888,40 +964,110 @@ var create_app = new Vue({
                 content_type = 'replicate';
             }
             var starting_number = this.auto_set_data.starting_number;
-            for (var i = 0; i < array.length; i++) {
-                this.add_update_content(array[i], content_type, starting_number);
-                starting_number++;
+            if (chunks) {
+                for (var i = 0; i < array.length; i++) {
+                    for (var j = 0; j < array[i].length; j++) {
+                        this.add_update_content(array[i][j], content_type, starting_number);
+                    }
+                    starting_number++;
+                }
+            }
+            else {
+                for (var i = 0; i < array.length; i++) {
+                    this.add_update_content(array[i], content_type, starting_number);
+                    starting_number++;
+                }
             }
             this.$nextTick(function () {
-                if (this.rates.length) {
+                if (this.layout_mode === 'rates' && this.rates.length) {
                     this.update_rate_shades();
                 }
                 this.selected_wells = [];
                 this.reset_highlight();
             });
         },
+        auto_set_columns: function () {
+            var down_array = [];
+            for (var i = 0; i < this.selected_wells.length; i++) {
+                var well_location = this.get_well_location(this.selected_wells[i]);
+                down_array.push({
+                    id: this.selected_wells[i],
+                    column: well_location.column,
+                });
+            }
+
+            down_array.sort(function (a, b) {
+                var aA = parseInt(a.column, 10);
+                var bA = parseInt(b.column, 10);
+                if (aA === bA) {
+                    var aN = a.column;
+                    var bN = b.column
+                    return aN === bN ? 0 : aN > bN ? 1 : -1;
+                }
+                return aA > bA ? 1 : -1;
+            });
+
+            var result_down_array = [];
+
+            var current_column, current_index = -1;
+
+            for (var i = 0; i < down_array.length; i++) {
+
+                if (down_array[i].column !== current_column) {
+                    current_column = down_array[i].column;
+                    current_index++;
+                    result_down_array[current_index] = [down_array[i].id];
+                }
+                else {
+                    result_down_array[current_index].push(down_array[i].id);
+                }
+            }
+
+            this.auto_set_series(result_down_array, true);
+        },
+        auto_set_rows: function () {
+            var across_array = [];
+            for (var i = 0; i < this.selected_wells.length; i++) {
+                var well_location = this.get_well_location(this.selected_wells[i]);
+                across_array.push({
+                    id: this.selected_wells[i],
+                    row: well_location.row,
+                });
+            }
+
+            across_array.sort(function (a, b) {
+                var aA = a.row;
+                var bA = b.row;
+                if (aA === bA) {
+                    var aN = a.row;
+                    var bN = b.row
+                    return aN === bN ? 0 : aN > bN ? 1 : -1;
+                }
+                return aA > bA ? 1 : -1;
+            });
+
+            var result_across_array = [];
+
+            var current_row, current_index = -1;
+
+            for (var i = 0; i < across_array.length; i++) {
+
+                if (across_array[i].row !== current_row) {
+                    current_row = across_array[i].row;
+                    current_index++;
+                    result_across_array[current_index] = [across_array[i].id];
+                }
+                else {
+                    result_across_array[current_index].push(across_array[i].id);
+                }
+            }
+
+            this.auto_set_series(result_across_array, true);
+        },
         auto_set_across: function () {
             this.auto_set_series(this.selected_wells);
         },
         auto_set_down: function () {
-            // var column_count = this.get_column_count();
-            // var row_count = this.selected_wells.length / columns;
-            // var columns = [];
-            // for (var i = 0; i < column_count; i++) {
-            //     columns.push([]);
-            // }
-            // var column_index = 0;
-            // for (var i = 0; i < this.selected_wells.length; i++) {
-            //     columns[column_index].push(this.selected_wells[i]);
-            //     if (column_index === column_count - 1) {
-            //         column_index = 0;
-            //     }
-            //     else {
-            //         column_index++;
-            //     }
-            // }
-            // var down_array = [].concat.apply([], columns);
-
             var down_array = [];
             for (var i = 0; i < this.selected_wells.length; i++) {
                 var well_location = this.get_well_location(this.selected_wells[i]);
@@ -957,15 +1103,25 @@ var create_app = new Vue({
 
             this.selected_wells = this.selection_sorted(this.selected_wells);
 
-            if (this.auto_set_data.direction === 'across') {
-                this.auto_set_across();
+            if (this.auto_set_data.mode === 'columns') {
+                this.auto_set_columns();
             }
-            else if (this.auto_set_data.direction === 'down') {
-                this.auto_set_down();
+            else if (this.auto_set_data.mode === 'rows') {
+                this.auto_set_rows();
             }
+            else if (this.auto_set_data.mode === 'wells') {
+                if (this.auto_set_data.direction === 'across') {
+                    this.auto_set_across();
+                }
+                else if (this.auto_set_data.direction === 'down') {
+                    this.auto_set_down();
+                }
+            }
+
             Figure.modal('.auto_set_modal').hide();
         },
         close_auto_set: function () {
+            this.auto_set_data.mode = 'rows';
             this.auto_set_data.starting_number = 1;
             this.auto_set_data.direction = 'across';
         },
@@ -1012,7 +1168,9 @@ var create_app = new Vue({
             for (var i = 0; i < this.layout.wells.length; i++) {
                 this.layout.wells[i].content = {
                     role: '',
-                    sample: '',
+                    test_sample: '',
+                    ctrl_w_sample: '',
+                    ctrl_wo_sample: '',
                     rate: '',
                     condition_set: '',
                     replicate: '',
@@ -1022,18 +1180,24 @@ var create_app = new Vue({
             }
             this.layout_mode = 'roles';
             this.selected_wells = [];
-            this.samples = [];
+            this.test_samples = [];
+            this.ctrl_w_samples = [];
+            this.ctrl_wo_samples = [];
             this.rates = [];
             this.condition_sets = [];
             this.replicates = [];
             this.role_value = 'test_sample';
-            this.sample_value = 1;
+            this.test_sample_value = 1;
+            this.ctrl_w_sample_value = 1;
+            this.ctrl_wo_sample_value = 1;
             this.rate_value = 1;
             this.condition_set_value = 1;
             this.replicate_value = 1;
             this.current_sample_shade = -0.8;
             this.current_rate_shade = -0.8;
-            this.sample_color_index = 0;
+            this.test_sample_color_index = 0;
+            this.ctrl_w_sample_color_index = 0;
+            this.ctrl_wo_sample_color_index = 0;
             this.rate_color_index = 0;
             this.condition_set_color_index = 0;
             this.replicate_color_index = 0;
@@ -1046,89 +1210,57 @@ var create_app = new Vue({
                 this.$set(this.filters, key, 'all');
             }
         },
-        fill_wells: function () {
-            var self = this;
-            for (var i = 0; i < self.selected_wells.length; i++) {
-                var well = self.getObjectByKey(self.plates[self.current_plate_index].wells, 'id', self.selected_wells[i]);
-                if (well.content) {
-                    if (well.content === 'blank') {
-                        well.content = {sample_id: '', role: '', condition_set: '', method: '', replicate: '', rate: '',};
-                    }
-                    if (self.add_content.condition_set) {
-                        well.content.condition_set = self.add_content.condition_set;
-                        well.content.method = 'Method.1';
-                    }
-                    if (self.add_content.sample_id) {
-                        well.content.sample_id = self.add_content.sample_id;
-                        well.content.role = 'test_sample';
-                    }
-                    if (self.add_content.rate) {
-                        well.content.rate = self.add_content.rate;
-                    }
-                    if (self.add_content.condition_set && self.add_content.sample_id && self.add_content.rate) {
-                        well.content.replicate = (i+1) + ' out of ' + self.selected_wells.length;
-                    }
-                }
-            }
-            self.selected_wells = [];
-            self.reset_highlight();
-            self.add_content = {
-                condition_set: '',
-                sample_id: '',
-                rate: '',
-            };
-            self.c_s_active = false;
-            self.s_active = false;
-            self.r_active = false;
-            Figure.modal('#add-content').hide();
-        },
-        count_wells_by_sample: function (number) {
+        count_wells_by: function (type, id) {
             return this.layout.wells.reduce(function(n, well) {
-                return n + (well.content.sample == number);
-            }, 0);
-        },
-        count_wells_by_rate: function (number) {
-            return this.layout.wells.reduce(function(n, well) {
-                return n + (well.content.rate == number);
-            }, 0);
-        },
-        count_wells_by_condition_set: function (number) {
-            return this.layout.wells.reduce(function(n, well) {
-                return n + (well.content.condition_set == number);
-            }, 0);
-        },
-        count_wells_by_replicate: function (number) {
-            return this.layout.wells.reduce(function(n, well) {
-                return n + (well.content.replicate == number);
+                return n + (well.content[type] == id);
             }, 0);
         },
         render_tooltip_content: function (well_id) {
             var well_content = this.getObjectByKey(this.layout.wells, 'id', well_id).content;
             var role = well_content.role;
-            var sample = well_content.sample;
+            var test_sample = well_content.test_sample;
+            var ctrl_w_sample = well_content.ctrl_w_sample;
+            var ctrl_wo_sample = well_content.ctrl_wo_sample;
             var rate = well_content.rate;
             var condition_set = well_content.condition_set;
             var replicate = well_content.replicate;
 
+            var role_and_number;
+
             if (!role) {
-                role = 'Unset';
+                role_and_number = `<li><strong class='label'>Role:</strong>Unset</li>`;
             }
             else if (role === 'empty') {
-                role = 'Empty';
+                role_and_number = `<li><strong class='label'>Role:</strong>Empty</li>`;
             }
             else if (role === 'test_sample') {
-                role = "<span class='color-key'><span class='circle' style='background-color: " + this.role_colors['test_sample'] + "'></span>Test Sample</span>";
+                role_and_number = `
+                <li>
+                    <strong class='label'>Role:</strong>
+                    <span class='color-key'><span class='circle' style='background-color: ` + this.role_colors['test_sample'] + `'></span>Test Sample</span>
+                </li>
+                <li><strong class='label'>Test Sample #:</strong> ` + (test_sample ? test_sample : `<span class='fi-text-danger'>Not set</span>`) + `</li>
+                `;
             }
             else if (role === 'ctrl_w_sample') {
-                role = "<span class='color-key'><span class='circle' style='background-color: " + this.role_colors['ctrl_w_sample'] + "'></span>Control with Sample</span>";
+                role_and_number = `
+                <li>
+                    <strong class='label'>Role:</strong>
+                    <span class='color-key'><span class='circle' style='background-color: ` + this.role_colors['ctrl_w_sample'] + `'></span>Control with Sample</span>
+                </li>
+                <li><strong class='label'>Control with Sample #:</strong> ` + (ctrl_w_sample ? ctrl_w_sample : `<span class='fi-text-danger'>Not set</span>`) + `</li>
+                `;
             }
             else if (role === 'ctrl_wo_sample') {
-                role = "<span class='color-key'><span class='circle' style='background-color: " + this.role_colors['ctrl_wo_sample'] + "'></span>Control without Sample</span>";
+                role_and_number = `
+                <li>
+                    <strong class='label'>Role:</strong>
+                    <span class='color-key'><span class='circle' style='background-color: ` + this.role_colors['ctrl_wo_sample'] + `'></span>Control without Sample</span>
+                </li>
+                <li><strong class='label'>Control without Sample #:</strong> ` + (ctrl_wo_sample ? ctrl_wo_sample : `<span class='fi-text-danger'>Not set</span>`) + `</li>
+                `;
             }
 
-            if (!sample) {
-                sample = "<span class='fi-text-danger'>Not set</span>";
-            }
             if (!rate) {
                 rate = "<span class='fi-text-danger'>Not set</span>";
             }
@@ -1144,10 +1276,7 @@ var create_app = new Vue({
             return `
             <ul class='fi-list well-info-content'>
                 <li><strong class='label'>Location:</strong> ` + well_location.row + `-` + well_location.column + `</li>
-                <li><strong class='label'>Role:</strong> ` + role + `</li>
-                ` + ( well_content.role !== 'empty' ? `
-                <li><strong class='label'>Sample #:</strong> ` + sample + `</li>
-                ` : `` ) + `
+                ` + role_and_number + `
                 ` + ( well_content.role === 'test_sample' || well_content.role === 'ctrl_w_sample' ? `
                 <li><strong class='label'>Rate #:</strong> ` + rate + `</li>
                 ` : `` ) + `
@@ -1163,11 +1292,11 @@ var create_app = new Vue({
         tooltip_class: function (well_id) {
             var well = this.getObjectByKey(this.layout.wells, 'id', well_id);
             if (
-                well.content.role === 'test_sample' && well.content.sample && well.content.rate && well.content.condition_set && well.content.replicate
+                well.content.role === 'test_sample' && well.content.test_sample && well.content.rate && well.content.condition_set && well.content.replicate
                 ||
-                well.content.role === 'ctrl_w_sample' && well.content.sample && well.content.rate && well.content.condition_set && well.content.replicate
+                well.content.role === 'ctrl_w_sample' && well.content.ctrl_w_sample && well.content.rate && well.content.condition_set && well.content.replicate
                 ||
-                well.content.role === 'ctrl_wo_sample' && well.content.sample && well.content.condition_set && well.content.replicate
+                well.content.role === 'ctrl_wo_sample' && well.content.ctrl_wo_sample && well.content.condition_set && well.content.replicate
                 ||
                 well.content.role === 'empty'
             ) {
@@ -1230,7 +1359,7 @@ var create_app = new Vue({
                             }
                         }
                     }
-                    else if (type === 'test_sample' && this.test_sample_count) {
+                    else if (type === 'role_test_sample' && this.test_sample_count) {
                         if (well.content.role === 'test_sample') {
                             this.highlight_by = type;
                             if (this.edit_mode) {
@@ -1243,7 +1372,7 @@ var create_app = new Vue({
                             }
                         }
                     }
-                    else if (type === 'ctrl_w_sample' && this.ctrl_w_sample_count) {
+                    else if (type === 'role_ctrl_w_sample' && this.ctrl_w_sample_count) {
                         if (well.content.role === 'ctrl_w_sample') {
                             this.highlight_by = type;
                             if (this.edit_mode) {
@@ -1256,7 +1385,7 @@ var create_app = new Vue({
                             }
                         }
                     }
-                    else if (type === 'ctrl_wo_sample' && this.ctrl_wo_sample_count) {
+                    else if (type === 'role_ctrl_wo_sample' && this.ctrl_wo_sample_count) {
                         if (well.content.role === 'ctrl_wo_sample') {
                             this.highlight_by = type;
                             if (this.edit_mode) {
@@ -1269,8 +1398,8 @@ var create_app = new Vue({
                             }
                         }
                     }
-                    else if (type === 'sample_not_set' && this.sample_not_set_count) {
-                        if (!well.content.sample && (well.content.role === 'test_sample' || well.content.role === 'ctrl_w_sample' || well.content.role === 'ctrl_wo_sample')) {
+                    else if (type === 'test_sample_not_set' && this.test_sample_not_set_count) {
+                        if (!well.content.test_sample && well.content.role === 'test_sample') {
                             this.highlight_by = type;
                             if (this.edit_mode) {
                                 if (!well.disable) {
@@ -1282,8 +1411,62 @@ var create_app = new Vue({
                             }
                         }
                     }
-                    else if (type === 'sample' && id) {
-                        if (well.content.sample == id) {
+                    else if (type === 'ctrl_w_sample_not_set' && this.ctrl_w_sample_not_set_count) {
+                        if (!well.content.ctrl_w_sample && well.content.role === 'ctrl_w_sample') {
+                            this.highlight_by = type;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'ctrl_wo_sample_not_set' && this.ctrl_wo_sample_not_set_count) {
+                        if (!well.content.ctrl_wo_sample && well.content.role === 'ctrl_wo_sample') {
+                            this.highlight_by = type;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'test_sample' && id) {
+                        if (well.content.test_sample == id) {
+                            this.highlight_by = type;
+                            this.highlight_id = id;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'ctrl_w_sample' && id) {
+                        if (well.content.ctrl_w_sample == id) {
+                            this.highlight_by = type;
+                            this.highlight_id = id;
+                            if (this.edit_mode) {
+                                if (!well.disable) {
+                                    this.selected_wells.push(well.id.toString());
+                                }
+                            }
+                            else {
+                                well.highlight = true;
+                            }
+                        }
+                    }
+                    else if (type === 'ctrl_wo_sample' && id) {
+                        if (well.content.ctrl_wo_sample == id) {
                             this.highlight_by = type;
                             this.highlight_id = id;
                             if (this.edit_mode) {
@@ -1514,9 +1697,11 @@ var create_app = new Vue({
                 });
             }
             else {
-                Figure.notify('<div class="notify-content"><i class="notify-icon fa fa-check-circle fi-text-success"></i> Layout saved successfully</div>');
+                this.selected_wells = [];
+                this.reset_highlight();
                 this.edit_mode = false;
                 this.saved_before = true;
+                Figure.notify('<div class="notify-content"><i class="notify-icon fa fa-check-circle fi-text-success"></i> Layout saved successfully</div>');
             }
         },
     },
@@ -1532,8 +1717,18 @@ var create_app = new Vue({
                 return -8;
             }
         },
-        sorted_samples: function () {
-            return this.samples.sort(function(a, b) {
+        sorted_test_samples: function () {
+            return this.test_samples.sort(function(a, b) {
+                return parseInt(a.id) - parseInt(b.id);
+            });
+        },
+        sorted_ctrl_w_samples: function () {
+            return this.ctrl_w_samples.sort(function(a, b) {
+                return parseInt(a.id) - parseInt(b.id);
+            });
+        },
+        sorted_ctrl_wo_samples: function () {
+            return this.ctrl_wo_samples.sort(function(a, b) {
                 return parseInt(a.id) - parseInt(b.id);
             });
         },
@@ -1555,11 +1750,11 @@ var create_app = new Vue({
         count_placed_wells: function () {
             return this.layout.wells.reduce(function(n, well) {
                 return n + (
-                    well.content.role === 'test_sample' && well.content.sample !== '' && well.content.rate !== '' && well.content.condition_set !== '' && well.content.replicate !== ''
+                    well.content.role === 'test_sample' && well.content.test_sample !== '' && well.content.rate !== '' && well.content.condition_set !== '' && well.content.replicate !== ''
                     ||
-                    well.content.role === 'ctrl_w_sample' && well.content.sample !== '' && well.content.rate !== '' && well.content.condition_set !== '' && well.content.replicate !== ''
+                    well.content.role === 'ctrl_w_sample' && well.content.ctrl_w_sample !== '' && well.content.rate !== '' && well.content.condition_set !== '' && well.content.replicate !== ''
                     ||
-                    well.content.role === 'ctrl_wo_sample' && well.content.sample !== '' && well.content.condition_set !== '' && well.content.replicate !== ''
+                    well.content.role === 'ctrl_wo_sample' && well.content.ctrl_wo_sample !== '' && well.content.condition_set !== '' && well.content.replicate !== ''
                     ||
                     well.content.role === 'empty'
                 );
@@ -1590,9 +1785,19 @@ var create_app = new Vue({
                 return n + (well.content.role === 'ctrl_wo_sample');
             }, 0);
         },
-        sample_not_set_count: function () {
+        test_sample_not_set_count: function () {
             return this.layout.wells.reduce(function(n, well) {
-                return n + (!well.content.sample && (well.content.role === 'test_sample' || well.content.role === 'ctrl_w_sample' || well.content.role === 'ctrl_wo_sample'));
+                return n + (!well.content.test_sample && well.content.role === 'test_sample');
+            }, 0);
+        },
+        ctrl_w_sample_not_set_count: function () {
+            return this.layout.wells.reduce(function(n, well) {
+                return n + (!well.content.ctrl_w_sample && well.content.role === 'ctrl_w_sample');
+            }, 0);
+        },
+        ctrl_wo_sample_not_set_count: function () {
+            return this.layout.wells.reduce(function(n, well) {
+                return n + (!well.content.ctrl_wo_sample && well.content.role === 'ctrl_wo_sample');
             }, 0);
         },
         rate_not_set_count: function () {
@@ -1624,4 +1829,10 @@ jQuery(document).on('mousedown', function (e) {
 
 jQuery(document).on('fi-modal:hidden', '.auto_set_modal', function () {
     create_app.close_auto_set();
+});
+
+jQuery(document).on('fi-modal:hidden', '.create-modal', function () {
+    create_app.selected_wells = [];
+    create_app.reset_highlight();
+    create_app.active_tab = 'design';
 });

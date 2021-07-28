@@ -129,6 +129,11 @@
     display: flex;
 }
 
+.layout-mode .button-group,
+.controls .button-group {
+    margin-right: 0.75rem;
+}
+
     .button-group .fi-button {
         border-left-width: 0;
         border-radius: 0;
@@ -149,6 +154,10 @@
             border-right-width: 1px;
         }
 
+* + .fi-form-field {
+    margin-top: 1.25rem;
+}
+
 .fi-form-control, input[type].fi-form-control, textarea.fi-form-control, select.fi-form-control {
     border-color: #797979;
     border-radius: 0.25rem;
@@ -168,6 +177,16 @@
 
 .fi-form-control.fi-small, input[type].fi-form-control.fi-small, textarea.fi-form-control.fi-small, select.fi-form-control.fi-small {
     font-size: 0.75rem;
+}
+
+.fi-form-control[readonly], input[type].fi-form-control[readonly], textarea.fi-form-control[readonly], select.fi-form-control[readonly] {
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #EAEAEA;
+    border-color: #DDD;
+    cursor: default;
 }
 
 select.fi-form-control.placeholder {
@@ -213,6 +232,11 @@ select.fi-form-control.placeholder {
         pointer-events: none;
     }
 
+    .custom-dropdown.disabled:after,
+    .custom-dropdown.readonly:after {
+        display: none;
+    }
+
 .fi-modal.fi-full-height .fi-modal-body {
     overflow: hidden;
 }
@@ -250,7 +274,11 @@ select.fi-form-control.placeholder {
 }
 
     .fi-modal.fi-full-width .fi-modal-content {
-        min-width: 1440px;
+        min-width: 1380px;
+    }
+
+    .fi-modal.fi-full-width.experiment-modal .fi-modal-content {
+        min-width: 1540px;
     }
 
 .tab-content {
@@ -288,7 +316,7 @@ select.fi-form-control.placeholder {
 
 .fi-modal-body-inner .fi-tabs.method-tabs ul {
     padding: 0 1rem;
-    padding-right: 33.6875rem;
+    padding-right: 38rem;
 }
 
 .top-right-buttons {
@@ -691,6 +719,9 @@ select.fi-form-control.placeholder {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    position: relative;
+    padding-top: 78px;
+    padding-top: 4.875rem;
     border-left: 1px solid #ddd;
 }
 
@@ -706,8 +737,6 @@ select.fi-form-control.placeholder {
 .treatment-list {
     display: block;
     min-height: 100%;
-    padding-top: 2.5rem;
-    margin-top: -2.5rem;
 }
 
 .treatment-list-container {
@@ -734,14 +763,13 @@ select.fi-form-control.placeholder {
     top: 0;
     left: 0;
     z-index: 1;
-    pointer-events: none;
     background-color: #fff;
     border: none;
     border-bottom: 1px solid #ddd;
 }
 
 .treatment-item .cell {
-    width: 5.75rem;
+    width: 6.25rem;
     height: 2.0625rem;
     padding: 0.5rem 0.75rem;
     font-size: 0.75rem;
@@ -753,11 +781,11 @@ select.fi-form-control.placeholder {
 .treatments-header .cell {
     font-weight: 700;
     user-select: none;
+    cursor: pointer;
 }
 
 .treatment-item .id {
     width: 3rem;
-    text-align: center;
 }
 
 .treatment-item .role {
@@ -765,11 +793,11 @@ select.fi-form-control.placeholder {
 }
 
 .treatment-item .rate {
-    width: 3.5rem;
+    width: 4rem;
 }
 
 .treatment-item .condition-set {
-    width: 7rem;
+    width: 7.25rem;
 }
 
 .fi-text-light, .fi-text-light *, a.fi-text-light *, .fi-text-light-hover:not([disabled]):hover, .fi-text-light-hover:not([disabled]):focus {
@@ -780,7 +808,7 @@ select.fi-form-control.placeholder {
     opacity: 1 !important;
     color: #A1A1A1 !important;
     background-color: #e5e5e5 !important;
-    border-color: #e5e5e5 !important;
+    border-color: #b4b4b4 !important;
     cursor: default;
 }
 
@@ -805,10 +833,23 @@ a.fi-close-button, button.fi-close-button {
 }
 
 .plates-nav {
-    flex-shrink: 0;
-    display: flex;
-    flex-wrap: nowrap;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     padding: 0.75rem;
+    overflow: auto;
+}
+
+.plates-nav-inner {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.plate-nav-items,
+.add-plate {
+    display: inline-block;
+    vertical-align: top;
 }
 
 .plate-nav-item-delete,
@@ -823,12 +864,24 @@ a.fi-close-button, button.fi-close-button {
 
 .plate-nav-item {
     position: relative;
-    display: flex;
-    align-items: center;
+    display: inline-block;
     margin-right: 1.25rem;
     padding: 0.5rem 0.75rem;
+    background-color: #fff;
     border: 1px solid #797979;
     border-radius: 0.25rem;
+}
+
+    .plate-nav-item:hover {
+        background-color: #f2f2f2;
+    }
+
+    .plate-nav-item.current:hover {
+        background-color: #fff;
+    }
+
+.plate-nav-item.sortable-ghost {
+    background-color: #d4f0ff;
 }
 
 .plate-nav-item.has-results {
@@ -844,6 +897,7 @@ a.fi-close-button, button.fi-close-button {
 .fi-badge {
     background-color: #333;
     color: #fff;
+    font-weight: 400;
 }
 
 .plate-nav-item .well-result-count {
@@ -961,13 +1015,19 @@ a.fi-close-button, button.fi-close-button {
 }
 
     .plate-header-info h4 {
-        max-width: 14rem;
+        max-width: 12rem;
         margin: 0;
         margin-right: 2rem;
+        font-size: 0.875rem;
         line-height: inherit;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
+    }
+
+    .plate-header-info .barcode,
+    .plate-header-info .plate-counts {
+        font-size: 0.75rem;
     }
 
     .plate-header-info .barcode {
@@ -991,7 +1051,7 @@ a.fi-close-button, button.fi-close-button {
 .create-container {
     flex-grow: 1;
     position: absolute;
-    top: 6.890625rem;
+    top: 10.28125rem;
     left: 0;
     right: 0;
     bottom: 0;
@@ -1015,7 +1075,8 @@ a.fi-close-button, button.fi-close-button {
 }
 
 .plate-container.create {
-    flex-grow: 0;
+    flex-shrink: 0;
+    max-width: 56.5rem;
 }
 
 .plate-outer {
@@ -1445,7 +1506,7 @@ a.fi-close-button, button.fi-close-button {
 .color-keys {
     flex-shrink: 0;
     display: flex;
-    padding: 0.75rem;
+    padding: 0.25rem;
     border-top: 1px solid #ddd;
 }
 
@@ -1456,7 +1517,7 @@ a.fi-close-button, button.fi-close-button {
 .color-key {
     display: flex;
     align-items: center;
-    margin-right: 2rem;
+    margin-right: 1rem;
     font-size: 0.75rem;
     line-height: 1.4;
 }
@@ -1464,20 +1525,23 @@ a.fi-close-button, button.fi-close-button {
 .color-key-button {
     display: flex;
     align-items: center;
+    width: 100%;
+    padding: 0.375rem;
     cursor: pointer;
-    transition: opacity 0.1s;
 }
 
     .color-key-button:hover {
-        opacity: 0.75;
+        background-color: #f2f2f2;
     }
 
     .color-key.none .circle {
         opacity: 0.25;
     }
 
-    .color-key.none .color-key-button {
+    .color-key.none .color-key-button,
+    .color-key.disabled .color-key-button {
         color: #b4b4b4;
+        pointer-events: none;
     }
 
         .color-key.none .color-key-button {
@@ -1494,6 +1558,11 @@ a.fi-close-button, button.fi-close-button {
 .color-key.active-selection {
     font-weight: 700;
 }
+
+    .color-key.active .color-key-button,
+    .color-key.active-selection .color-key-button {
+        background-color: #e8e8e8;
+    }
 
     .color-key .circle {
         flex-shrink: 0;
@@ -1939,21 +2008,34 @@ a.fi-close-button, button.fi-close-button {
     align-items: center;
 }
 
-.layout-mode {
+.layout-mode,
+.controls {
     position: absolute;
-    top: 3.5625rem;
+
     left: 0;
     right: 0;
     display: flex;
     padding: 0.75rem 1.5rem;
 }
 
-    .layout-mode .fi-form.fi-form-inline {
+.layout-mode {
+    top: 3.5625rem;
+}
+
+.controls {
+    top: 6.890625rem;
+    height: 3.390625rem;
+    border-top: 1px solid #ddd;
+}
+
+    .layout-mode .fi-form.fi-form-inline,
+    .controls .fi-form.fi-form-inline {
         display: flex;
         align-items: center;
     }
 
-    .layout-mode .alert {
+    .layout-mode .alert,
+    .controls .alert {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -1969,57 +2051,66 @@ a.fi-close-button, button.fi-close-button {
     height: 2.133125rem;
 }
 
-    .layout-mode .main {
+    .layout-mode .main,
+    .controls .main {
         flex-grow: 1;
     }
 
         .layout-mode .fi-form.fi-form-inline .fi-form-field,
+        .controls .fi-form.fi-form-inline .fi-form-field,
         .top-right-buttons .fi-form.fi-form-inline,
         .top-right-buttons .fi-form.fi-form-inline .fi-form-field {
             display: flex;
             align-items: center;
         }
 
-        .layout-mode .fi-form.fi-form-inline .fi-form-field {
+        .layout-mode .fi-form.fi-form-inline .fi-form-field,
+        .controls .fi-form.fi-form-inline .fi-form-field {
             height: 100%;
         }
 
         .layout-mode .fi-form.fi-form-inline .fi-form-label,
+        .controls .fi-form.fi-form-inline .fi-form-label,
         .top-right-buttons .fi-form.fi-form-inline .fi-form-label {
             margin-top: 0;
             padding-top: 0;
         }
 
-        .layout-mode .fi-form.fi-form-inline .value {
+        .layout-mode .fi-form.fi-form-inline .value,
+        .controls .fi-form.fi-form-inline .value {
             margin-right: 0.75rem;
         }
 
-    .layout-mode .plate-counts {
+    .layout-mode .plate-counts,
+    .controls .plate-counts {
         display: flex;
         align-items: center;
     }
 
-    .layout-mode .plate-counts span {
+    .layout-mode .plate-counts span,
+    .controls .plate-counts span {
         margin-left: 0.75rem;
     }
 
-        .layout-mode .fi-form.fi-form-inline .fi-form-control[type="number"] {
+        .layout-mode .fi-form.fi-form-inline .fi-form-control[type="number"],
+        .controls .fi-form.fi-form-inline .fi-form-control[type="number"] {
             width: 4rem;
         }
 
 .keymap {
     flex-grow: 1;
-    padding: 0.875rem 1.5rem;
     border-left: 1px solid #ddd;
     overflow: auto;
 }
 
     .keymap h5 {
+        margin-bottom: 0.375rem;
         font-weight: 700;
     }
 
     .keymap .fi-list {
-        margin-top: -0.375rem;
+        display: inline-block;
+        margin: 0 -0.375rem;
     }
 
     .keymap .color-key {
@@ -2027,9 +2118,22 @@ a.fi-close-button, button.fi-close-button {
         white-space: nowrap;
     }
 
-    .keymap .color-key-button {
-        padding: 0.375rem 0;
+.keymap-section {
+    padding: 0.875rem 1.5rem;
+}
+
+.keymap-section + .keymap-section {
+    border-top: 1px solid #ddd;
+}
+
+    .keymap .fi-list.number-keys {
+        display: flex;
+        flex-wrap: wrap;
     }
+
+        .keymap .fi-list.number-keys li {
+            width: 16.66666667%;
+        }
 
 
 /*EMPTY TEMPLATE*/
