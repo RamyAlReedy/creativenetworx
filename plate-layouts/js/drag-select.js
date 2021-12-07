@@ -29,6 +29,11 @@ Vue.component('drag-select', {
         type: String,
         required: true
       },
+      columns: {
+          type: [String,Number],
+          required: false,
+          default: 1,
+      },
       color: {
         type: String,
         default: "#4299E1"
@@ -140,6 +145,10 @@ Vue.component('drag-select', {
             var plate_container = jQuery(container).closest('.plate-container');
             jQuery(container).css({width: '', height: ''});
             jQuery(container).css({ width: plate_container.outerWidth(), height: plate_container.outerHeight()});
+
+            if (jQuery('.tray-container').length) {
+                jQuery('.tray-container .drag-select-inner').css({ width: self.columns * 70.8 });
+            }
         }
 
         if (jQuery(container).is('.plate-container *')) {

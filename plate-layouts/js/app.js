@@ -46,6 +46,7 @@ var app = new Vue({
     el: '#app',
     data: {
         edit_mode: true,
+        placement_design: true,
         sort: {
             sort_by: 'id',
             sort_order: 'ASC',
@@ -57,78 +58,87 @@ var app = new Vue({
             method: [],
             condition_set: [],
         },
+        randomization: {
+            applied: false,
+            mode: 'full',
+            blocks: 0,
+            grouping_by: 'replicate',
+        },
+        randomize_ids: [],
         treatments: [
-            { id: 1, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 2, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 3, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 1, treatment_id: 1, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 2, treatment_id: 2, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 3, treatment_id: 3, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.1' },
 
-            { id: 4, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 5, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 6, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 4, treatment_id: 4, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 5, treatment_id: 5, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 6, treatment_id: 6, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '200', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.2' },
 
-            { id: 7, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '50', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 8, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '50', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 9, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '50', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 7, treatment_id: 7, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '50', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 8, treatment_id: 8, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '50', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 9, treatment_id: 9, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '50', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.1' },
 
-            { id: 10, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '50', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 11, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '50', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 12, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '50', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 10, treatment_id: 10, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '50', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 11, treatment_id: 11, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '50', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 12, treatment_id: 12, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '50', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.2' },
 
-            { id: 13, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '12.5', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 14, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '12.5', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 15, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '12.5', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 13, treatment_id: 13, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '12.5', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 14, treatment_id: 14, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '12.5', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 15, treatment_id: 15, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '12.5', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.1' },
 
-            { id: 16, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '12.5', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 17, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '12.5', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 18, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '12.5', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 16, treatment_id: 16, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '12.5', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 17, treatment_id: 17, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '12.5', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 18, treatment_id: 18, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '12.5', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.2' },
 
-            { id: 19, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '3.125', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 20, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '3.125', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 21, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '3.125', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 19, treatment_id: 19, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '3.125', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 20, treatment_id: 20, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '3.125', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 21, treatment_id: 21, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '3.125', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.1' },
 
-            { id: 22, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '3.125', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 23, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '3.125', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 24, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '3.125', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 22, treatment_id: 22, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '3.125', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 23, treatment_id: 23, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '3.125', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 24, treatment_id: 24, place: null, sample_id: 'Sample.ID.1', role: 'test_sample', rate: '3.125', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.2' },
 
-            { id: 25, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '200', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 26, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '200', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 27, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '200', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 25, treatment_id: 25, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '200', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 26, treatment_id: 26, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '200', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 27, treatment_id: 27, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '200', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.1' },
 
-            { id: 28, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '200', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 29, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '200', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 30, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '200', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 28, treatment_id: 28, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '200', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 29, treatment_id: 29, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '200', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 30, treatment_id: 30, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '200', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.2' },
 
-            { id: 31, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '50', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 32, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '50', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 33, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '50', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 31, treatment_id: 31, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '50', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 32, treatment_id: 32, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '50', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 33, treatment_id: 33, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '50', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.1' },
 
-            { id: 34, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '50', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 35, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '50', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 36, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '50', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 34, treatment_id: 34, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '50', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 35, treatment_id: 35, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '50', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 36, treatment_id: 36, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '50', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.2' },
 
-            { id: 37, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '12.5', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 38, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '12.5', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 39, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '12.5', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 37, treatment_id: 37, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '12.5', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 38, treatment_id: 38, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '12.5', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 39, treatment_id: 39, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '12.5', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.1' },
 
-            { id: 40, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '12.5', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 41, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '12.5', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 42, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '12.5', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 40, treatment_id: 40, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '12.5', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 41, treatment_id: 41, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '12.5', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 42, treatment_id: 42, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '12.5', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.2' },
 
-            { id: 43, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 44, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
-            { id: 45, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 43, treatment_id: 43, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 44, treatment_id: 44, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.1' },
+            { id: 45, treatment_id: 45, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.1' },
 
-            { id: 46, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '1 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 47, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '2 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
-            { id: 48, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '3 of 3', method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 46, treatment_id: 46, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '1 of 3', block: 1, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 47, treatment_id: 47, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '2 of 3', block: 2, method: 'Method.1', condition_set: 'Condition.Set.2' },
+            { id: 48, treatment_id: 48, place: null, sample_id: 'Sample.ID.2', role: 'test_sample', rate: '3.125', replicate: '3 of 3', block: 3, method: 'Method.1', condition_set: 'Condition.Set.2' },
         ],
         plates: [
             //{ id: 1, size: 384, name: 'Plate Name Goes Here', wells: [], filter_match: false, well_result_count: 0, },
         ],
         last_plate_id_used: 0,
-        add_plate_data: { id: -1, name: '', size: 0, barcode: '', wells: [], filter_match: false, well_result_count: 0, },
-        edit_plate_data: { id: -1, name: '', size: 0, barcode: '', wells: [], filter_match: false, well_result_count: 0, },
-        generate_plates_data: { plate_layout: {}, prefix: 'Plate - ' },
+        add_plate_data: { id: -1, name: '', size: 0, columns: 4, rows: 4, barcode: '', wells: [], filter_match: false, well_result_count: 0, },
+        edit_plate_data: { id: -1, name: '', size: 0, columns: 4, rows: 4, barcode: '', wells: [], filter_match: false, well_result_count: 0, },
+        generate_plates_data: { mode: 'layout', size: 24, direction: 'across', plate_layout: {}, prefix: 'Plate - ' },
+        generate_trays_data: { columns: 4, rows: 4, direction: 'across', prefix: 'Tray - ' },
+        randomize_data: { mode: 'full', parameter: 'Replicate' },
         layouts_filter: {
             main_view: 'my_layouts',
             sizes: [],
@@ -260,21 +270,26 @@ var app = new Vue({
 
             }
 
-            for (var key of Object.keys(columns)) {
-                if (columns[key].length === this.plate_sizes[this.plates[this.current_plate_index].size].rows) {
-                    this.selected_columns.push(key - 1);
-                    if (Object.keys(columns).length === 1) {
-                        this.last_col_index = key - 1;
+            if (this.plates.length) {
+                var column_count = this.current_col_count;
+                var row_count = this.current_row_count;
+
+                for (var key of Object.keys(columns)) {
+                    if (columns[key].length === row_count) {
+                        this.selected_columns.push(key - 1);
+                        if (Object.keys(columns).length === 1) {
+                            this.last_col_index = key - 1;
+                        }
                     }
                 }
-            }
 
-            for (var key of Object.keys(rows)) {
-                if (rows[key].length === this.plate_sizes[this.plates[this.current_plate_index].size].columns) {
-                    var row_index = rows_letters_array.indexOf(key);
-                    this.selected_rows.push(row_index);
-                    if (Object.keys(rows).length === 1) {
-                        this.last_row_index = row_index;
+                for (var key of Object.keys(rows)) {
+                    if (rows[key].length === column_count) {
+                        var row_index = rows_letters_array.indexOf(key);
+                        this.selected_rows.push(row_index);
+                        if (Object.keys(rows).length === 1) {
+                            this.last_row_index = row_index;
+                        }
                     }
                 }
             }
@@ -340,7 +355,13 @@ var app = new Vue({
             Figure.toggleDropdown('.fi-dropdown.fi-dropdown-open');
         },
         close_generate_plates: function () {
-            this.generate_plates_data.plate_layout = { plate_layout: {}, prefix: 'Plate - ', };
+            this.generate_plates_data = { mode: 'layout', size: 24, direction: 'across', plate_layout: {}, prefix: 'Plate - ', };
+        },
+        close_generate_trays: function () {
+            this.generate_trays_data = { columns: 4, rows: 4, direction: 'across', prefix: 'Tray - ' };
+        },
+        close_randomize: function () {
+            this.randomize_data = { mode: 'full', parameter: 'Replicate' };
         },
         toggle_clone_value: function (type, value) {
             if (type === 'condition_sets') {
@@ -381,7 +402,16 @@ var app = new Vue({
             var plate = this.getObjectByKey(this.plates, 'id', plate_id);
             if (plate) {
                 plate.wells = [];
-                for (var i = 0; i < plate.size; i++) {
+
+                var well_count = 0;
+                if (plate.size) {
+                    well_count = plate.size;
+                }
+                else if (plate.columns && plate.rows) {
+                    well_count = plate.columns * plate.rows;
+                }
+
+                for (var i = 0; i < well_count; i++) {
                     var content = null;
                     if (option3) {
                         content = {sample_id: '', role: '', condition_set: '', method: '', replicate: '', rate: '',};
@@ -397,7 +427,7 @@ var app = new Vue({
             }
         },
         submit_add_plate: function () {
-            if (this.add_plate_data.name && this.add_plate_data.size != 0) {
+            if (this.add_plate_data.name && (this.add_plate_data.size != 0 || this.add_plate_data.columns && this.add_plate_data.rows)) {
                 this.last_plate_id_used++;
                 this.add_plate_data.id = this.last_plate_id_used;
                 this.plates.push(JSON.parse(JSON.stringify(this.add_plate_data)));
@@ -409,7 +439,7 @@ var app = new Vue({
             }
         },
         close_add_plate: function () {
-            this.add_plate_data = { id: -1, name: '', size: 0, barcode: '', wells: [], filter_match: false, well_result_count: 0, };
+            this.add_plate_data = { id: -1, name: '', size: 0, columns: 4, rows: 4, barcode: '', wells: [], filter_match: false, well_result_count: 0, };
         },
         open_edit_plate: function (plate_id) {
             var plate = this.getObjectByKey(app.plates, 'id', plate_id);
@@ -419,7 +449,7 @@ var app = new Vue({
             }
         },
         submit_edit_plate: function () {
-            if (this.edit_plate_data.name && this.edit_plate_data.size != 0) {
+            if (this.edit_plate_data.name && (this.edit_plate_data.size != 0 || this.edit_plate_data.columns && this.edit_plate_data.rows)) {
                 var plate = this.getObjectByKey(app.plates, 'id', this.edit_plate_data.id);
                 if (plate) {
                     plate.name = this.edit_plate_data.name;
@@ -429,15 +459,22 @@ var app = new Vue({
                         this.regenerate_wells_for_plate(plate.id);
                     }
                     else {
+                        plate.columns = this.edit_plate_data.columns;
+                        plate.rows = this.edit_plate_data.rows;
+                        this.regenerate_wells_for_plate(plate.id);
+
                         plate.size = this.edit_plate_data.size;
                     }
                 }
 
                 Figure.modal('.edit_plate_modal').hide();
+                if (jQuery('.tray-container').length) {
+                    jQuery('.tray-container .drag-select-inner').css({ width: this.current_col_count * 70.8 });
+                }
             }
         },
         close_edit_plate: function () {
-            this.edit_plate_data = { id: -1, name: '', size: 0, barcode: '', wells: [], filter_match: false, well_result_count: 0, };
+            this.edit_plate_data = { id: -1, name: '', size: 0, columns: 4, rows: 4, barcode: '', wells: [], filter_match: false, well_result_count: 0, };
         },
         delete_plate: function (plate_index) {
 
@@ -461,6 +498,80 @@ var app = new Vue({
                 cancelText: "Cancel",
             });
 
+        },
+        disable_placement_design: function () {
+
+            var self = this;
+
+            Figure.confirm({
+                message: `<p>This process will disable placement design and all trays created will be deleted.</p><p>Are you sure you want to proceed?</p>`,
+                title: 'Disable Placement Design',
+                onConfirm: function () {
+                    for (var i = 0; i < self.plates.length; i++) {
+                        self.clear_plate(i);
+                        self.plates.splice(i, 1);
+                        if (self.current_plate_index == i && i === self.plates.length || self.current_plate_index > i) {
+                            self.current_plate_index--;
+                        }
+                        i--;
+                        self.$forceUpdate();
+                    }
+                    self.placement_design = false;
+
+                    self.selected_treatments = [];
+                    self.selected_wells = [];
+                    self.clear_filters();
+                    self.reset_highlight();
+
+                    self.$forceUpdate();
+
+                    jQuery('.filters.fi-accordion .fi-child-open').removeClass('fi-child-open');
+                    jQuery('.filters.fi-accordion .fi-accordion-content').hide();
+                },
+                onCancel: function () {
+
+                },
+                okText: "Yes, I'm Sure",
+                cancelText: "Cancel",
+            });
+
+        },
+        randomize_array: function (array) {
+          var currentIndex = array.length,  randomIndex;
+
+          while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [
+              array[randomIndex], array[currentIndex]];
+          }
+          return array;
+        },
+        submit_randomize: function () {
+
+            this.randomize_ids = [];
+
+            for (var i = 0; i < this.treatments.length; i++) {
+                this.randomize_ids.push(this.treatments[i].id);
+            }
+
+            this.randomize_array(this.randomize_ids);
+
+            for (var i = 0; i < this.randomize_ids.length; i++) {
+                this.treatments[i].id = this.randomize_ids[i];
+            }
+
+            this.randomization.applied = true;
+            this.randomization.mode = this.randomize_data.mode;
+            Figure.modal('.randomize_modal, .randomize_all_modal').hide();
+        },
+        submit_derandomize: function () {
+            for (var i = 0; i < this.treatments.length; i++) {
+                this.treatments[i].id = this.treatments[i].treatment_id;
+            }
+            this.randomization.applied = false;
+            this.randomization.mode = 'full';
+            Figure.modal('.derandomize_modal, .derandomize_all_modal').hide();
         },
         start_plate_drag: function () {
             this.current_plate_index_id = this.plates[this.current_plate_index].id;
@@ -519,9 +630,10 @@ var app = new Vue({
         get_column_count: function () {
             if (this.selected_wells.length) {
                 var col_count = 0;
+                var actual_col_count = this.current_col_count;
                 for (var i = 0; i < this.selected_wells.length; i++) {
                     if (i !== this.selected_wells.length - 1) {
-                        if (parseInt(this.selected_wells[i]) > this.plate_sizes[this.plates[this.current_plate_index].size].columns) {
+                        if (parseInt(this.selected_wells[i]) > actual_col_count) {
                             break;
                         }
                         else {
@@ -536,7 +648,7 @@ var app = new Vue({
             }
         },
         get_well_location: function (id) {
-            var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
+            var columns = this.current_col_count;
             var letter = this.well_row_letters[Math.floor((parseInt(id)-1)/columns)];
             var number = parseInt(id) - (columns * Math.floor( parseInt(id)/columns ));
             if (!number) {
@@ -685,7 +797,7 @@ var app = new Vue({
            }
        },
         well_mouseover: function (id) {
-            var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
+            var columns = this.current_col_count;
             var row_index = Math.floor((parseInt(id)-1)/columns);
             var column_index = parseInt(id) - (columns * Math.floor( parseInt(id)/columns )) - 1;
             if (column_index < 0) {
@@ -1014,8 +1126,8 @@ var app = new Vue({
                 this.reset_highlight();
 
                 if (this.last_col_index != index) {
-                    var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
-                    var rows = this.plate_sizes[this.plates[this.current_plate_index].size].rows;
+                    var columns = this.current_col_count;
+                    var rows = this.current_row_count;
 
                     var id = index + 1;
 
@@ -1043,8 +1155,8 @@ var app = new Vue({
                 this.reset_highlight();
 
                 if (this.last_row_index != index) {
-                    var columns = this.plate_sizes[this.plates[this.current_plate_index].size].columns;
-                    var rows = this.plate_sizes[this.plates[this.current_plate_index].size].rows;
+                    var columns = this.current_col_count;
+                    var rows = this.current_row_count;
 
                     var id = columns * (index + 1) - columns + 1;
 
@@ -1196,7 +1308,7 @@ var app = new Vue({
                         }
                     }
                 }
-                else if (sort_by == 'id' || sort_by == 'rate') {
+                else if (sort_by == 'id' || sort_by == 'treatment_id' || sort_by == 'rate' || sort_by == 'block') {
                     if (parseInt(a[sort_by]) < parseInt(b[sort_by]) || parseInt(a[sort_by]) == parseInt(b[sort_by]) && parseInt(a.id) < parseInt(b.id)) {
                         if (sort_order == 'DESC') {
                             return 1;
@@ -1249,6 +1361,22 @@ var app = new Vue({
         },
     },
     computed: {
+        current_col_count: function () {
+            if (this.plates[this.current_plate_index].size) {
+                return parseInt(this.plate_sizes[this.plates[this.current_plate_index].size].columns);
+            }
+            else {
+                return parseInt(this.plates[this.current_plate_index].columns);
+            }
+        },
+        current_row_count: function () {
+            if (this.plates[this.current_plate_index].size) {
+                return parseInt(this.plate_sizes[this.plates[this.current_plate_index].size].rows);
+            }
+            else {
+                return parseInt(this.plates[this.current_plate_index].rows);
+            }
+        },
         sort_class: function () {
             if (this.sort.sort_order === 'DESC') {
                 return 'fa-caret-down';
@@ -1510,6 +1638,14 @@ jQuery(document).on('fi-modal:hidden', '.edit_plate_modal', function () {
 
 jQuery(document).on('fi-modal:hidden', '.generate_plates_modal', function () {
     app.close_generate_plates();
+});
+
+jQuery(document).on('fi-modal:hidden', '.generate_trays_modal, .generate_trays_all_modal', function () {
+    app.close_generate_trays();
+});
+
+jQuery(document).on('fi-modal:hidden', '.randomize_modal, .randomize_all_modal', function () {
+    app.close_randomize();
 });
 
 jQuery(document).on('fi-modal:hidden', '.clone_plate_modal', function () {

@@ -245,6 +245,11 @@ select.fi-form-control.placeholder {
     background-color: rgba(0,0,0,0.86);
 }
 
+.fi-dialog-modal,
+.fi-confirm-modal {
+    font-size: 0.875rem;
+}
+
 @media (min-width: 40em) {
     .fi-modal {
         padding: 2.5rem;
@@ -309,12 +314,12 @@ select.fi-form-control.placeholder {
         right: 0;
     }
 
-        .fi-modal-body-inner .fi-tabs ul {
+        .fi-modal-body-inner .fi-tabs > ul {
             margin: 0;
             padding: 0 1.5rem;
         }
 
-.fi-modal-body-inner .fi-tabs.method-tabs ul {
+.fi-modal-body-inner .fi-tabs.method-tabs > ul {
     padding: 0 1rem;
     padding-right: 38rem;
 }
@@ -478,8 +483,7 @@ select.fi-form-control.placeholder {
 }
 
 .filters {
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid #ddd;
+    padding: 0.75rem 1rem 0;
 }
 
 .filters * + .fi-form-field,
@@ -487,18 +491,52 @@ select.fi-form-control.placeholder {
     margin-top: 0.75rem;
 }
 
-.filters-header {
-    margin-bottom: 0.75rem;
+.filters-header h5 {
+    margin: 0;
 }
 
-    .filters-header .fi-button.clear-all-filters {
-        float: right;
-        font-weight: 400;
-        text-decoration: underline;
+.fi-accordion > ul > li {
+    position: relative;
+}
+
+.filters .fi-button.clear-all-filters {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2.125rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+    .filters .fi-button.clear-all-filters:hover,
+    .filters .fi-button.clear-all-filters:focus {
+        background-color: #797979;
+        border-color: #797979;
     }
 
-    .filters-header h5 {
-        margin: 0;
+.filters .fi-accordion-trigger {
+    display: flex;
+    align-items: center;
+    height: 2.125rem;
+    margin-bottom: 0.75rem;
+    padding: 0.425rem 1rem;
+    border-radius: 0.25rem;
+}
+
+    .filters .fi-accordion-trigger:after {
+        display: none;
+    }
+
+    .filters .fi-child-open .fi-accordion-trigger .fa-plus:before {
+        content: "\f068";
+    }
+
+    .filters .fi-accordion-content {
+        margin-top: 0.75rem;
     }
 
 .filters-multiple {
@@ -663,10 +701,15 @@ select.fi-form-control.placeholder {
     border: 1px solid transparent;
 }
 
+.actions-container {
+    margin-top: 0.75rem;
+}
+
 .actions {
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
+    border-top: 1px solid #ddd;
 }
 
     .actions .fi-form {
@@ -683,6 +726,7 @@ select.fi-form-control.placeholder {
     height: 100%;
     overflow: hidden;
     padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .treatments-inner {
@@ -693,6 +737,12 @@ select.fi-form-control.placeholder {
     border-bottom: none;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
+}
+
+.treatments-inner.blocks {
+    max-height: 25rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
 }
 
 .treatment-counts {
@@ -712,7 +762,7 @@ select.fi-form-control.placeholder {
 .placement-buttons {
     flex-shrink: 0;
     width: 8.4375rem;
-    padding: 0 1rem;
+    padding-left: 1rem;
 }
 
 .plates {
@@ -784,8 +834,20 @@ select.fi-form-control.placeholder {
     cursor: pointer;
 }
 
+.treatments-header.no-sort .cell {
+    cursor: auto;
+}
+
+.treatments-inner.blocks .cell {
+    user-select: text;
+}
+
 .treatment-item .id {
-    width: 3rem;
+    width: 3.375rem;
+}
+
+.treatment-item .treatment_id {
+    width: 4.625rem;
 }
 
 .treatment-item .role {
@@ -794,6 +856,18 @@ select.fi-form-control.placeholder {
 
 .treatment-item .rate {
     width: 4rem;
+}
+
+.treatment-item .block {
+    width: 4.375rem;
+}
+
+.treatment-item .block-number {
+    width: 3.625rem;
+}
+
+.treatment-item .no-of-treatments {
+    width: 8rem;
 }
 
 .treatment-item .condition-set {
@@ -1096,7 +1170,7 @@ a.fi-close-button, button.fi-close-button {
         flex-grow: 1;
         height: 100%;
         padding-top: 2.5rem;
-        margin-top: -2.55rem;
+        margin-top: -2.5rem;
         padding-left: 2.75rem;
         padding-right: 0.625rem;
         margin-left: -2.75rem;
@@ -1269,7 +1343,6 @@ a.fi-close-button, button.fi-close-button {
 .well-inner {
     width: 1.5rem;
     margin: 0.5rem;
-    border-radius: 50%;
     font-size: 1.125rem;
     background-color: #fff;
     border: 1px solid #797979;
@@ -1312,15 +1385,22 @@ a.fi-close-button, button.fi-close-button {
     height: 100%;
 }
 
-.well-content {
+.well-inner,
+.well-content,
+.well-content span {
     border-radius: 50%;
+}
+
+.tray-container .well-inner,
+.tray-container .well-content,
+.tray-container .well-content span {
+    border-radius: 0;
 }
 
     .well-content span {
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 50%;
     }
 
     .well-info {
@@ -1426,6 +1506,11 @@ a.fi-close-button, button.fi-close-button {
         background-color: transparent !important;
     }
 
+.plate-outer .drag-select-inner {
+    box-sizing: content-box;
+    padding-right: 0.625rem;
+    padding-bottom: 0.625rem;
+}
 
 .plate-outer.size_384 .drag-select-inner {
     width: 53.1125rem;
@@ -1783,6 +1868,15 @@ a.fi-close-button, button.fi-close-button {
     border-radius: 0.25rem;
 }
 
+.fi-dropdown-header,
+.fi-dropdown-footer,
+.fi-dropdown-content > ul > li > a,
+.fi-dropdown-content > ul > li > span {
+    line-height: inherit;
+    padding-top: 0.5875rem;
+    padding-bottom: 0.5875rem;
+}
+
 .fi-dropdown-trigger .fa-angle-down {
     font-size: 1.25em;
 }
@@ -1846,7 +1940,7 @@ a.fi-close-button, button.fi-close-button {
 
 .fi-dropdown-content.fi-full-width .filters-multiple + ul,
 .fi-dropdown-content.fi-full-width .fi-form.toggle-thumbs + ul {
-    max-height: 32rem;
+    max-height: 26rem;
     overflow: auto;
 }
 
@@ -1908,6 +2002,15 @@ a.fi-close-button, button.fi-close-button {
 
     .fi-panel.special.alert .fi-button.fi-default {
         margin-left: 0.75rem;
+    }
+
+    .fi-panel.special.alert.randomization-applied {
+        align-items: start;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .fi-panel.special.alert.randomization-applied .fi-button-icon {
+        margin-left: 0.375rem;
     }
 
 .plates-grid-inner .fi-form.fi-form-horizontal .fi-form-label,
@@ -2425,8 +2528,31 @@ a.fi-close-button, button.fi-close-button {
         position: relative;
     }
 
-    .check-list .select-item {
+    .check-list.alt li + li {
+        margin-top: 0.75rem;
+    }
+
+    .check-list .select-item,
+    .check-list .select-item-content {
         padding-left: 2.5rem;
+    }
+
+    .check-list.alt .select-item,
+    .check-list.alt .select-item-content {
+        padding-left: 1.5rem;
+    }
+
+    .check-list .select-item-content {
+        padding-top: 0.5rem;
+        padding-bottom: 0.25rem;
+    }
+
+    .check-list .select-item-content .fi-form-field +  .fi-form-field {
+        margin-top: 0.75rem;
+    }
+
+    .check-list .select-item-content p {
+        margin-bottom: 0.5rem;
     }
 
     .check-list a.select-item.selected {
@@ -2439,7 +2565,16 @@ a.fi-close-button, button.fi-close-button {
             background-color: rgba(0,0,0,0.05);
         }
 
+        .check-list.alt a.select-item:hover,
+        .check-list.alt a.select-item:focus,
+        .check-list.alt a.select-item.selected:hover {
+            background-color: transparent;
+        }
 
+        .check-list.alt a.select-item {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
 
         .check-list a.select-item:before {
             -moz-osx-font-smoothing: grayscale;
@@ -2457,6 +2592,10 @@ a.fi-close-button, button.fi-close-button {
             color: #797979;
         }
 
+        .check-list.alt a.select-item:before {
+            left: 0;
+        }
+
             .check-list a.select-item:hover:before,
             .check-list a.select-item:focus:before,
             .check-list a.select-item.selected:before {
@@ -2467,6 +2606,14 @@ a.fi-close-button, button.fi-close-button {
             content: "\f14a";
             font-weight: 700;
         }
+
+        .radio-list a.select-item:before {
+            content: "\f111";
+        }
+
+            .radio-list a.select-item.selected:before {
+                content: "\f192";
+            }
 
         .check-list .disabled {
             position: absolute;
@@ -2693,7 +2840,6 @@ a.fi-close-button, button.fi-close-button {
                 left: 0;
                 right: 0;
                 bottom: 0;
-                overflow: auto;
             }
 
     }
@@ -2747,3 +2893,58 @@ a.fi-close-button, button.fi-close-button {
             font-weight: 400;
             text-decoration: underline;
         }
+
+/*ALT DROPDOWN*/
+.fi-dropdown-content.alt-dropdown-content > ul {
+    margin: 0.375rem 0 !important;
+}
+
+    .fi-dropdown-content.alt-dropdown-content > ul > li > a,
+    .fi-dropdown-content.alt-dropdown-content > ul > li > span {
+        line-height: inherit;
+    }
+
+/*DISABLE PLACEMENT DESIGN*/
+.disable-placement-design .filters,
+.disable-placement-design .list-actions .fi-form:first-child,
+.disable-placement-design .treatment-counts,
+.disable-placement-design .placement-buttons,
+.disable-placement-design .plates,
+.disable-placement-design [data-drag-box-component] {
+    display: none;
+}
+
+.disable-placement-design .treatments {
+    width: 100%;
+}
+
+.disable-placement-design .actions-container {
+    display: flex;
+    margin-top: 0;
+}
+
+.disable-placement-design .actions {
+    border: none;
+}
+
+.disable-placement-design .randomization-actions {
+    flex-grow: 1;
+}
+
+.disable-placement-design .treatments-outer {
+    padding-bottom: 1rem;
+}
+
+.disable-placement-design .treatments-inner {
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+}
+
+.disable-placement-design .treatment-item .cell {
+    width: 10rem;
+}
+
+.disable-placement-design .treatment-item .id,
+.disable-placement-design .treatment-item .treatment_id {
+    width: 6rem;
+}

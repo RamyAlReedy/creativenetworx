@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <title>Plate Treatments</title>
+    <title>Non-Plate Treatments</title>
 
     <link href="fontawesome/css/all.min.css?v0.16" rel="stylesheet">
     <link href="figure-ui/css/figure.css?v0.16" rel="stylesheet">
@@ -34,8 +34,8 @@
                                     <ul>
                                         <li><a href="https://fw0vah.axshare.com/#g=1&p=experiment_-_mark___gemma_-_basic_info&c=1" class="fi-tab-button"><i class="far fa-exclamation-circle fi-icon-margin"></i>Basic Info</a></li>
                                         <li><a href="https://fw0vah.axshare.com/#g=1&p=experiment_-_mark___gemma&c=1" class="fi-tab-button"><i class="far fa-magic fi-icon-margin"></i>Design</a></li>
-                                        <li><a href="non-plate.html" class="fi-tab-button"><i class="far fa-th-list fi-icon-margin"></i>Non-Plate Treatments</a></li>
-                                        <li class="fi-tab-active"><a href="#" class="fi-tab-button"><i class="far fa-th fi-icon-margin"></i>Plate Treatments</a></li>
+                                        <li class="fi-tab-active"><a href="#" class="fi-tab-button"><i class="far fa-th-list fi-icon-margin"></i>Non-Plate Treatments</a></li>
+                                        <li><a href="option-1.html" class="fi-tab-button"><i class="far fa-th fi-icon-margin"></i>Plate Treatments</a></li>
                                     </ul>
                                 </div>
 
@@ -55,7 +55,7 @@
                                                 </div>
                                                 <div v-if="placement_design" class="fi-form-field separator"></div>
                                                 <div v-if="placement_design" class="fi-form-field">
-                                                    <span class="fi-form-label">View plates by</span>
+                                                    <span class="fi-form-label">View trays by</span>
                                                     <div class="custom-dropdown fi-small value">
                                                         <select class="fi-form-control fi-small">
                                                             <option value="roles">Roles</option>
@@ -74,11 +74,11 @@
                                                         <button type="button" class="fi-dropdown-trigger more-button fi-button fi-default fi-small"><i class="fa fa-cog"></i></button>
                                                         <div class="fi-dropdown-content">
                                                             <ul>
-                                                                <li v-if="placement_design"><a href="#" data-fi-modal=".generate_using_defaults_modal">Generate Plates for All Methods</a></li>
-                                                                <li><a href="#" data-fi-modal=".randomize_all_modal">Randomize All Plate Methods</a></li>
-                                                                <li><a href="#" data-fi-modal=".derandomize_all_modal">Derandomize All Plate Methods</a></li>
-                                                                <!-- <li v-if="placement_design" class="fi-divider"></li>
-                                                                <li v-if="placement_design"><a href="#" @click.prevent="disable_placement_design"><span class="fi-text-danger">Disable Placement Design</span></a></li> -->
+                                                                <li v-if="placement_design"><a href="#" data-fi-modal=".generate_trays_all_modal">Generate Trays for All Methods</a></li>
+                                                                <li><a href="#" data-fi-modal=".randomize_all_modal">Randomize All Non-Plate Methods</a></li>
+                                                                <li><a href="#" data-fi-modal=".derandomize_all_modal">Derandomize All Non-Plate Methods</a></li>
+                                                                <li v-if="placement_design" class="fi-divider"></li>
+                                                                <li v-if="placement_design"><a href="#" @click.prevent="disable_placement_design"><span class="fi-text-danger">Disable Placement Design</span></a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -232,7 +232,7 @@
                                                     <div class="fi-form fi-form-inline">
                                                         <div class="fi-form-field"><button type="button" :disabled="selected_treatments.length === treatments_filtered_list.length" @click.prevent="select_all_treatments" class="fi-button fi-default fi-small">Select All</button></div>
                                                         <div class="fi-form-field"><button type="button" :disabled="!selected_treatments.length" @click.prevent="unplace_treatments" class="fi-button fi-default fi-small">Unplace</button></div>
-                                                        <div class="fi-form-field"><button type="button" :disabled="!selected_treatments.length" data-fi-modal=".generate_plates_modal" class="fi-button fi-default fi-small">Generate Plates from Selected</button></div>
+                                                        <div class="fi-form-field"><button type="button" :disabled="!selected_treatments.length" data-fi-modal=".generate_trays_modal" class="fi-button fi-default fi-small">Generate Trays from Selected</button></div>
                                                     </div>
                                                     <div class="fi-form fi-form-inline">
                                                         <div class="fi-form-field"><button type="button" @click.prevent="" class="fi-button fi-default fi-small">Undo</button></div>
@@ -254,7 +254,7 @@
                                                     <div class="treatment-item treatments-header">
                                                         <div class="cell id" @click="apply_sort('id')">EU <i v-if="sort.sort_by === 'id'" class="fa" :class="sort_class"></i></div>
                                                         <div class="cell treatment_id" @click="apply_sort('treatment_id')">Trtmnt <i v-if="sort.sort_by === 'treatment_id'" class="fa" :class="sort_class"></i></div>
-                                                        <div class="cell place" v-if="placement_design" @click="apply_sort('place')">Plate / Well <i v-if="sort.sort_by === 'place'" class="fa" :class="sort_class"></i></div>
+                                                        <div class="cell place" v-if="placement_design" @click="apply_sort('place')">Tray / Pot <i v-if="sort.sort_by === 'place'" class="fa" :class="sort_class"></i></div>
                                                         <div class="cell condition-set" @click="apply_sort('condition_set')">Condition Set <i v-if="sort.sort_by === 'condition_set'" class="fa" :class="sort_class"></i></div>
                                                         <div class="cell sample-id" @click="apply_sort('sample_id')">Sample ID <i v-if="sort.sort_by === 'sample_id'" class="fa" :class="sort_class"></i></div>
                                                         <div class="cell role" @click="apply_sort('role')">Role <i v-if="sort.sort_by === 'role'" class="fa" :class="sort_class"></i></div>
@@ -315,12 +315,12 @@
                                                         'fi-text-light': !selected_treatments.length,
                                                     }">
                                                         <span class="bug-number">{{ overall_selected_wells.length }}</span>
-                                                        wells selected
+                                                        pots selected
                                                     </div>
 
                                                 </div>
                                                 <div class="fi-section" v-if="selected_treatments.length && selected_wells.length && selected_treatments.length > selected_wells.length">
-                                                    <small><strong>Make sure selected wells are more than or equal selected treatments</strong></small>
+                                                    <small><strong>Make sure selected pots are more than or equal selected treatments</strong></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -378,7 +378,7 @@
 
                                                 <button type="button" @click.prevent="" class="add-plate" data-fi-modal=".add_plate_modal">
                                                     <i class="far fa-plus"></i>
-                                                    Add Plate
+                                                    Add Tray
                                                 </button>
 
                                             </div>
@@ -405,17 +405,16 @@
                                                     <!-- <div class="fi-form-field"><button type="button" @click.prevent="selected_wells = [];" class="fi-button fi-default fi-small" v-if="selected_wells.length">Clear Selection</button></div> -->
                                                     <div class="fi-form-field"><button type="button" @click.prevent="set_as_blank" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Set As Empty</button></div>
                                                     <div class="fi-form-field"><button type="button" @click.prevent="unplace_wells" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Unplace</button></div>
-                                                    <div class="fi-form-field"><button type="button" @click.prevent="clear_plate(current_plate_index)" class="fi-button fi-default fi-small">Clear Plate</button></div>
+                                                    <div class="fi-form-field"><button type="button" @click.prevent="clear_plate(current_plate_index)" class="fi-button fi-default fi-small">Clear Tray</button></div>
                                                     <div class="fi-form-field">
                                                         <div class="fi-dropdown fi-opposite plate-dropdown">
                                                             <button type="button" class="fi-dropdown-trigger more-button fi-button fi-default fi-small"><i class="fa fa-ellipsis-v"></i></button>
                                                             <div class="fi-dropdown-content fi-small">
                                                                 <ul>
-                                                                    <li><a href="#" data-fi-modal=".edit_plate_modal" @click.prevent="open_edit_plate(plates[current_plate_index].id)">Edit Plate</a></li>
-                                                                    <li><a href="#" data-fi-modal=".clone_plate_modal">Clone Plate</a></li>
-                                                                    <li><a href="#">Save as Standrad Layout</a></li>
+                                                                    <li><a href="#" data-fi-modal=".edit_plate_modal" @click.prevent="open_edit_plate(plates[current_plate_index].id)">Edit Tray</a></li>
+                                                                    <li><a href="#" data-fi-modal=".clone_plate_modal">Clone Tray</a></li>
                                                                     <li class="fi-divider"></li>
-                                                                    <li><a href="#" @click.prevent="delete_plate(current_plate_index)">Delete Plate</a></li>
+                                                                    <li><a href="#" @click.prevent="delete_plate(current_plate_index)">Delete Tray</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -426,9 +425,9 @@
 
                                         <div class="plate-exp-container" v-if="current_plate_index > -1">
 
-                                            <div class="plate-container">
+                                            <div class="plate-container tray-container">
 
-                                                <div class="plate-outer" :class="'size_' + plates[current_plate_index].size">
+                                                <div class="plate-outer size_96">
 
                                                     <div class="plate-clear-selection" @click="selected_wells = [];"></div>
 
@@ -439,7 +438,7 @@
                                                         </div>
 
                                                         <div class="plate-columns">
-                                                            <div v-for="(plate_column, index) in plate_sizes[plates[current_plate_index].size].columns" class="plate-column" :class="{'selected': selected_columns.includes(index)}" @click="select_deselect_column(index)">{{ index + 1 }}</div>
+                                                            <div v-for="(plate_column, index) in parseInt(plates[current_plate_index].columns)" class="plate-column" :class="{'selected': selected_columns.includes(index)}" @click="select_deselect_column(index)">{{ index + 1 }}</div>
                                                         </div>
 
                                                     </div>
@@ -447,10 +446,10 @@
                                                     <div class="plate-inner" :class="{'filter-match': plates[current_plate_index].filter_match}">
 
                                                         <div class="plate-rows">
-                                                            <div v-for="(plate_row, index) in plate_sizes[plates[current_plate_index].size].rows" class="plate-row" :class="{'selected': selected_rows.includes(index)}" @click="select_deselect_row(index)">{{ well_row_letters[index] }}</div>
+                                                            <div v-for="(plate_row, index) in parseInt(plates[current_plate_index].rows)" class="plate-row" :class="{'selected': selected_rows.includes(index)}" @click="select_deselect_row(index)">{{ well_row_letters[index] }}</div>
                                                         </div>
 
-                                                        <drag-select attribute="attr" @change="selection($event)">
+                                                        <drag-select attribute="attr" :columns="plates[current_plate_index].columns" @change="selection($event)">
                                                             <template v-slot="{ selected }">
                                                                 <div v-for="item in plates[current_plate_index].wells"
                                                                  :attr="item.id"
@@ -518,12 +517,12 @@
                                         </div>
 
                                         <div class="no-items-label empty-template" v-else>
-                                            <i class="fal fa-th empty-template-icon"></i>
+                                            <i class="fal fa-th-list empty-template-icon"></i>
                                             <div>
-                                                No plates added
+                                                No trays added
                                                 <div class="empty-template-button">
                                                     <button data-fi-modal=".add_plate_modal" class="fi-button fi-primary fi-small">
-                                                        <i class="far fa-plus fi-icon-margin"></i>Add Plate
+                                                        <i class="far fa-plus fi-icon-margin"></i>Add Tray
                                                     </button>
                                                 </div>
                                             </div>
@@ -548,7 +547,7 @@
 
                         <div class="fi-modal-header">
                             <button type="button" class="fi-close-button fi-close-modal"></button>
-                            <h3>Add Plate</h3>
+                            <h3>Add Tray</h3>
                         </div>
 
                         <form @submit.prevent="submit_add_plate">
@@ -560,13 +559,18 @@
                                         <label class="fi-form-label">Name</label>
                                         <input type="text" class="fi-form-control" v-model="add_plate_data.name" data-fi-focus-start />
                                     </div>
-                                    <div class="fi-form-field">
-                                        <label class="fi-form-label">Size</label>
-                                        <div class="custom-dropdown">
-                                            <select class="fi-form-control" v-model="add_plate_data.size">
-                                                <option value="0">Please select...</option>
-                                                <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</option>
-                                            </select>
+                                    <div class="fi-row fi-form-field">
+                                        <div class="fi-column fi-width-small-6">
+                                            <div class="fi-form-field">
+                                                <label class="fi-form-label">Columns</label>
+                                                <input type="number" class="fi-form-control" :class="{'error': !parseInt(add_plate_data.columns) || add_plate_data.columns < 1 }" v-model="add_plate_data.columns" min="1" />
+                                            </div>
+                                        </div>
+                                        <div class="fi-column fi-width-small-6">
+                                            <div class="fi-form-field">
+                                                <label class="fi-form-label">Rows</label>
+                                                <input type="number" class="fi-form-control" :class="{'error': !parseInt(add_plate_data.rows) || add_plate_data.rows < 1 }" v-model="add_plate_data.rows" min="1" />
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="fi-form-field">
@@ -580,7 +584,7 @@
 
                             <div class="fi-modal-footer fi-buttons-container fi-text-right">
                                 <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                <button type="submit" class="fi-button fi-primary" :disabled="!add_plate_data.name || add_plate_data.size == 0 || (add_plate_data.barcode != '' && !check_number(add_plate_data.barcode)) || (add_plate_data.barcode != '' && add_plate_data.barcode.toString().length < 10)">Add Plate</button>
+                                <button type="submit" class="fi-button fi-primary" :disabled="!add_plate_data.name || !parseInt(add_plate_data.columns) || add_plate_data.columns < 1 || !parseInt(add_plate_data.rows) || add_plate_data.rows < 1 || (add_plate_data.barcode != '' && !check_number(add_plate_data.barcode)) || (add_plate_data.barcode != '' && add_plate_data.barcode.toString().length < 10)">Add Tray</button>
                             </div>
 
                         </form>
@@ -597,7 +601,7 @@
 
                         <div class="fi-modal-header">
                             <button type="button" class="fi-close-button fi-close-modal"></button>
-                            <h3>Edit Plate</h3>
+                            <h3>Edit Tray</h3>
                         </div>
 
                         <form @submit.prevent="submit_edit_plate">
@@ -609,12 +613,19 @@
                                         <label class="fi-form-label">Name</label>
                                         <input type="text" class="fi-form-control" v-model="edit_plate_data.name" data-fi-focus-start />
                                     </div>
-                                    <div class="fi-form-field">
-                                        <label class="fi-form-label">Size</label>
-                                        <select class="fi-form-control" v-model="edit_plate_data.size">
-                                            <option value="0">Please select...</option>
-                                            <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</option>
-                                        </select>
+                                    <div class="fi-row fi-form-field">
+                                        <div class="fi-column fi-width-small-6">
+                                            <div class="fi-form-field">
+                                                <label class="fi-form-label">Columns</label>
+                                                <input type="number" class="fi-form-control" :class="{'error': !parseInt(edit_plate_data.columns) || edit_plate_data.columns < 1 }" v-model="edit_plate_data.columns" min="1" />
+                                            </div>
+                                        </div>
+                                        <div class="fi-column fi-width-small-6">
+                                            <div class="fi-form-field">
+                                                <label class="fi-form-label">Rows</label>
+                                                <input type="number" class="fi-form-control" :class="{'error': !parseInt(edit_plate_data.rows) || edit_plate_data.rows < 1 }" v-model="edit_plate_data.rows" min="1" />
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="fi-form-field">
                                         <label class="fi-form-label">Barcode (Optional)</label>
@@ -627,7 +638,7 @@
 
                             <div class="fi-modal-footer fi-buttons-container fi-text-right">
                                 <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                <button type="submit" class="fi-button fi-primary" :disabled="!edit_plate_data.name || edit_plate_data.size == 0 || (edit_plate_data.barcode != '' && !check_number(edit_plate_data.barcode)) || (edit_plate_data.barcode != '' && edit_plate_data.barcode.toString().length < 10)">Apply Changes</button>
+                                <button type="submit" class="fi-button fi-primary" :disabled="!edit_plate_data.name || !parseInt(edit_plate_data.columns) || edit_plate_data.columns < 1 || !parseInt(edit_plate_data.rows) || edit_plate_data.rows < 1 || (edit_plate_data.barcode != '' && !check_number(edit_plate_data.barcode)) || (edit_plate_data.barcode != '' && edit_plate_data.barcode.toString().length < 10)">Apply Changes</button>
                             </div>
 
                         </form>
@@ -637,14 +648,14 @@
             </div>
         </div>
 
-        <div class="generate_plates_modal fi-modal fi-no-click-close">
+        <div class="generate_trays_modal fi-modal fi-no-click-close">
             <div class="fi-modal-outer">
                 <div class="fi-modal-inner">
                     <div class="fi-modal-content">
 
                         <div class="fi-modal-header">
                             <button type="button" class="fi-close-button fi-close-modal"></button>
-                            <h3>Generate Plates</h3>
+                            <h3>Generate Trays</h3>
                         </div>
 
                         <form @submit.prevent="">
@@ -652,176 +663,37 @@
                             <div class="fi-modal-body">
 
                                 <div class="fi-form">
+                                    <div class="fi-row fi-form-field">
+                                        <div class="fi-column fi-width-small-6">
+                                            <div class="fi-form-field">
+                                                <label class="fi-form-label">Columns</label>
+                                                <input type="number" class="fi-form-control" :class="{'error': !parseInt(generate_trays_data.columns) || generate_trays_data.columns < 1 }" v-model="generate_trays_data.columns" min="1" data-fi-focus-start />
+                                            </div>
+                                        </div>
+                                        <div class="fi-column fi-width-small-6">
+                                            <div class="fi-form-field">
+                                                <label class="fi-form-label">Rows</label>
+                                                <input type="number" class="fi-form-control" :class="{'error': !parseInt(generate_trays_data.rows) || generate_trays_data.rows < 1 }" v-model="generate_trays_data.rows" min="1" />
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="fi-form-field">
-                                        <label class="fi-form-label">Generation Mode</label>
-                                        <div class="select-items check-list alt radio-list">
-                                            <div class="select-items-inner">
-                                                <ul class="fi-list fi-no-spacing">
-                                                    <li>
-                                                        <a href="#" class="fi-list-link-wrapper select-item"
-                                                          :class="{'selected': generate_plates_data.mode === 'layout' }"
-                                                          @click.prevent="generate_plates_data.mode = 'layout'">
-                                                            Using a layout
-                                                        </a>
-                                                        <div class="select-item-content" v-if="generate_plates_data.mode === 'layout'">
-                                                            <div class="fi-dropdown fi-full-width choose-layout">
-                                                                <button type="button" class="fi-dropdown-trigger fi-button fi-default fi-full-width">
-                                                                    <span class="fi-dropdown-title">
-                                                                        <span v-if="generate_plates_data.plate_layout.name">{{ generate_plates_data.plate_layout.name }}</span>
-                                                                        <span v-else>Pleae select a layout...</span>
-                                                                    </span>
-                                                                    <i class="far fa-angle-down"></i>
-                                                                </button>
-                                                                <div class="fi-dropdown-content fi-full-width play-layout-selector">
-                                                                    <div class="search-wrapper">
-                                                                        <div class="fi-form-field fi-search"><input type="search" class="fi-form-control" placeholder="Search Layouts..."></div>
-                                                                    </div>
-                                                                    <div class="filter">
-                                                                        <div class="button-group">
-                                                                            <button type="button" @click.prevent="layouts_filter.main_view = 'my_layouts'" class="fi-button fi-small fi-width-small-6" :class="{'fi-primary': layouts_filter.main_view === 'my_layouts', 'fi-default': layouts_filter.main_view !== 'my_layouts',}">My Layouts</button>
-                                                                            <button type="button" @click.prevent="layouts_filter.main_view = 'my_platforms'" class="fi-button fi-small fi-width-small-6" :class="{'fi-primary': layouts_filter.main_view === 'my_platforms', 'fi-default': layouts_filter.main_view !== 'my_platforms',}">My Platforms</button>
-                                                                            <button type="button" @click.prevent="layouts_filter.main_view = 'all'" class="fi-button fi-small fi-width-small-6" :class="{'fi-primary': layouts_filter.main_view === 'all', 'fi-default': layouts_filter.main_view !== 'all',}">All</button>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- <div class="filters-multiple fi-panel">
-                                                                        <div class="filter-section">
-                                                                            <div class="fi-dropdown filter-trigger" data-fi-append-to-body>
-                                                                                <button type="button" class="fi-dropdown-trigger fi-button fi-default fi-small fi-button-icon">
-                                                                                    <span class="label">Sizes</span><i class="far fa-angle-down"></i>
-                                                                                </button>
-                                                                                <div class="fi-dropdown-content filter-trigger-content fi-large">
-                                                                                    <div class="search-wrapper">
-                                                                                        <div class="fi-form-field fi-search"><input type="search" placeholder="Search Sizes..." class="fi-form-control" /></div>
-                                                                                    </div>
-                                                                                    <div class="select-items check-list">
-                                                                                        <div class="select-items-inner">
-                                                                                            <ul class="fi-list fi-no-spacing">
-                                                                                                <li v-for="size in plate_sizes">
-                                                                                                    <a href="#" @click.prevent="toggle_layouts_filter('sizes', size.name)" class="fi-list-link-wrapper select-item" :class="{'selected': layouts_filter.sizes.includes(size.name)}">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</a>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="selected-filters">
-                                                                                <button type="button" v-for="item in layouts_filter.sizes" @click.prevent="toggle_layouts_filter('sizes', item)" class="fi-badge fi-default vue-click-bug">
-                                                                                    {{ plate_sizes[item].name }} ({{ plate_sizes[item].columns }}x{{ plate_sizes[item].rows }})<i class="far fa-times"></i>
-                                                                                </button>
-                                                                            </div>
-                                                                            <button v-show="layouts_filter.sizes.length" @click="layouts_filter.sizes = []" class="fi-close-button remove-all"></button>
-                                                                        </div>
-                                                                    </div> -->
-                                                                    <div class="fi-form fi-form-inline toggle-thumbs">
-                                                                        <div class="fi-form-field">
-                                                                            <span class="fi-form-label">Show thumbnails for</span>
-                                                                            <div class="custom-dropdown fi-small value">
-                                                                                <select class="fi-form-control fi-small">
-                                                                                    <option value="roles">Roles</option>
-                                                                                    <option value="test_sample">Test Samples</option>
-                                                                                    <option value="ctrl_w_sample">Control with Sample</option>
-                                                                                    <option value="ctrl_wo_sample">Control without Sample</option>
-                                                                                    <option value="rates">Rates</option>
-                                                                                    <option value="condition_sets">Condition Sets</option>
-                                                                                    <option value="replicates">Replicates</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <ul class="fi-list fi-list-line fi-no-spacing fi-no-margin">
-                                                                        <li v-for="plate_layout in plate_layouts" :class="{'active': generate_plates_data.plate_layout.id == plate_layout.id}">
-                                                                            <a href="#" @click.prevent="choose_layout(plate_layout.id)">
-                                                                                <div class="blurb layout-blurb">
-                                                                                    <div class="blurb-media"><div class="thumb"></div></div>
-                                                                                    <div class="blurb-content">
-                                                                                        <h4><strong>{{ plate_layout.name }}</strong></h4>
-                                                                                        <div class="meta fi-text-light">
-                                                                                            <span>{{ plate_sizes[plate_layout.size].name }} ({{plate_sizes[plate_layout.size].columns}}x{{plate_sizes[plate_layout.size].rows}})</span>
-                                                                                            <span>{{ getObjectByKey(platforms, 'id', plate_layout.platform).name }}</span>
-                                                                                            <span>BSD</span>
-                                                                                        </div>
-                                                                                        <div class="meta fi-text-light">
-                                                                                            <span>Samples/Controls (28)</span>
-                                                                                            <span>Rates (4)</span>
-                                                                                            <span>Condition Sets (16)</span>
-                                                                                            <span>Replicates (2)</span>
-                                                                                        </div>
-                                                                                        <div class="meta fi-text-light">
-                                                                                            <span data-fi-tooltip="
-                                                                                            <ul class='fi-list well-info-content'>
-                                                                                                <li>Rates (4)</li>
-                                                                                                <li>Condition Sets (16)</li>
-                                                                                                <li>Replicates (2)</li>
-                                                                                            </ul>
-                                                                                            ">Test Samples (16)</span>
-                                                                                            <span data-fi-tooltip="
-                                                                                            <ul class='fi-list well-info-content'>
-                                                                                                <li>Rates (2)</li>
-                                                                                                <li>Condition Sets (12)</li>
-                                                                                                <li>Replicates (2)</li>
-                                                                                            </ul>
-                                                                                            ">Controls with Samples (8)</span>
-                                                                                            <span data-fi-tooltip="
-                                                                                            <ul class='fi-list well-info-content'>
-                                                                                                <li>Rates (2)</li>
-                                                                                                <li>Condition Sets (4)</li>
-                                                                                                <li>Replicates (2)</li>
-                                                                                            </ul>
-                                                                                            ">Controls without Samples (4)</span>
-                                                                                        </div>
-                                                                                        <div class="method-default" v-if="plate_layout.method_default">
-                                                                                            <div class="tags">
-                                                                                                <span class="fi-badge">Method Default</span>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                            <button class="fi-button fi-button-icon info-button" data-fi-modal=".edit-modal"><i class="far fa-info-circle"></i></button>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="fi-list-link-wrapper select-item"
-                                                          :class="{'selected': generate_plates_data.mode === 'sequential' }"
-                                                          @click.prevent="generate_plates_data.mode = 'sequential'">
-                                                            Place treatments sequentially by EU
-                                                        </a>
-                                                        <div class="select-item-content" v-if="generate_plates_data.mode === 'sequential'">
-                                                            <div class="fi-form-field">
-                                                                <label class="fi-form-label">Size</label>
-                                                                <div class="custom-dropdown">
-                                                                    <select class="fi-form-control" v-model="generate_plates_data.size">
-                                                                        <option v-for="size in plate_sizes" :value="size.name">{{ size.name }} ({{ size.columns }}x{{ size.rows }})</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="fi-form-field">
-                                                                <div class="fi-display-inline-block">
-                                                                    <label class="fi-form-label">Direction</label>
-                                                                    <div class="button-group">
-                                                                        <button type="button" class="fi-button fi-small fi-width-small-6" :class="{'fi-default': generate_plates_data.direction !== 'across', 'fi-primary': generate_plates_data.direction === 'across'}" @click.prevent="generate_plates_data.direction = 'across'">Across</button>
-                                                                        <button type="button" class="fi-button fi-small fi-width-small-6" :class="{'fi-default': generate_plates_data.direction !== 'down', 'fi-primary': generate_plates_data.direction === 'down'}" @click.prevent="generate_plates_data.direction = 'down'">Down</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                        <div class="fi-display-inline-block">
+                                            <label class="fi-form-label">Direction</label>
+                                            <div class="button-group">
+                                                <button type="button" class="fi-button fi-small fi-width-small-6" :class="{'fi-default': generate_trays_data.direction !== 'across', 'fi-primary': generate_trays_data.direction === 'across'}" @click.prevent="generate_trays_data.direction = 'across'">Across</button>
+                                                <button type="button" class="fi-button fi-small fi-width-small-6" :class="{'fi-default': generate_trays_data.direction !== 'down', 'fi-primary': generate_trays_data.direction === 'down'}" @click.prevent="generate_trays_data.direction = 'down'">Down</button>
                                             </div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div class="fi-form-field">
-                                        <label class="fi-form-label">Plate Names Prefix</label>
-                                        <input type="text" class="fi-form-control" v-model="generate_plates_data.prefix" />
+                                        <label class="fi-form-label">Tray Names Prefix</label>
+                                        <input type="text" class="fi-form-control" v-model="generate_trays_data.prefix" />
                                     </div>
-                                    <div class="fi-form-field" v-if="generate_plates_data.mode === 'sequential' || generate_plates_data.mode === 'layout' && generate_plates_data.plate_layout.name">
+                                    <div class="fi-form-field" v-if="parseInt(generate_trays_data.columns) && generate_trays_data.columns > 0 && parseInt(generate_trays_data.rows) && generate_trays_data.rows > 0 && generate_trays_data.direction">
                                         <div class="fi-panel special">
-                                            <strong>3 plates</strong> will be generated
+                                            <strong>3 trays</strong> will be generated
                                         </div>
                                     </div>
 
@@ -831,7 +703,7 @@
 
                             <div class="fi-modal-footer fi-buttons-container fi-text-right">
                                 <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                <button type="submit" class="fi-button fi-primary fi-close-modal" :disabled="generate_plates_data.mode === 'layout' && !generate_plates_data.plate_layout.name || !generate_plates_data.prefix">Generate Plates</button>
+                                <button type="submit" class="fi-button fi-primary fi-close-modal" :disabled="!generate_trays_data.columns || generate_trays_data.columns < 1 || generate_trays_data.rows < 1 || !generate_trays_data.rows || !generate_trays_data.direction">Generate Trays</button>
                             </div>
 
                         </form>
@@ -841,26 +713,54 @@
             </div>
         </div>
 
-        <div class="generate_using_defaults_modal fi-modal fi-no-click-close">
+        <div class="generate_trays_all_modal fi-modal fi-no-click-close">
             <div class="fi-modal-outer">
                 <div class="fi-modal-inner">
                     <div class="fi-modal-content">
 
                         <div class="fi-modal-header">
                             <button type="button" class="fi-close-button fi-close-modal"></button>
-                            <h3>Generate Plates for All Methods</h3>
+                            <h3>Generate Trays for All Methods</h3>
                         </div>
 
                         <form @submit.prevent="">
 
                             <div class="fi-modal-body">
 
-                                <div>
-
-                                    <p v-if="plates.length">This process will delete all the plates under the methods that have default layouts and generate new ones using these layouts.</p>
-                                    <p v-else>This process will generate plates under all the methods that have default layouts.</p>
-
-                                    <p>Are you sure you want to proceed?</p>
+                                <div class="fi-form">
+                                    <div class="fi-row fi-form-field">
+                                        <div class="fi-column fi-width-small-6">
+                                            <div class="fi-form-field">
+                                                <label class="fi-form-label">Columns</label>
+                                                <input type="number" class="fi-form-control" :class="{'error': !parseInt(generate_trays_data.columns) || generate_trays_data.columns < 1 }" v-model="generate_trays_data.columns" min="1" data-fi-focus-start />
+                                            </div>
+                                        </div>
+                                        <div class="fi-column fi-width-small-6">
+                                            <div class="fi-form-field">
+                                                <label class="fi-form-label">Rows</label>
+                                                <input type="number" class="fi-form-control" :class="{'error': !parseInt(generate_trays_data.rows) || generate_trays_data.rows < 1 }" v-model="generate_trays_data.rows" min="1" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fi-form-field">
+                                        <div class="fi-display-inline-block">
+                                            <label class="fi-form-label">Direction</label>
+                                            <div class="button-group">
+                                                <button type="button" class="fi-button fi-small fi-width-small-6" :class="{'fi-default': generate_trays_data.direction !== 'across', 'fi-primary': generate_trays_data.direction === 'across'}" @click.prevent="generate_trays_data.direction = 'across'">Across</button>
+                                                <button type="button" class="fi-button fi-small fi-width-small-6" :class="{'fi-default': generate_trays_data.direction !== 'down', 'fi-primary': generate_trays_data.direction === 'down'}" @click.prevent="generate_trays_data.direction = 'down'">Down</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="fi-form-field">
+                                        <label class="fi-form-label">Tray Names Prefix</label>
+                                        <input type="text" class="fi-form-control" v-model="generate_trays_data.prefix" />
+                                    </div>
+                                    <div class="fi-form-field" v-if="generate_trays_data.columns && generate_trays_data.rows && generate_trays_data.direction">
+                                        <div class="fi-panel special">
+                                            <strong>3 trays</strong> will be generated
+                                        </div>
+                                    </div>
 
                                 </div>
 
@@ -868,7 +768,7 @@
 
                             <div class="fi-modal-footer fi-buttons-container fi-text-right">
                                 <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                <button type="submit" class="fi-button fi-primary fi-close-modal">Yes, I'm Sure</button>
+                                <button type="submit" class="fi-button fi-primary fi-close-modal" :disabled="!generate_trays_data.columns || generate_trays_data.columns < 1 || generate_trays_data.rows < 1 || !generate_trays_data.rows || !generate_trays_data.direction">Generate Trays</button>
                             </div>
 
                         </form>
@@ -1034,7 +934,7 @@
 
                         <div class="fi-modal-header">
                             <button type="button" class="fi-close-button fi-close-modal"></button>
-                            <h3>Randomize All Plate Methods</h3>
+                            <h3>Randomize All Non-Plate Methods</h3>
                         </div>
 
                         <form @submit.prevent="submit_randomize">
@@ -1248,7 +1148,7 @@
 
                         <div class="fi-modal-header">
                             <button type="button" class="fi-close-button fi-close-modal"></button>
-                            <h3>Derandomize All Plate Methods</h3>
+                            <h3>Derandomize All Non-Plate Methods</h3>
                         </div>
 
                         <form @submit.prevent="submit_derandomize">
@@ -1257,7 +1157,7 @@
 
                                 <div>
 
-                                    <p>This process will derandomize the treatment lists for all plate methods.</p>
+                                    <p>This process will derandomize the treatment lists for all non-plate methods.</p>
 
                                     <p>Are you sure you want to proceed?</p>
 
@@ -1287,7 +1187,7 @@
 
                                 <div class="fi-modal-header">
                                     <button type="button" class="fi-close-button fi-close-modal"></button>
-                                    <h3>Clone Plate</h3>
+                                    <h3>Clone Tray</h3>
                                 </div>
 
                                 <div class="fi-modal-body">
@@ -1335,14 +1235,14 @@
 
                                 <div class="fi-modal-header">
                                     <button type="button" class="fi-close-button fi-close-modal"></button>
-                                    <h3>Clone Plate</h3>
+                                    <h3>Clone Tray</h3>
                                 </div>
 
                                 <div class="fi-modal-body">
 
                                     <div>
                                         <h4><i class="far fa-exclamation-triangle  fi-text-danger fi-icon-margin"></i><strong>No treatments found</strong></h4>
-                                        <p>There are no available treatments with different Sample IDs matching the ones in this plate.</p>
+                                        <p>There are no available treatments with different Sample IDs matching the ones in this tray.</p>
                                     </div>
 
                                 </div>
@@ -1358,7 +1258,7 @@
 
                                 <div class="fi-modal-header">
                                     <button type="button" class="fi-close-button fi-close-modal"></button>
-                                    <h3>Clone Plate</h3>
+                                    <h3>Clone Tray</h3>
                                 </div>
 
                                 <div class="fi-modal-body">
@@ -1373,7 +1273,7 @@
 
                                         <div class="fi-row">
                                             <div class="fi-column fi-width-small-4">
-                                                <p><strong>Condition sets in original plate ({{ clone_original_condition_sets.length }})</strong></p>
+                                                <p><strong>Condition sets in original tray ({{ clone_original_condition_sets.length }})</strong></p>
                                                 <div class="fi-panel fi-no-padding scroll-list">
                                                     <div class="select-items original-values">
 
@@ -1481,7 +1381,7 @@
                                 <div class="fi-modal-footer fi-buttons-container fi-text-right">
                                     <button type="button" class="fi-button fi-default fi-float-left fi-no-margin" @click.prevent="clone_step = 'select_parameter'">Back</button>
                                     <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                    <button type="button" class="fi-button fi-primary fi-close-modal" @click.prevent="" :disabled="!clone_selected_condition_sets.length">Clone Plate</button>
+                                    <button type="button" class="fi-button fi-primary fi-close-modal" @click.prevent="" :disabled="!clone_selected_condition_sets.length">Clone Tray</button>
                                 </div>
 
                             </div>
@@ -1490,7 +1390,7 @@
 
                                 <div class="fi-modal-header">
                                     <button type="button" class="fi-close-button fi-close-modal"></button>
-                                    <h3>Clone Plate</h3>
+                                    <h3>Clone Tray</h3>
                                 </div>
 
                                 <div class="fi-modal-body">
@@ -1505,7 +1405,7 @@
 
                                         <div class="fi-row">
                                             <div class="fi-column fi-width-small-4">
-                                                <p><strong>Rates in original plate ({{ clone_original_rates.length }})</strong></p>
+                                                <p><strong>Rates in original tray ({{ clone_original_rates.length }})</strong></p>
                                                 <div class="fi-panel fi-no-padding scroll-list">
                                                     <div class="select-items original-values">
 
@@ -1613,7 +1513,7 @@
                                 <div class="fi-modal-footer fi-buttons-container fi-text-right">
                                     <button type="button" class="fi-button fi-default fi-float-left fi-no-margin" @click.prevent="clone_step = 'select_parameter'">Back</button>
                                     <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                    <button type="button" class="fi-button fi-primary fi-close-modal" @click.prevent="" :disabled="!clone_selected_rates.length">Clone Plate</button>
+                                    <button type="button" class="fi-button fi-primary fi-close-modal" @click.prevent="" :disabled="!clone_selected_rates.length">Clone Tray</button>
                                 </div>
 
                             </div>
@@ -1622,21 +1522,21 @@
 
                                 <div class="fi-modal-header">
                                     <button type="button" class="fi-close-button fi-close-modal"></button>
-                                    <h3>Clone Plate</h3>
+                                    <h3>Clone Tray</h3>
                                 </div>
 
                                 <div class="fi-modal-body">
 
                                     <div>
                                         <h4><i class="far fa-exclamation-triangle fi-text-warning fi-icon-margin"></i><strong>Some replicates are unavailable</strong></h4>
-                                        <p>Only <strong>76</strong> out of the <strong>82</strong> treatments in the original plate have available replicates that can be used in the cloned plate.</p>
-                                        <p>If you choose to proceed, the wells for the unavailable replicates will be set as Empty.</p>
+                                        <p>Only <strong>76</strong> out of the <strong>82</strong> treatments in the original tray have available replicates that can be used in the cloned tray.</p>
+                                        <p>If you choose to proceed, the pots for the unavailable replicates will be set as Empty.</p>
                                     </div>
 
                                     <div style="display: none;">
                                         <h4><strong>All replicates available</strong></h4>
-                                        <p>All the treatments in the original plate have available replicates that can be used in the cloned plate.</p>
-                                        <p>Click <strong>Clone Plate</strong> to complete the cloning process.</p>
+                                        <p>All the treatments in the original tray have available replicates that can be used in the cloned tray.</p>
+                                        <p>Click <strong>Clone Tray</strong> to complete the cloning process.</p>
                                     </div>
 
                                 </div>
@@ -1644,7 +1544,7 @@
                                 <div class="fi-modal-footer fi-buttons-container fi-text-right">
                                     <button type="button" class="fi-button fi-default fi-float-left fi-no-margin" @click.prevent="clone_step = 'select_parameter'">Back</button>
                                     <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
-                                    <button type="button" class="fi-button fi-primary fi-close-modal" @click.prevent="" :disabled="clone_selected_replicates > clone_original_replicates || clone_selected_replicates == 0">Clone Plate</button>
+                                    <button type="button" class="fi-button fi-primary fi-close-modal" @click.prevent="" :disabled="clone_selected_replicates > clone_original_replicates || clone_selected_replicates == 0">Clone Tray</button>
                                 </div>
 
                             </div>
@@ -1869,7 +1769,7 @@
                                                     </div>
 
                                                     <div class="fi-form-field" v-else>
-                                                        <span class="fi-text-light">No wells selected</span>
+                                                        <span class="fi-text-light">No pots selected</span>
                                                     </div>
 
                                                 </div>
@@ -2165,7 +2065,7 @@
                                 <div class="fi-form">
                                     <div class="fi-form-field">
                                         <div class="fi-panel special">
-                                            <strong>{{ selected_wells.length }}</strong> wells selected
+                                            <strong>{{ selected_wells.length }}</strong> pots selected
                                         </div>
                                     </div>
                                     <div class="fi-form-field">
@@ -2214,7 +2114,7 @@
 
     <script>
         var edit_layout_id = 1;
-        // app.placement_design = false;
+        app.placement_design = false;
     </script>
     <script src="js/create-app.js?v0.16"></script>
 
