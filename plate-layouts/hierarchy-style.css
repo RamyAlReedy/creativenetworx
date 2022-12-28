@@ -333,7 +333,8 @@ select.fi-form-control.placeholder {
     align-items: center;
 }
 
-.method-tabs .top-right-buttons {
+.method-tabs .top-right-buttons,
+.method-info-actions .top-right-buttons {
     right: 1rem;
 }
 
@@ -411,7 +412,7 @@ select.fi-form-control.placeholder {
 
 .plate-layout-container.experiment {
     position: relative;
-    padding-top: 2.90625rem;
+    padding-top: 6.296875rem;
 }
 
 .fi-tabs.fi-alt > ul > li > .fi-tab-button {
@@ -746,13 +747,8 @@ select.fi-form-control.placeholder {
 }
 
 .treatment-counts {
-    padding: 1.03875rem 1rem;
+    padding: 0.75rem 1rem;
     border-top: 1px solid #ddd;
-}
-
-.actions .treatment-counts {
-    padding: 0.28875rem 0;
-    border: none;
 }
 
     .treatment-counts span {
@@ -763,31 +759,6 @@ select.fi-form-control.placeholder {
         .treatment-counts span:last-child {
             margin-right: 0;
         }
-
-.selection-error-message {
-    max-width: 15rem;
-    margin-top: -0.25rem;
-    margin-bottom: -0.25rem;
-    font-size: 0.75rem;
-}
-
-.deselect-treatements-container {
-    position: relative;
-}
-
-.deselect-treatements {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-}
-
-.raised-element {
-    position: relative;
-    z-index: 1;
-}
 
 .placement-buttons {
     flex-shrink: 0;
@@ -2175,6 +2146,22 @@ a.fi-close-button, button.fi-close-button {
         padding: 0.375rem 0.75rem;
     }
 
+.method-info-actions {
+    position: absolute;
+    top: 2.90625rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+}
+
+    .method-info-actions .fi-form-inline {
+        height: 100%;
+    }
+
 .fi-form-field.separator {
     border-left: 1px solid #ddd;
     height: 1.828125rem;
@@ -2977,4 +2964,71 @@ a.fi-close-button, button.fi-close-button {
 .disable-placement-design .treatment-item .id,
 .disable-placement-design .treatment-item .treatment_id {
     width: 6rem;
+}
+
+/*HIERARCHY COMPONENT*/
+.hierarchy-component .level,
+.hierarchy-component .level-check-radio {
+    position: relative;
+}
+
+.hierarchy-component .level,
+.hierarchy-component .level-check-radio,
+.hierarchy-component .level-content {
+    display: flex;
+    align-items: center;
+}
+
+.hierarchy-component .level + .level {
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+    border-top: 1px solid #ddd;
+}
+
+.hierarchy-component .level-check-radio.main {
+    flex-shrink: 0;
+    margin-right: 0.625rem;
+    z-index: 2;
+}
+
+.hierarchy-component .level-check-radio a {
+    text-decoration: none;
+}
+
+    .hierarchy-component .level-check-radio a:before {
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        font-family: 'Font Awesome 5 Pro';
+        content: "\f0c8";
+        font-size: 1.125rem;
+        color: #a1a1a1;
+    }
+
+    .hierarchy-component .level-check-radio a:hover:before,
+    .hierarchy-component .level-check-radio.selected a:before {
+        color: #4A4A4A;
+    }
+
+    .hierarchy-component .level-check-radio.selected {
+        background-color: transparent;
+    }
+
+        .hierarchy-component .level-check-radio.selected a:before {
+            content: "\f14a";
+            font-weight: 700;
+        }
+
+.hierarchy-component .level-dimmer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255,255,255,0.6);
+    z-index: 1;
+}
+
+.hierarchy-component .level-title {
+    font-size: 1rem;
+    margin-right: 0.75rem;
 }

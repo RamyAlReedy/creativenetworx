@@ -1704,6 +1704,10 @@ var create_app = new Vue({
                 Figure.notify('<div class="notify-content"><i class="notify-icon fa fa-check-circle fi-text-success"></i> Layout saved successfully</div>');
             }
         },
+        change_view: function (event) {
+            this.layout_mode = event.target.value;
+            this.check_selection();
+        },
     },
     computed: {
         layout_size: function () {

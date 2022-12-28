@@ -9,7 +9,7 @@
 
     <link href="fontawesome/css/all.min.css?v0.16" rel="stylesheet">
     <link href="figure-ui/css/figure.css?v0.16" rel="stylesheet">
-    <link href="style.css?v0.16" rel="stylesheet">
+    <link href="hierarchy-style.css?v0.16" rel="stylesheet">
 
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="figure-ui/js/figure.js?v0.16"></script>
@@ -34,8 +34,7 @@
                                     <ul>
                                         <li><a href="https://fw0vah.axshare.com/#g=1&p=experiment_-_mark___gemma_-_basic_info&c=1" class="fi-tab-button"><i class="far fa-exclamation-circle fi-icon-margin"></i>Basic Info</a></li>
                                         <li><a href="https://fw0vah.axshare.com/#g=1&p=experiment_-_mark___gemma&c=1" class="fi-tab-button"><i class="far fa-magic fi-icon-margin"></i>Design</a></li>
-                                        <li><a href="non-plate.html" class="fi-tab-button"><i class="far fa-th-list fi-icon-margin"></i>Non-Plate Treatments</a></li>
-                                        <li class="fi-tab-active"><a href="#" class="fi-tab-button"><i class="far fa-th fi-icon-margin"></i>Plate Treatments</a></li>
+                                        <li class="fi-tab-active"><a href="#" class="fi-tab-button"><i class="far fa-sitemap fi-icon-margin"></i>Hierarchy & Placement</a></li>
                                     </ul>
                                 </div>
 
@@ -83,6 +82,42 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="method-info-actions controls">
+                                        <div class="fi-form fi-form-inline large-spacing main">
+                                            <div class="fi-form-field">
+                                                <span class="fi-form-label">Method Type</span>
+                                                <div class="fi-form-text">
+                                                    <span>Plate</span>
+                                                </div>
+                                            </div>
+                                            <div class="fi-form-field separator"></div>
+                                            <div class="fi-form-field">
+                                                <span class="fi-form-label">Experimental Unit</span>
+                                                <div class="fi-form-text">
+                                                    <span>Well</span>
+                                                </div>
+                                                <!-- <button type="button" class="fi-button fi-default fi-small more-button"><i class="far fa-pencil-alt"></i></button> -->
+                                            </div>
+                                            <div class="fi-form-field separator"></div>
+                                            <div class="fi-form-field">
+                                                <span class="fi-form-label">Observational Unit(s)</span>
+                                                <div class="fi-form-text">
+                                                    <span>Plant / Leaf</span>
+                                                </div>
+                                                <!-- <button type="button" class="fi-button fi-default fi-small more-button"><i class="far fa-pencil-alt"></i></button> -->
+                                            </div>
+                                            <div class="fi-form-field separator"></div>
+                                            <div class="fi-form-field">
+                                                <button type="button" data-fi-modal=".hierarchy_design" class="fi-button fi-default fi-small">Configure Method Hierarchy</button>
+                                            </div>
+                                        </div>
+                                        <div class="top-right-buttons">
+                                            <div class="fi-form fi-form-inline large-spacing">
+
                                             </div>
                                         </div>
                                     </div>
@@ -240,34 +275,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="actions list-actions deselect-treatements-container" v-if="selected_treatments.length || selected_wells.length">
-                                                <div class="deselect-treatements" @click="selected_treatments = []"></div>
-                                                <div class="fi-form fi-form-inline">
-                                                    <div class="treatment-counts" :class="{
-                                                        'fi-link-color': selected_treatments.length && !selected_wells.length || !selected_treatments.length && selected_wells.length,
-                                                        'fi-text-danger': selected_treatments.length && selected_wells.length && selected_treatments.length > selected_wells.length,
-                                                        'fi-text-success': selected_treatments.length && selected_wells.length && selected_treatments.length <= selected_wells.length
-                                                    }">
-                                                        <span class="raised-element" v-if="selected_treatments.length"><strong>{{ selected_treatments.length }} treatments selected</strong></span>
-                                                        <span class="raised-element" v-if="overall_selected_wells.length"><strong>{{ overall_selected_wells.length }} wells selected</strong></span>
-                                                    </div>
-                                                </div>
-                                                <div class="fi-form fi-form-inline" v-if="selected_treatments.length && selected_wells.length && selected_treatments.length <= selected_wells.length">
-                                                    <div class="fi-form-field raised-element" v-if="selected_treatments.length < 2 && selected_wells.length < 2">
-                                                        <button type="button" @click.prevent="place_across" class="fi-button fi-default fi-small">Place</button>
-                                                    </div>
-                                                    <div class="fi-form-field raised-element" v-if="selected_treatments.length > 1 || selected_wells.length > 1">
-                                                        <button type="button" @click.prevent="place_across" class="fi-button fi-default fi-small">Place Across</button>
-                                                    </div>
-                                                    <div class="fi-form-field raised-element" v-if="selected_treatments.length > 1 || selected_wells.length > 1">
-                                                        <button type="button" @click.prevent="place_down" class="fi-button fi-default fi-small">Place Down</button>
-                                                    </div>
-                                                </div>
-                                                <div class="fi-form fi-form-inline" v-if="selected_treatments.length && selected_wells.length && selected_treatments.length > selected_wells.length">
-                                                    <div class="selection-error-message raised-element"><strong>Make sure selected wells are more than or equal selected treatments</strong></div>
-                                                </div>
-                                            </div>
-                                            <div class="treatment-counts fi-text-light" v-else>
+                                            <div class="treatment-counts fi-text-light">
                                                 <span v-if="filters_active" class="fi-badge">Showing {{ treatment_result_count }} out of {{ treatments.length }} treatments</span>
                                                 <span v-else>Showing {{ treatments.length }} out of {{ treatments.length }} treatments</span>
                                                 <span class="separate"></span>
@@ -275,9 +283,8 @@
                                                 <span>{{ treatments.length - count_placed_treatments() }} remaining</span>
                                             </div>
                                         </div>
-                                        <div class="treatments-outer deselect-treatements-container">
-                                            <div class="deselect-treatements" @click="selected_treatments = []"></div>
-                                            <div class="treatments-inner raised-element">
+                                        <div class="treatments-outer">
+                                            <div class="treatments-inner">
                                                 <div class="treatment-list-container">
                                                     <div class="treatment-item treatments-header">
                                                         <div class="cell id" @click="apply_sort('id')">EU <i v-if="sort.sort_by === 'id'" class="fa" :class="sort_class"></i></div>
@@ -317,7 +324,7 @@
                                                     </drag-select>
                                                 </div>
                                             </div>
-                                            <div class="placement-buttons fi-hidden">
+                                            <div class="placement-buttons">
                                                 <ul class="fi-list">
                                                     <li v-if="selected_treatments.length < 2 && selected_wells.length < 2">
                                                         <button type="button" :disabled="selected_treatments.length && selected_wells.length && selected_treatments.length !== selected_wells.length" @click.prevent="place_across" class="fi-button fi-default fi-full-width fi-small">Place</button>
@@ -413,16 +420,15 @@
 
                                         </div>
 
-                                        <div class="plate-header deselect-treatements-container" v-if="current_plate_index > -1">
-                                            <div class="deselect-treatements" @click="selected_wells = []"></div>
+                                        <div class="plate-header" v-if="current_plate_index > -1">
                                             <div class="plate-header-info">
-                                                <h4 class="raised-element" :data-fi-tooltip="current_plate_index + 1 + ': ' + plates[current_plate_index].name" data-fi-delay="250"><strong>{{ current_plate_index + 1 }}: {{ plates[current_plate_index].name }}</strong></h4>
-                                                <div v-if="plates[current_plate_index].barcode" class="barcode raised-element">{{ plates[current_plate_index].barcode }}</div>
+                                                <h4 :data-fi-tooltip="current_plate_index + 1 + ': ' + plates[current_plate_index].name" data-fi-delay="250"><strong>{{ current_plate_index + 1 }}: {{ plates[current_plate_index].name }}</strong></h4>
+                                                <div v-if="plates[current_plate_index].barcode" class="barcode">{{ plates[current_plate_index].barcode }}</div>
                                                 <div class="plate-counts fi-text-light">
-                                                    <span class="raised-element">{{ count_placed_wells(plates[current_plate_index]) }} placed</span>
-                                                    <span class="raised-element">{{ plates[current_plate_index].size - count_placed_wells(plates[current_plate_index]) }} remaining</span>
+                                                    <span>{{ count_placed_wells(plates[current_plate_index]) }} placed</span>
+                                                    <span>{{ plates[current_plate_index].size - count_placed_wells(plates[current_plate_index]) }} remaining</span>
                                                 </div>
-                                                <span class="fi-badge raised-element" v-if="plates[current_plate_index].well_result_count">
+                                                <span class="fi-badge" v-if="plates[current_plate_index].well_result_count">
                                                     {{ plates[current_plate_index].well_result_count }}
                                                     <span v-if="plates[current_plate_index].well_result_count > 1">matches</span>
                                                     <span v-else>match</span>
@@ -432,9 +438,9 @@
                                             <div class="plate-header-actions">
                                                 <div class="fi-form fi-form-inline">
                                                     <!-- <div class="fi-form-field"><button type="button" @click.prevent="selected_wells = [];" class="fi-button fi-default fi-small" v-if="selected_wells.length">Clear Selection</button></div> -->
-                                                    <div class="fi-form-field raised-element"><button type="button" @click.prevent="set_as_blank" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Set As Empty</button></div>
-                                                    <div class="fi-form-field raised-element"><button type="button" @click.prevent="unplace_wells" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Unplace</button></div>
-                                                    <div class="fi-form-field raised-element"><button type="button" @click.prevent="clear_plate(current_plate_index)" class="fi-button fi-default fi-small">Clear Plate</button></div>
+                                                    <div class="fi-form-field"><button type="button" @click.prevent="set_as_blank" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Set As Empty</button></div>
+                                                    <div class="fi-form-field"><button type="button" @click.prevent="unplace_wells" class="fi-button fi-default fi-small" :disabled="!selected_wells.length">Unplace</button></div>
+                                                    <div class="fi-form-field"><button type="button" @click.prevent="clear_plate(current_plate_index)" class="fi-button fi-default fi-small">Clear Plate</button></div>
                                                     <div class="fi-form-field">
                                                         <div class="fi-dropdown fi-opposite plate-dropdown">
                                                             <button type="button" class="fi-dropdown-trigger more-button fi-button fi-default fi-small"><i class="fa fa-ellipsis-v"></i></button>
@@ -565,6 +571,66 @@
                             </div>
 
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hierarchy_design fi-modal fi-no-click-close">
+            <div class="fi-modal-outer">
+                <div class="fi-modal-inner">
+                    <div class="fi-modal-content">
+
+                        <div class="fi-modal-header">
+                            <button type="button" class="fi-close-button fi-close-modal"></button>
+                            <h3>Configure Method Hierarchy</h3>
+                        </div>
+
+                        <form @submit.prevent="">
+
+                            <div class="fi-modal-body">
+
+                                <div class="fi-form">
+                                    <div class="fi-form-field">
+
+                                        <div class="hierarchy-component">
+                                            <div class="level">
+                                                <div class="level-dimmer" v-if="!hierarchy_design.cabinet"></div>
+                                                <div class="level-check-radio main" :class="{'selected': hierarchy_design.cabinet}">
+                                                    <a href="#" @click.prevent="hierarchy_design.cabinet = !hierarchy_design.cabinet"></a>
+                                                </div>
+                                                <div class="level-content">
+                                                    <span class="level-title">Cabinet</span>
+                                                    <div class="level-check-radio" :class="{'selected': hierarchy_design.exp_unit === 'cabinet'}">
+                                                        <a href="#" @click.prevent="hierarchy_design.exp_unit = 'cabinet'"></a>
+                                                        Set as Experimental Unit
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="level">
+                                                <div class="level-dimmer" v-if="!hierarchy_design.shelf"></div>
+                                                <div class="level-check-radio main" :class="{'selected': hierarchy_design.shelf}">
+                                                    <a href="#" @click.prevent="hierarchy_design.shelf = !hierarchy_design.shelf"></a>
+                                                </div>
+                                                <div class="level-content">
+                                                    <span class="level-title">Shelf</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="fi-modal-footer fi-buttons-container fi-text-right">
+                                <button type="button" class="fi-button fi-default fi-close-modal" @click.prevent="">Cancel</button>
+                                <button type="submit" class="fi-button fi-primary" :disabled="randomize_data.mode === 'block' && !randomize_data.parameter">Apply</button>
+                            </div>
+
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -1796,7 +1862,7 @@
 
                                             <div class="layout-mode">
                                                 <div class="fi-form fi-form-inline large-spacing main">
-                                                    <div class="fi-form-field fi-hidden">
+                                                    <div class="fi-form-field">
                                                         <span class="fi-form-label">Mode</span>
                                                         <div class="button-group">
                                                             <button type="button" @click.prevent="layout_mode = 'roles'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'roles', 'fi-primary': layout_mode === 'roles'}">Roles</button>
@@ -1808,24 +1874,6 @@
                                                             <button type="button" @click.prevent="layout_mode = 'rates'; check_selection();" :disabled="!test_sample_count && !ctrl_w_sample_count" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'rates', 'fi-primary': layout_mode === 'rates'}">Rates</button>
                                                             <button type="button" @click.prevent="layout_mode = 'condition_sets'; check_selection();" :disabled="!test_sample_count && !ctrl_w_sample_count && !ctrl_wo_sample_count" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'condition_sets', 'fi-primary': layout_mode === 'condition_sets'}">Condition Sets</button>
                                                             <button type="button" @click.prevent="layout_mode = 'replicates'; check_selection();" :disabled="!test_sample_count && !ctrl_w_sample_count && !ctrl_wo_sample_count" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'replicates', 'fi-primary': layout_mode === 'replicates'}">Replicates</button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="fi-form-field">
-                                                        <span class="fi-form-label">View</span>
-                                                        <div class="custom-dropdown fi-small">
-                                                            <select class="fi-form-control fi-small" @change="change_view($event)">
-                                                                <optgroup label="Roles">
-                                                                    <option value="roles">Roles</option>
-                                                                    <option value="test_samples" :disabled="!test_sample_count">Test Samples ({{ test_sample_count }})</option>
-                                                                    <option value="ctrl_w_samples" :disabled="!ctrl_w_sample_count">Controls with Samples ({{ ctrl_w_sample_count }})</option>
-                                                                    <option value="ctrl_wo_samples" :disabled="!ctrl_wo_sample_count">Controls without Sample ({{ ctrl_wo_sample_count }})</option>
-                                                                </optgroup>
-                                                                <optgroup label="Parameters">
-                                                                    <option value="rates" :disabled="!test_sample_count && !ctrl_w_sample_count">Rates</option>
-                                                                    <option value="condition_sets" :disabled="!test_sample_count && !ctrl_w_sample_count && !ctrl_wo_sample_count">Condition Sets</option>
-                                                                    <option value="replicates" :disabled="!test_sample_count && !ctrl_w_sample_count && !ctrl_wo_sample_count">Replicates</option>
-                                                                </optgroup>
-                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2257,7 +2305,7 @@
     <script src="js/Sortable.min.js"></script>
     <script src="js/vuedraggable.umd.min.js"></script>
 
-    <script src="js/app.js?v0.16"></script>
+    <script src="js/hierarchy-app.js?v0.16"></script>
 
     <script>
         var edit_layout_id = 1;

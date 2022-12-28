@@ -47,6 +47,17 @@ var app = new Vue({
     data: {
         edit_mode: true,
         placement_design: true,
+        hierarchy_design: {
+            cabinet: false,
+            shelf: false,
+            tray: false,
+            plate: false,
+            well: false,
+            plant: false,
+            leaf: false,
+            exp_unit: null,
+            obs_units: [],
+        },
         sort: {
             sort_by: 'id',
             sort_order: 'ASC',
@@ -457,8 +468,6 @@ var app = new Vue({
                     if (plate.size != this.edit_plate_data.size) {
                         plate.size = this.edit_plate_data.size;
                         this.regenerate_wells_for_plate(plate.id);
-
-                        this.selected_wells = [];
                     }
                     else {
                         plate.columns = this.edit_plate_data.columns;

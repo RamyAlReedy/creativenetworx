@@ -132,7 +132,7 @@
 
                                             <div class="layout-mode">
                                                 <div class="fi-form fi-form-inline large-spacing main">
-                                                    <div class="fi-form-field">
+                                                    <div class="fi-form-field fi-hidden">
                                                         <span class="fi-form-label">Mode</span>
                                                         <div class="button-group">
                                                             <button type="button" @click.prevent="layout_mode = 'roles'; check_selection();" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'roles', 'fi-primary': layout_mode === 'roles'}">Roles</button>
@@ -144,6 +144,24 @@
                                                             <button type="button" @click.prevent="layout_mode = 'rates'; check_selection();" :disabled="!test_sample_count && !ctrl_w_sample_count" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'rates', 'fi-primary': layout_mode === 'rates'}">Rates</button>
                                                             <button type="button" @click.prevent="layout_mode = 'condition_sets'; check_selection();" :disabled="!test_sample_count && !ctrl_w_sample_count && !ctrl_wo_sample_count" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'condition_sets', 'fi-primary': layout_mode === 'condition_sets'}">Condition Sets</button>
                                                             <button type="button" @click.prevent="layout_mode = 'replicates'; check_selection();" :disabled="!test_sample_count && !ctrl_w_sample_count && !ctrl_wo_sample_count" class="fi-button fi-small" :class="{'fi-default': layout_mode !== 'replicates', 'fi-primary': layout_mode === 'replicates'}">Replicates</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="fi-form-field">
+                                                        <span class="fi-form-label">View</span>
+                                                        <div class="custom-dropdown fi-small">
+                                                            <select class="fi-form-control fi-small" @change="change_view($event)">
+                                                                <optgroup label="Roles">
+                                                                    <option value="roles">Roles</option>
+                                                                    <option value="test_samples" :disabled="!test_sample_count">Test Samples ({{ test_sample_count }})</option>
+                                                                    <option value="ctrl_w_samples" :disabled="!ctrl_w_sample_count">Controls with Samples ({{ ctrl_w_sample_count }})</option>
+                                                                    <option value="ctrl_wo_samples" :disabled="!ctrl_wo_sample_count">Controls without Sample ({{ ctrl_wo_sample_count }})</option>
+                                                                </optgroup>
+                                                                <optgroup label="Parameters">
+                                                                    <option value="rates" :disabled="!test_sample_count && !ctrl_w_sample_count">Rates</option>
+                                                                    <option value="condition_sets" :disabled="!test_sample_count && !ctrl_w_sample_count && !ctrl_wo_sample_count">Condition Sets</option>
+                                                                    <option value="replicates" :disabled="!test_sample_count && !ctrl_w_sample_count && !ctrl_wo_sample_count">Replicates</option>
+                                                                </optgroup>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
